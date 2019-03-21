@@ -14,11 +14,12 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('label');
-            $table->integer('group')->default(1);
-            $table->timestamps();
+            $table->increments('pk_role');
+            $table->string('nome');
+            $table->string('descricao');
+            $table->integer('grupo')->default(1);
+            $table->customTimestamps();
+            $table->tinyInteger('status')->default(1)->comment('Status de roles: ativo(1), inativo(2) ou excluido(3)');
         });
     }
 
