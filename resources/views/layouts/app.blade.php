@@ -27,14 +27,17 @@
         @yield('styles')
     </head>
 
-    <body id="body" class="hold-transition skin-blue sidebar-mini">
+    <body id="body" class="skin-green-light sidebar-mini">
 
         <div class="wrapper">
             @include('partials.header')
-            @include('partials.sidebar')
+            @include('partials.menuSidebar')
 
             <div class="content-wrapper">
-                @yield('body')
+                @include('partials.contentHeader')
+                <section class="content">
+                    @yield('content')
+                </section>
             </div>
 
             @include('partials.footer')
