@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/Ionicons/css/ionicons.min.css') }}">
         <!-- jvectormap -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/jvectormap/jquery-jvectormap.css') }}">
+        <!-- Pace -->
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/PACE/themes/blue/pace-theme-minimal.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/AdminLTE.min.css') }}">
         <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
@@ -60,6 +62,8 @@
         <script src="{{ asset('AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
         <!-- ChartJS -->
         <script src="{{ asset('AdminLTE/bower_components/chart.js/Chart.js') }}"></script>
+        <!-- Pace -->
+        <script src="{{ asset('AdminLTE/bower_components/PACE/pace.min.js') }}"></script>
         @yield('scripts')
     </body>
 

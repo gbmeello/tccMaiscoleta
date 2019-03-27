@@ -16,7 +16,7 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role_id'
     ];
 
     /**
@@ -27,4 +27,29 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * relacionamento 1:N
+    */
+    public function role()
+    {
+        return $this->hasOne(\App\Roles::class, 'id', 'role_id');
+    }
+
+    public function hasPermission(Permissions $permission)
+    {
+        return $this->hasAnyRoles($permission->roles);
+    }
+
+    public function hasAnyRoles($roles)
+    {
+        foreach ( $roles as $role )
+        {
+            if($role['name'] == $this->role->name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

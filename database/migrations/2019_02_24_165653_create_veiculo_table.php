@@ -1,5 +1,7 @@
 <?php
 
+use App\Extendz\CustomBlueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,7 +15,13 @@ class CreateVeiculoTable extends Migration
      */
     public function up()
     {
-        Schema::create('veiculo', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+
+        $schema->blueprintResolver(function($table, $callback) {
+            return new CustomBlueprint($table, $callback);
+        });
+
+        $schema->create('veiculo', function (Blueprint $table) {
             $table->increments('pk_veiculo')->comment('Chave primária e unica da tabela Veiculo');
             $table->string('modelo', 100)->comment('Modelo do veículo');
             $table->string('observacao', 300)->comment('Observação relacionada ao veículo');

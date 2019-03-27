@@ -11,17 +11,17 @@
 |
 */
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/', function () {
     return view('index');
 });
 
-Route::prefix('tipoResiduo')->middleware('auth')->group(function () {
+//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
+Route::prefix('tipo-residuo')->group(function () {
     Route::get('/', 'TipoResiduoController@index');
     Route::get('index', 'TipoResiduoController@index');
+    Route::get('cadastrar', 'TipoResiduoController@create');
+    Route::get('editar/{id}', 'TipoResiduoController@edit');
+    Route::get('listar', 'TipoResiduoController@listar');
 });
-
-/*
-Route::get('/home', 'HomeController@index')->name('home');
-*/

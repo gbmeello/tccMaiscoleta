@@ -1,5 +1,7 @@
 <?php
 
+use App\Extendz\CustomBlueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,7 +15,13 @@ class CreatePermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+
+        $schema->blueprintResolver(function($table, $callback) {
+            return new CustomBlueprint($table, $callback);
+        });
+
+        $schema->create('permissions', function (Blueprint $table) {
             $table->increments('pk_permission');
             $table->string('nome');
             $table->string('descricao');
