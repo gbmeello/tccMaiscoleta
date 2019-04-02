@@ -17,25 +17,27 @@ class AddTipoResiduoDados extends Migration
     {
         DB::table('tipo_residuo')->insert([
             [
-                'nome'          => 'Resíduo Domiciliar',
+                'nome'          => 'Resíduos de Papel',
                 'descricao'     =>
-                    'São os resíduos originados nas residências, especificamente urbanas. São os restos de alimentos como frutas, verduras,
-                    grãos, etc., produtostipos de residuos deteriorados como garrafas, jornais, revistas, papel higiênico, fraldas descartáveis e 
-                    muitos outros produtos. Muitas vezes, encontram-se também produtos poluentes e tóxicos.',
+                    'São Resíduos de jornal, papel branco comun, papel pardo, papelão, cartolina, envelopes, papel de cartão, revistas, folhas de cardeno,
+                     entre outros, não inclui papel auto-adesivo, carbono, celofane, de fax, fotográfico, termoabrasivo, 
+                     ou plastificados, guardanapos, bitucas de cigarro',
             ],
             [
-                'nome'          => 'Resíduos de Limpeza Urbana',
-                'descricao'     => 'Os originários da varrição, limpeza de logradouros e vias públicas e outros serviços de limpeza urbana',
-            ],
-            [
-                'nome'          => 'Resíduos Sólidos Urbanos',
+                'nome'          => 'Resíduos Plástico',
                 'descricao'     =>
-                    'São os resíduos originados nas residências, especificamente urbanas, além originários da varrição, 
-                    limpeza de logradouros e vias públicas e outros serviços de limpeza urbana',
+                    'São Resíduos de garrafa PET, embalagens de produtos de beleza e de limpeza, sacos plásticos, potes de margarina, copos de mate entre outros,
+                    não inclui, copos descartáveis, fraldas, espumas, isopor, canos de PVC, fita cassete, DVD e CD',
             ],
             [
-                'nome'          => 'Resíduos de estabelecimentos comerciais e prestadores de serviços',
-                'descricao'     => 'Resíduos gerados em supermercados, bares, restaurantes, escritórios, etc.',
+                'nome'          => 'Resíduos de Metal',
+                'descricao'     =>
+                    'São Resíduos de latas de alumínio, objetos de ferro, fios e cabos, embalagens de desodorante, entre outros, não inclui pihas e baterias, clipe,
+                     grampo, prego, esponjas de aço, lata de tinta.',
+            ],
+            [
+                'nome'          => 'Resíduos de Vidro',
+                'descricao'     => 'Resíduos de garrafas, copos e recipientes em geral, não inclui espelho, cerâmica, tubo de tv, lâmpadas fluorescentes, remédios.',
             ],
             [
                 'nome'          => 'Resíduos de serviços de saúde',
