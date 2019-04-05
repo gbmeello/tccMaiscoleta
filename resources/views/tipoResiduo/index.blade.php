@@ -60,3 +60,35 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+
+    <script>
+
+        $('#table-tipo-residuo-listar').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                "url": "{{ url('api/tipo-residuo/listar') }}",
+                "dataType": "json",
+                "type": "POST",
+                "data":{ _token: "{{ csrf_token() }}"}
+            },
+            "columns": [
+                { "data": "pk_tipo_residuo" },
+                { "data": "nome" },
+                { "data": "descricao" },
+                { "data": "status" },
+                {
+                    "class":          "details-control",
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ""
+                },
+            ],
+            "order": [[1, 'asc']]
+        });
+
+    </script>
+
+@endsection

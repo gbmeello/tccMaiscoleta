@@ -17,21 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('api')->group(function() {
+Route::prefix('tipo-residuo')->group(function() {
 
-    Route::prefix('tipo-residuo')->group(function() {
+    Route::get('/listar', 'Api\TipoResiduoController@list')->name('api.tipo_residuo.list');
 
-        Route::get('/tipo-residuo', 'TaskController@list')->name('tipo_residuo.list');
+    Route::post('/cadastrar', 'Api\TipoResiduoController@store')->name('api.tipo_residuo.store');
 
-        Route::post('/tipo-residuo', 'TipoResiduoController@store')->name('tipo_residuo.store');
+    Route::put('/editar/{id}', 'Api\TipoResiduoController@update')->name('api.tipo_residuo.update');
 
-        Route::get('/tipo-residuo/{id}', 'TipoResiduoController@show')->name('tipo_residuo.show');
-
-        Route::put('/tipo-residuo/{id}', 'TipoResiduoController@update')->name('tipo_residuo.update');
-
-        Route::delete('/tipo-residuo/{id}', 'TipoResiduoController@delete')->name('tipo_residuo.delete');
-
-    });
+    Route::delete('/deletar/{id}', 'Api\TipoResiduoController@delete')->name('api.tipo_residuo.delete');
 
 });
 

@@ -23,8 +23,8 @@ class CreateRolesTable extends Migration
 
         $schema->create('roles', function (Blueprint $table) {
             $table->increments('pk_role');
-            $table->string('nome');
-            $table->string('descricao');
+            $table->string('nome', 100);
+            $table->string('descricao', 300);
             $table->integer('grupo')->default(1);
             $table->customTimestamps();
             $table->tinyInteger('status')->default(1)->comment('Status de roles: ativo(1), inativo(2) ou excluido(3)');

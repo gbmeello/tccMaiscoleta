@@ -24,7 +24,7 @@ class CreateRotaTable extends Migration
         $schema->create('rota', function (Blueprint $table) {
             $table->increments('pk_rota')->comment('Chave primária e única da tabela rotas');
             $table->string('nome', 100)->comment('Nome da rota');
-            $table->string('observacao', 500)->comment('Observação da rota');
+            $table->string('observacao', 500)->nullable()->comment('Observação da rota');
             $table->customTimestamps();
             $table->tinyInteger('status')->default(1)->comment('Status que se encontra atualmente a rota: ativo(1), inativo(2) ou excluido(3)');
         });

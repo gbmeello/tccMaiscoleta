@@ -16,23 +16,23 @@ class AddTipoResiduoPermission extends Migration
     {
         DB::table('permissions')->insert([
             [
-                'nome'          => 'TIPO_RESIDUO_CADASTRAR',
-                'descricao'     => 'Cadastro do tipo de residuo',
+                'nome'          => 'tipo_residuo_adicionar',
+                'descricao'     => 'Adição do tipo de residuo',
                 'grupo'         => 1,
             ],
             [
-                'nome'          => 'TIPO_RESIDUO_EDITAR',
-                'descricao'     => 'Edição do tipo de residuo',
+                'nome'          => 'tipo_residuo_atualizar',
+                'descricao'     => 'Atualização do tipo de residuo',
                 'grupo'         => 1,
             ],
             [
-                'nome'          => 'TIPO_RESIDUO_LISTAR',
+                'nome'          => 'tipo_residuo_listar',
                 'descricao'     => 'Listagem do tipo de residuo',
                 'grupo'         => 1,
             ],
             [
-                'nome'          => 'TIPO_RESIDUO_EXCLUIR',
-                'descricao'     => 'Exclusão do tipo de residuo',
+                'nome'          => 'tipo_residuo_remover',
+                'descricao'     => 'Remoção do tipo de residuo',
                 'grupo'         => 1,
             ],
         ]);
@@ -46,10 +46,10 @@ class AddTipoResiduoPermission extends Migration
     public function down()
     {
         DB::table('permissions')->whereIn('nome', [
-            'TIPO_RESIDUO_CADASTRAR',
-            'TIPO_RESIDUO_EDITAR',
-            'TIPO_RESIDUO_LISTAR',
-            'TIPO_RESIDUO_EXCLUIR'
+            'tipo_residuo_adicionar',
+            'tipo_residuo_atualizar',
+            'tipo_residuo_listar',
+            'tipo_residuo_remover'
         ])->delete();
     }
 }

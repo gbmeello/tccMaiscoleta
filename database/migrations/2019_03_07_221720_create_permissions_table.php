@@ -23,8 +23,8 @@ class CreatePermissionsTable extends Migration
 
         $schema->create('permissions', function (Blueprint $table) {
             $table->increments('pk_permission');
-            $table->string('nome');
-            $table->string('descricao');
+            $table->string('nome', 100);
+            $table->string('descricao', 300);
             $table->integer('grupo')->default(1);
             $table->customTimestamps();
             $table->tinyInteger('status')->default(1)->comment('Status da permissao: ativo(1), inativo(2) ou excluido(3)');

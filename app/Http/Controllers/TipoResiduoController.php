@@ -4,57 +4,46 @@ namespace App\Http\Controllers;
 
 use App\TipoResiduo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TipoResiduoController extends Controller
 {
+    const PERM_TIPO_RESIDUO_ADICIONAR = 'tipo_residuo_adicionar';
+    const PERM_TIPO_RESIDUO_ATUALIZAR = 'tipo_residuo_atualizar';
+    const PERM_TIPO_RESIDUO_LISTAR = 'tipo_residuo_listar';
+    const PERM_TIPO_RESIDUO_REMOVER = 'tipo_residuo_remover';
+
     public function index()
     {
-        $tasks = TipoResiduo::all();
-
-        return response()->json($tasks);
+        return view('tipoResiduo.index');
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required'
-        ]);
-
-        $tipoResiduo = TipoResiduo::create($request->all());
-
-        return response()->json([
-            'message' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => $tipoResiduo
-        ]);
+        return view('/tipoResiduo.cadastrar');
     }
 
-    public function show(TipoResiduo $tipoResiduo)
+    public function edit($id)
     {
-        return $tipoResiduo;
+        $tipoResiduo = TipoResiduo::find($id);
+
+        if(!empty($tipoResiduo)) {
+            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+        }
+
+        Session::flash('message', "Tipo de Resíduo não foi encontrado");
+        return redirect('tipoResiduo/index')->send();
     }
 
-    public function update(Request $request, TipoResiduo $tipoResiduo)
+    public function delete($id)
     {
-        $request->validate([
-            'title'       => 'nullable',
-            'description' => 'nullable'
-        ]);
+        $tipoResiduo = TipoResiduo::find($id);
 
-        $tipoResiduo->update($request->all());
+        if(!empty($tipoResiduo)) {
+            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+        }
 
-        return response()->json([
-            'message' => 'Great success! TipoResiduo updated',
-            'TipoResiduo' => $tipoResiduo
-        ]);
-    }
-
-    public function delete(TipoResiduo $tipoResiduo)
-    {
-        $tipoResiduo->delete();
-
-        return response()->json([
-            'message' => 'Successfully deleted TipoResiduo!'
-        ]);
+        Session::flash('message', "Tipo de Resíduo não foi encontrado");
+        return redirect('tipoResiduo/index')->send();
     }
 }

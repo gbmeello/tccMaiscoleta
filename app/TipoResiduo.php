@@ -15,6 +15,8 @@ class TipoResiduo extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function residuos() {
         $this->belongsTo(Residuo::class, 'pk_residuo');
     }

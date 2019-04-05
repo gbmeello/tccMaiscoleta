@@ -24,18 +24,15 @@ class CreateUsuarioTable extends Migration
         $schema->create('usuario', function (Blueprint $table) {
             $table->increments('pk_usuario');
             $table->unsignedInteger('fk_role');
-            $table->string('nome');
-            $table->string('email')->unique();
+            $table->string('nome', 150);
+            $table->string('email', 200)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('senha');
+            $table->string('senha', 300);
             $table->rememberToken();
             $table->customTimestamps();
             $table->tinyInteger('status')->default(1)->comment('Status do usuario: ativo(1), inativo(2) ou excluido(3)');
 
-            $table->foreign('fk_role')
-                ->references('pk_role')
-                ->on('roles')
-                ->onDelete('cascade');
+            $table->foreign('fk_role')->references('pk_role')->on('roles')->onDelete('cascade');
         });
     }
 
