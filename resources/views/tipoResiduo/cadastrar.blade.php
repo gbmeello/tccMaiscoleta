@@ -39,53 +39,28 @@
             $('#btn-tipo-residuo-salvar').unbind('click').click(function() {
                 cadastrar();
             });
-            initDataTables();
         });
 
         function cadastrar() {
 
-
+            let nome = $('#tipo-residuo-nome').val();
+            let descricao = $('#txt-tipo-residuo-descricao').val();
 
             $.post(
                 '{{url('api/tipo-residuo/cadastrar')}}',
                 {
-                    nome: '',
-                    descricao: ''
+                    nome: nome,
+                    descricao: descricao
                 },
                 function(data, xhr) {
-
+                    if(data.hasSuccess) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
                 }
             );
-
         }
-
-        function initDataTables() {
-            $('#table-tipo-residuo-listar').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax":{
-                    "url": "{{ url('api/tipo-residuo/listar') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data":{ _token: "{{ csrf_token() }}"}
-                },
-                "columns": [
-                    { "data": "pk_tipo_residuo" },
-                    { "data": "nome" },
-                    { "data": "descricao" },
-                    { "data": "status" },
-                    {
-                        "class":          "details-control",
-                        "orderable":      false,
-                        "data":           null,
-                        "defaultContent": ""
-                    },
-                ],
-                "order": [[1, 'asc']]
-            });
-        }
-
-
 
     </script>
 

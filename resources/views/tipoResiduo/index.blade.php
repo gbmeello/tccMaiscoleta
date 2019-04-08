@@ -15,45 +15,25 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-tipo-residuo-listar" class="table table-bordered table-striped dataTable display">
+                    <table id="table-tipo-residuo-listar" class="table table-bordered table-striped dataTable">
                         <thead>
-                        <tr>
-                            <th></th>
-                            <th>
-                                Id
-                            </th>
-                            <th>
-                                Nome
-                            </th>
-                            <th>
-                                Descri&ccedil;&atilde;o
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th>A&ccedil;&atilde;o</th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Nome
+                                </th>
+                                <th>
+                                    Descri&ccedil;&atilde;o
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>A&ccedil;&atilde;o</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>
-                                Id
-                            </th>
-                            <th>
-                                Nome
-                            </th>
-                            <th>
-                                Descri&ccedil;&atilde;o
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th>A&ccedil;&atilde;o</th>
-                        </tr>
-                        </tfoot>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -63,30 +43,43 @@
 
 @section('scripts')
 
+    <script src="{{asset('/js/helper.js')}}"></script>
     <script>
 
         $('#table-tipo-residuo-listar').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax":{
-                "url": "{{ url('api/tipo-residuo/listar') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data":{ _token: "{{ csrf_token() }}"}
-            },
+            "ajax": "{{ url('api/tipo-residuo/listar') }}",
             "columns": [
-                { "data": "pk_tipo_residuo" },
+                { "data": "id" },
                 { "data": "nome" },
                 { "data": "descricao" },
-                { "data": "status" },
-                {
-                    "class":          "details-control",
-                    "orderable":      false,
-                    "data":           null,
-                    "defaultContent": ""
+                { "data": "status" , render: function(data, type, row) {
+                    let html = '';
+
+                    switch (data) {
+                        case 1: html = '<small class="label pull-right bg-green">Ativo</small>';
+                            break;
+                        case 2: html = '<small class="label pull-right bg-red">Inativo</small>';
+                            break;
+                    }
+
+                    return html;
+                }},
+                { "data": null , render: function(data, type, row) {
+                        let html = 'weqewqewqewqeqwe';
+                        return html;
+                    },
+                    "targets": -1,
                 },
             ],
-            "order": [[1, 'asc']]
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button>Click!</button>"
+            } ],
+            "language": configDatatable.language,
+            //"order": [[1, 'asc']],
         });
 
     </script>

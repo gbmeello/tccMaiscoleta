@@ -55,26 +55,24 @@ class TipoResiduoController extends Controller
     public function list(Request $request)
     {
         $columns = [
-            'pk_tipo_residuo',
-            'nome',
-            'descricao',
-            'status'
+            0 => 'pk_tipo_residuo',
+            1 => 'nome',
+            2 => 'descricao',
+            3 => 'status'
         ];
 
         $totalData = TipoResiduo::count();
 
         $totalFiltered = $totalData;
 
-        dd($request->input());
-
-        $columnOrder = ($request->input('order.0.column') == 'id' ? 'pk_tipo_residuo' : 'nome');
+        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = $request->input('order.0.dir');
         $tipoResiduos  = null;
-        $totalFiltered = null;
+        //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
@@ -101,17 +99,16 @@ class TipoResiduoController extends Controller
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
-        dd($tipoResiduos);
 
         $data = [];
         if(!empty($tipoResiduos))
         {
             foreach ($tipoResiduos as $tipoResiduo)
             {
-                $nestedData['pk_tipo_residuo']  = $tipoResiduo->nome;
+                $nestedData['id']           = $tipoResiduo->pk_tipo_residuo;
                 $nestedData['nome']             = $tipoResiduo->nome;
                 $nestedData['descricao']        = $tipoResiduo->descricao;
-                $nestedData['status']           = $tipoResiduo->nome;
+                $nestedData['status']           = $tipoResiduo->status;
                 $data[] = $nestedData;
             }
         }
