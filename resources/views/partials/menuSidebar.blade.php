@@ -12,7 +12,7 @@
             <div class="pull-left info">
                 <p>Alexander Pierce</p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#"><i class="fa fa-circle-o text-success"></i> Online</a>
             </div>
         </div>--}}
 
@@ -35,19 +35,19 @@
             <!--<li class="active">-->
             <li>
                 <a href="{{ action('UsuarioController@index')  }}">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Usu&aacute;rio</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('ColetaController@index')  }}">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Coleta</span>
                 </a>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Rotas</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -56,13 +56,13 @@
                 <ul class="treeview-menu">
                     <li>
                         <a href="{{ action('RotaController@index')  }}">
-                            <i class="fa fa-circle"></i>
+                            <i class="fa fa-circle-o"></i>
                             <span>Rota</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ action('PontoColetaController@index')  }}">
-                            <i class="fa fa-circle"></i>
+                            <i class="fa fa-circle-o"></i>
                             <span>Pontos de Coleta</span>
                         </a>
                     </li>
@@ -70,19 +70,19 @@
             </li>
             <li>
                 <a href="{{ action('VeiculoController@index')  }}">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Veiculo</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('TriagemController@index')  }}">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Triagem</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('TipoResiduoController@index')  }}">
-                    <i class="fa fa-circle"></i>
+                    <i class="fa fa-circle-o"></i>
                     <span>Tipo de Res&iacute;do</span>
                 </a>
             </li>
