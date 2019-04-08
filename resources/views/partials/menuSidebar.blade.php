@@ -34,18 +34,59 @@
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active">-->
             <li>
-                <a href="{{ action('TipoResiduoController@index')  }}">
-                    <i class="fa fa-trash-o"></i>
-                    <span>Tipo de Res&iacute;do</span>
+                <a href="{{ action('UsuarioController@index')  }}">
+                    <i class="fa fa-circle"></i>
+                    <span>Usu&aacute;rio</span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-link"></i>
-                    <span>Another Link</span>
+                <a href="{{ action('ColetaController@index')  }}">
+                    <i class="fa fa-circle"></i>
+                    <span>Coleta</span>
                 </a>
             </li>
             <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Rotas</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{{ action('RotaController@index')  }}">
+                            <i class="fa fa-circle"></i>
+                            <span>Rota</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ action('PontoColetaController@index')  }}">
+                            <i class="fa fa-circle"></i>
+                            <span>Pontos de Coleta</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{ action('VeiculoController@index')  }}">
+                    <i class="fa fa-circle"></i>
+                    <span>Veiculo</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ action('TriagemController@index')  }}">
+                    <i class="fa fa-circle"></i>
+                    <span>Triagem</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ action('TipoResiduoController@index')  }}">
+                    <i class="fa fa-circle"></i>
+                    <span>Tipo de Res&iacute;do</span>
+                </a>
+            </li>
+            <!--<li class="treeview">
                 <a href="#">
                     <i class="fa fa-link"></i>
                     <span>Multilevel</span>
@@ -61,7 +102,7 @@
                         <a href="#">Link in level 2</a>
                     </li>
                 </ul>
-            </li>
+            </li>-->
         </ul>
         <!-- /.sidebar-menu -->
     </section>

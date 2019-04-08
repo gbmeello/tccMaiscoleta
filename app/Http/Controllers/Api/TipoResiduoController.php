@@ -22,7 +22,7 @@ class TipoResiduoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nome' => 'required|max:100',
-            'descricao' => 'max:600'
+            'descricao' => 'required|max:600'
         ]);
 
         if ($validator->fails()) {
