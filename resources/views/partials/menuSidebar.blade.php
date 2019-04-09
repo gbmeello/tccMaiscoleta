@@ -34,12 +34,6 @@
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active">-->
             <li>
-                <a href="{{ action('UsuarioController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
-                    <span>Usu&aacute;rio</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ action('ColetaController@index')  }}">
                     <i class="fa fa-circle-o"></i>
                     <span>Coleta</span>
@@ -69,9 +63,9 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ action('VeiculoController@index')  }}">
+                <a href="{{ action('TipoResiduoController@index')  }}">
                     <i class="fa fa-circle-o"></i>
-                    <span>Veiculo</span>
+                    <span>Tipo de Res&iacute;do</span>
                 </a>
             </li>
             <li>
@@ -81,9 +75,15 @@
                 </a>
             </li>
             <li>
-                <a href="{{ action('TipoResiduoController@index')  }}">
+                <a href="{{ action('UsuarioController@index')  }}">
                     <i class="fa fa-circle-o"></i>
-                    <span>Tipo de Res&iacute;do</span>
+                    <span>Usu&aacute;rio</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ action('VeiculoController@index')  }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Veiculo</span>
                 </a>
             </li>
             <!--<li class="treeview">
