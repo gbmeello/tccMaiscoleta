@@ -17,8 +17,8 @@ var configDatatable = {
 
     /**
      * Adiciona o controle de detalhes da linha
-     * */
-    /*addShowDetails: function (table) {
+     **/
+    addShowDetails: function (table, format) {
         table.find('tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr'),
                 row = table.row(tr);
@@ -33,7 +33,7 @@ var configDatatable = {
                 tr.addClass('shown');
             }
         });
-    },*/
+    },
 };
 
 var divMessage = function(alertClass, titulo, mensagem, icone) {

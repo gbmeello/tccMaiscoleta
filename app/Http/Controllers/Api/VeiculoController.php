@@ -128,11 +128,19 @@ class VeiculoController extends Controller
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, TipoResiduo $tipoResiduo)
+    public function update(Request $request, Veiculo $model)
     {
+        $model = Veiculo::find($model->id);
+        if(empty($model)) {
+            echo 'nop';
+            return;
+        }
+
         $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'max:600'
+            'modelo' => 'required|max:100',
+            'observacao' => '',
+            'placa' => 'required|max:10',
+            'tipo' => 'max:50'
         ]);
 
         if ($validator->fails()) {
@@ -144,20 +152,20 @@ class VeiculoController extends Controller
             ]);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        dd($request->all());
+
+        $veiculo = new Veiculo();
+        $hasSuccess = $veiculo->fill($request->all())->save();
 
         if($hasSuccess) {
             return response()->json([
                 'hasSuccess' => $hasSuccess,
-                'message' => 'Edição realizada com sucesso'
+                'message' => 'Cadastro realizado com sucesso'
             ]);
         } else {
             return response()->json([
                 'hasSuccess' => $hasSuccess,
-                'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ]);
         }
     }

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ColetaController extends Controller
 {
-
     public function index()
     {
         return response()->json([

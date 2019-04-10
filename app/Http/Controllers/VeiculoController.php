@@ -2,40 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class VeiculoController extends Controller
-{public function index()
 {
-    return view('tipoResiduo.index');
-}
+    const PERM_VEICULO_ADICIONAR    = 'veiculo_adicionar';
+    const PERM_VEICULO_ATUALIZAR    = 'veiculo_atualizar';
+    const PERM_VEICULO_LISTAR       = 'veiculo_listar';
+    const PERM_VEICULO_REMOVER      = 'veiculo_remover';
+
+    public function index()
+    {
+        return view('veiculo.index');
+    }
+
+    public function list()
+    {
+        return view('veiculo.index');
+    }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view('veiculo.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = Veiculo::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view('veiculo.atualizar', compact(['obj' => $obj]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "Veículo não foi encontrado");
+        return redirect('veiculo/index')->send();
     }
 
     public function delete($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = Veiculo::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view('veiculo.deletar', compact(['obj' => $obj]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "Veiculo não foi encontrado");
+        return redirect('veiculo/index')->send();
     }
 }
