@@ -30,7 +30,7 @@ class CreateColetaTable extends Migration
             $table->boolean('has_coleta')->comment('Se teve coleta ou não naquele dia');
             $table->string('observacao', 1000)->nullable()->comment('Observação relacionada a coleta');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status que se encontra atualmente a coleta: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_ponto_coleta')->references('pk_ponto_coleta')->on('ponto_coleta')->onDelete('cascade');
             $table->foreign('fk_veiculo')->references('pk_veiculo')->on('veiculo')->onDelete('cascade');

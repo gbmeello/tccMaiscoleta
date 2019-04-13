@@ -30,7 +30,7 @@ class CreateUsuarioTable extends Migration
             $table->string('senha', 300);
             $table->rememberToken();
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do usuario: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_role')->references('pk_role')->on('roles')->onDelete('cascade');
         });

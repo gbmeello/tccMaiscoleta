@@ -27,7 +27,7 @@ class CreateResiduoTable extends Migration
             //$table->string('lote')->comment('Lote do residuo');
             $table->string('observacao', 600)->nullable()->comment('Observação do residuo');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do residuo: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_tipo_residuo')->references('pk_tipo_residuo')->on('tipo_residuo')->onDelete('cascade');
         });

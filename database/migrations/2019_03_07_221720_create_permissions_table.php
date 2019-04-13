@@ -27,7 +27,7 @@ class CreatePermissionsTable extends Migration
             $table->string('descricao', 300);
             $table->integer('grupo')->default(1);
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status da permissao: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 

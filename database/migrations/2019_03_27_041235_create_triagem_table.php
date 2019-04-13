@@ -28,7 +28,7 @@ class CreateTriagemTable extends Migration
             $table->timestamp('data_venda')->comment('Data da venda da triagem');
             $table->string('observacao', 600)->nullable()->comment('Observação da triagem');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status que se encontra atualmente a triagem: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_coleta')->references('pk_coleta')->on('coleta')->onDelete('cascade');
             $table->foreign('fk_cliente_final')->references('pk_cliente_final')->on('cliente_final')->onDelete('cascade');

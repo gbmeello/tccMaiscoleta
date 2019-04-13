@@ -26,7 +26,7 @@ class CreateRolePermissionPivot extends Migration
             $table->unsignedInteger('fk_role')->comment('Chave estrangeira vinda da tabela Role');
             $table->unsignedInteger('fk_permission')->comment('Chave estrangeira vinda da tabela Permissions');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status da permissao: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_role')
                 ->references('pk_role')

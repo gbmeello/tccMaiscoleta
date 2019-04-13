@@ -35,7 +35,7 @@ class CreateFornecedorTable extends Migration
             $table->string('logradouro', 200)->nullable()->comment('Logradouro de onde o fornecedor reside');
             $table->string('complemento', 300)->nullable()->comment('Complemento onde o fornecedor reside');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do fornecedor: ativo(1), inativo(2) ou excluído(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 

@@ -26,7 +26,7 @@ class CreateRotaFinalTable extends Migration
             $table->unsignedInteger('fk_rota')->comment('Chave estrangira em uma relação de n para n, vinda da tabela Rota');
             $table->unsignedInteger('fk_ponto_coleta')->comment('Chave estrangeira em uma relação de n para n, vinda da tabela Ponto_Coleta');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do residuo: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_ponto_coleta')
                 ->references('pk_ponto_coleta')

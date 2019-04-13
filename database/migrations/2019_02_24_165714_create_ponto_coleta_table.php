@@ -27,7 +27,7 @@ class CreatePontoColetaTable extends Migration
             $table->point('coordenada')->comment('Coordenada do ponto de coleta');
             $table->string('descricao', 300)->nullable()->comment('Descrição do ponto de coleta');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status que se encontra atualmente a rota: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 

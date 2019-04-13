@@ -36,7 +36,7 @@ class CreateClienteFinalTable extends Migration
             $table->string('logradouro', 200)->nullable()->comment('Logradouro de onde o cliente final reside');
             $table->string('complemento', 300)->nullable()->comment('Complemento onde o cliente final reside');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do cliente: ativo(1), inativo(2) ou excluído(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 

@@ -26,7 +26,7 @@ class CreateRotaTable extends Migration
             $table->string('nome', 100)->comment('Nome da rota');
             $table->string('observacao', 500)->nullable()->comment('Observação da rota');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status que se encontra atualmente a rota: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 

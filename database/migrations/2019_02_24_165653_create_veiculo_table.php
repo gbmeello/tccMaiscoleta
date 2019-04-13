@@ -28,7 +28,7 @@ class CreateVeiculoTable extends Migration
             $table->string('placa', 10)->comment('Placa do veículo');
             $table->string('tipo', 50)->nullable()->comment('Tipo do veículo');
             $table->customTimestamps();
-            $table->tinyInteger('status')->default(1)->comment('Status do veículo: ativo(1), inativo(2) ou excluido(3)');
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 
