@@ -79,19 +79,9 @@ Route::prefix('triagem')->group(function () {
 
 //Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('rota')->group(function () {
-    Route::get('/', 'RotaController@index');
-    Route::get('index', 'RotaController@index');
-    Route::get('cadastrar', 'RotaController@create');
-    Route::get('editar/{id}', 'RotaController@edit');
-    Route::get('listar', 'RotaController@listar');
-});
-
-
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
-Route::prefix('')->group(function () {
-    Route::get('/', 'RotaController@index');
-    Route::get('index', 'RotaController@index');
-    Route::get('cadastrar', 'RotaController@create');
-    Route::get('editar/{id}', 'RotaController@edit');
-    Route::get('listar', 'RotaController@listar');
+    Route::get('/', 'RotaController@index')->name('rota');
+    Route::get('index', 'RotaController@index')->name('rota.index');
+    Route::get('cadastrar', 'RotaController@create')->name('rota.cadastrar');
+    Route::get('editar/{id}', 'RotaController@edit')->name('rota.editar');
+    Route::get('listar', 'RotaController@listar')->name('rota.listar');
 });

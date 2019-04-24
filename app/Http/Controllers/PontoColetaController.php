@@ -8,12 +8,12 @@ class PontoColetaController extends Controller
 {
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view('pontoColeta.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view('pontoColeta.cadastrar');
     }
 
     public function edit($id)
@@ -21,11 +21,11 @@ class PontoColetaController extends Controller
         $tipoResiduo = TipoResiduo::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view('pontoColeta.atualizar', compact(['pontoColeta' => $tipoResiduo]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "pontoColeta não foi encontrado");
+        return redirect('pontoColeta/index')->send();
     }
 
     public function delete($id)
@@ -33,10 +33,10 @@ class PontoColetaController extends Controller
         $tipoResiduo = TipoResiduo::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view('pontoColeta.deletar', compact(['pontoColeta' => $tipoResiduo]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "pontoColeta não foi encontrado");
+        return redirect('pontoColeta/index')->send();
     }
 }

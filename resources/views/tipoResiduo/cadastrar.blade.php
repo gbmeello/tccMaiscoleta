@@ -11,13 +11,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label  class="control-label" for="txt-tipo-residuo-nome">Nome</label>
-                            <input type="text" class="form-control" id="tipo-residuo-nome" placeholder="Digite o nome do tipo de residuo" maxlength="100">
+                            <input type="text" class="form-control" id="txt-tipo-residuo-nome" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label  class="control-label" for="tipo-residuo-nome">Descrição</label>
-                            <textarea rows="4" id="txt-tipo-residuo-descricao" class="form-control" placeholder="Digite a descrição do tipo de resíduo" maxlength="600"></textarea>
+                            <textarea rows="4" id="txt-tipo-residuo-descricao" class="form-control" maxlength="600"></textarea>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         <i class="fa fa-save"></i> Salvar
                     </button>
                     <br>
-                    <div id="resultado"></div>
+                    <div id="div-resultado"></div>
                 </div>
             </div>
         </div>
@@ -35,6 +35,7 @@
 
 @section('scripts')
 
+    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function() {
@@ -45,33 +46,20 @@
 
         function cadastrar() {
 
-            let nome = $('#tipo-residuo-nome').val();
-            let descricao = $('#txt-tipo-residuo-descricao').val();
+            let nome        = $('#txt-tipo-residuo-nome').val();
+            let descricao   = $('#txt-tipo-residuo-descricao').val();
 
             $.post(
-                '{{url('api/tipo-residuo/cadastrar')}}',
+                '{{url('api/v1/tipo-residuo/cadastrar')}}',
                 {
                     nome: nome,
                     descricao: descricao
                 },
                 function(data, xhr) {
-
                     if(data.hasSuccess) {
-
-
-                        $('#resultado').html();
-
-                        alert(data.message);
+                        $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-
-                        console.log(data.message)
-                        if(Array.isArray(data.message)) {
-                            $.each(data.message, function(i, el) {
-                                console.log(el);
-                            });
-                        }
-
-                        alert(data.message);
+                        $('#div-resultado').html(showValidationErrors(data));
                     }
                 }
             );

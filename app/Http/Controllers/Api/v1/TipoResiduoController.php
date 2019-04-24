@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class ColetaController extends Controller
+class TipoResiduoController extends Controller
 {
+
     public function index()
     {
         return response()->json([
@@ -26,11 +27,7 @@ class ColetaController extends Controller
 
         if ($validator->fails()) {
             $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
+            return response()->json($mensagens);
         }
 
         $tipoResiduo = new TipoResiduo();
@@ -57,7 +54,7 @@ class ColetaController extends Controller
             0 => 'pk_tipo_residuo',
             1 => 'nome',
             2 => 'descricao',
-            3 => 'status'
+            3 => 'ativo'
         ];
 
         $totalData = TipoResiduo::count();
@@ -69,7 +66,7 @@ class ColetaController extends Controller
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
-        $dir    = $request->input('order.0.dir');
+        $dir    = (empty($request->input('order.0.dir')) ? 'asc' : $request->input('order.0.dir'));
         $tipoResiduos  = null;
         //$totalFiltered = null;
 
@@ -104,10 +101,10 @@ class ColetaController extends Controller
         {
             foreach ($tipoResiduos as $tipoResiduo)
             {
-                $nestedData['id']           = $tipoResiduo->pk_tipo_residuo;
-                $nestedData['nome']             = $tipoResiduo->nome;
-                $nestedData['descricao']        = $tipoResiduo->descricao;
-                $nestedData['status']           = $tipoResiduo->status;
+                $nestedData['id']          = $tipoResiduo->pk_tipo_residuo;
+                $nestedData['nome']        = $tipoResiduo->nome;
+                $nestedData['descricao']   = $tipoResiduo->descricao;
+                $nestedData['ativo']       = $tipoResiduo->ativo;
                 $data[] = $nestedData;
             }
         }

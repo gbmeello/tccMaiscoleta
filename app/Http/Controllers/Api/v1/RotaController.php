@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
+use App\Rota;
 use App\TipoResiduo;
-use App\Veiculo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class VeiculoController extends Controller
+class ColetaController extends Controller
 {
-
     public function index()
     {
         return response()->json([
-            'modelo' => 'Great success! New TipoResiduo created',
+            'message' => 'Great success! New TipoResiduo created',
             'TipoResiduo' => 1
         ]);
     }
@@ -22,10 +21,8 @@ class VeiculoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'modelo' => 'required|max:100',
-            'observacao' => '',
-            'placa' => 'required|max:10',
-            'tipo' => 'max:50'
+            'nome' => 'required|max:100',
+            'observacao' => 'required|max:500'
         ]);
 
         if ($validator->fails()) {
@@ -37,10 +34,7 @@ class VeiculoController extends Controller
             ]);
         }
 
-        dd($request->all());
-
-        $veiculo = new Veiculo();
-        $hasSuccess = $veiculo->fill($request->all())->save();
+        $hasSuccess = Rota::create($request->all());
 
         if($hasSuccess) {
             return response()->json([
@@ -58,63 +52,62 @@ class VeiculoController extends Controller
     public function list(Request $request)
     {
         $columns = [
-            0 => 'pk_veiculo',
-            1 => 'modelo',
-            2 => 'observacao',
-            3 => 'placa',
-            4 => 'tipo'
+            0 => 'pk_tipo_residuo',
+            1 => 'nome',
+            2 => 'descricao',
+            3 => 'status'
         ];
 
-        $totalData      = Veiculo::count();
-        $totalFiltered  = $totalData;
-        $columnOrder    = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $totalData = TipoResiduo::count();
+
+        $totalFiltered = $totalData;
+
+        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = $request->input('order.0.dir');
-        $models = null;
+        $rotas  = null;
+        //$totalFiltered = null;
 
-        if(empty($request->input('search.value'))) {
-            $models = Veiculo::offset($start)
+        if(empty($request->input('search.value')))
+        {
+            $rotas = Rota::offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
         } else {
             $search = $request->input('search.value');
 
-            $models = Veiculo::where('pk_veiculo', 'LIKE', "%{$search}%")
-                ->orWhere('modelo', 'LIKE',"%{$search}%")
+            new \ReflectionClass('');
+
+            $rotas =  Rota::where('pk_rota', 'LIKE', "%{$search}%")
+                ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
-                ->orWhere('placa', 'LIKE',"%{$search}%")
-                ->orWhere('tipo', 'LIKE',"%{$search}%")
-                ->orWhere('status', 'LIKE',"%{$search}%")
+                ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
-                ->orderBy($order, $dir)
+                ->orderBy($order,$dir)
                 ->get();
 
-            $totalFiltered = Veiculo::where('pk_veiculo', 'LIKE', "%{$search}%")
-                ->orWhere('modelo', 'LIKE',"%{$search}%")
+            $totalFiltered = Rota::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+                ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
-                ->orWhere('placa', 'LIKE',"%{$search}%")
-                ->orWhere('tipo', 'LIKE',"%{$search}%")
-                ->orWhere('status', 'LIKE',"%{$search}%")
+                ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
 
         $data = [];
-        if(!empty($models))
+        if(!empty($rotas))
         {
-            foreach ($models as $model)
+            foreach ($rotas as $rota)
             {
-                $nestedData['id']           = $model->pk_veiculo;
-                $nestedData['modelo']       = $model->modelo;
-                $nestedData['observacao']   = $model->observacao;
-                $nestedData['placa']        = $model->placa;
-                $nestedData['tipo']         = $model->tipo;
-                $nestedData['status']       = $model->status;
-                $data[]                     = $nestedData;
+                $nestedData['id']           = $rota->pk_tipo_residuo;
+                $nestedData['nome']         = $rota->nome;
+                $nestedData['observacao']   = $rota->descricao;
+                $nestedData['ativo']        = $rota->status;
+                $data[] = $nestedData;
             }
         }
 
@@ -128,19 +121,17 @@ class VeiculoController extends Controller
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, Veiculo $model)
+    public function update(Request $request, $id)
     {
-        $model = Veiculo::find($model->id);
+        $model = Rota::find($id);
         if(empty($model)) {
             echo 'nop';
             return;
         }
 
         $validator = Validator::make($request->all(), [
-            'modelo' => 'required|max:100',
-            'observacao' => '',
-            'placa' => 'required|max:10',
-            'tipo' => 'max:50'
+            'nome' => 'required|max:100',
+            'observacao' => 'required|max:500'
         ]);
 
         if ($validator->fails()) {
@@ -152,20 +143,17 @@ class VeiculoController extends Controller
             ]);
         }
 
-        dd($request->all());
-
-        $veiculo = new Veiculo();
-        $hasSuccess = $veiculo->fill($request->all())->save();
+        $hasSuccess = Rota::create($request->all());
 
         if($hasSuccess) {
             return response()->json([
                 'hasSuccess' => $hasSuccess,
-                'message' => 'Cadastro realizado com sucesso'
+                'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
                 'hasSuccess' => $hasSuccess,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+                'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
             ]);
         }
     }

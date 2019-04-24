@@ -10,8 +10,8 @@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <a href="{{url('/rota/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-user-plus"></i> Cadastrar dsadsa
                     </a>
                 </div>
                 <div class="box-body">
@@ -25,7 +25,7 @@
                                     Nome
                                 </th>
                                 <th>
-                                    Descri&ccedil;&atilde;o
+                                    Observa&ccedil;&atilde;o
                                 </th>
                                 <th>
                                     Status
@@ -49,14 +49,14 @@
         $('#table-tipo-residuo-listar').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ url('api/v1/tipo-residuo/listar') }}",
+            "ajax": "{{ url('api/v1/rota/listar') }}",
             "columns": [
                 { "data": "id" },
                 { "data": "nome" },
-                { "data": "descricao" },
+                { "data": "observacao" },
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
-console.log(row);
+
                         if(data == true) {
                             html = '<small class="label pull-right bg-green">Ativo</small>';
                         }
@@ -67,7 +67,7 @@ console.log(row);
                         let html = '';
                         html += `
                                     <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <a href="{{ url('rota/editar/') }}/${row.id}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
                                         <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                                     </div>`;
                         return html;
@@ -75,11 +75,6 @@ console.log(row);
                     "targets": -1,
                 },
             ],
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button>Click!</button>"
-            } ],
             "language": configDatatable.language,
             //"order": [[1, 'asc']],
         });

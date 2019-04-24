@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class FornecedorController extends Controller
+class ColetaController extends Controller
 {
-
     public function index()
     {
         return response()->json([
@@ -21,8 +20,8 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'fk_ponto_coleta' => 'required',
-            'fk_veiculo' => 'required'
+            'nome' => 'required|max:100',
+            'descricao' => 'required|max:600'
         ]);
 
         if ($validator->fails()) {

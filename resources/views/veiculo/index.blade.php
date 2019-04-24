@@ -32,9 +32,6 @@
                                     Tipo
                                 </th>
                                 <th>
-                                    Observa&ccedil;&atilde;o
-                                </th>
-                                <th>
                                     Status
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
@@ -55,10 +52,11 @@
 
         $(document).ready(function () {
 
-            let dt = $('#table-veiculo').DataTable({
+            let $table = $('#table-veiculo');
+            let dt = $table.DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('api/veiculo/listar') }}",
+                "ajax": "{{ url('api/v1/veiculo/listar') }}",
                 "columns": [
                     {
                         "class":          "details-control",
@@ -70,15 +68,11 @@
                     { "data": "modelo" },
                     { "data": "placa" },
                     { "data": "tipo" },
-                    { "data": "observacao" },
-                    { "data": "status", render: function(data, type, row) {
+                    { "data": "ativo", render: function(data, type, row) {
                         let html = '';
 
-                        switch (data) {
-                            case 1: html = '<small class="label pull-right bg-green">Ativo</small>';
-                                break;
-                            case 2: html = '<small class="label pull-right bg-red">Inativo</small>';
-                                break;
+                        if(data == true) {
+                            html = '<small class="label pull-right bg-green">Sim</small>';
                         }
 
                         return html;
@@ -99,121 +93,11 @@
                 //"order": [[1, 'asc']],
             });
 
-            //configDatatable.addShowDetails(dt);
+            configDatatable.addShowDetails($table, dt, function(d) {
+                return `<p><strong>${d.observacao}</strong></p>`;
+            });
 
-            // Array to track the ids of the details displayed rows
-            var detailRows = [];
-
-            $('#table-veiculo tbody').on( 'click', 'tr td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = dt.row( tr );
-                var idx = $.inArray( tr.attr('id'), detailRows );
-
-                if ( row.child.isShown() ) {
-                    tr.removeClass( 'details' );
-                    row.child.hide();
-
-                    // Remove from the 'open' array
-                    detailRows.splice( idx, 1 );
-                }
-                else {
-                    tr.addClass( 'details' );
-                    row.child( format( row.data() ) ).show();
-
-                    // Add to the 'open' array
-                    if ( idx === -1 ) {
-                        detailRows.push( tr.attr('id') );
-                    }
-                }
-            } );
-
-            // On each draw, loop over the `detailRows` array and show any child rows
-            dt.on( 'draw', function () {
-                $.each( detailRows, function ( i, id ) {
-                    $('#'+id+' td.details-control').trigger( 'click' );
-                } );
-            } );
         });
-
-        function format ( d ) {
-            return 'Full name: '+d.first_name+' '+d.last_name+'<br>'+
-                'Salary: '+d.salary+'<br>'+
-                'The child row can contain any data you wish, including links, images, inner tables etc.';
-        }
-
-        /*function format(data) {
-            var sTable =
-                '<div class="details-container">' +
-                '<div class="sec-table-div">' +
-                '<span class="sec-table-title">Sugrupo</span>' +
-                '<table cellpadding="5" cellspacing="0" border="0" class="table table-bordered table-striped details-table">' +
-                '<tr>' +
-                '<td class="title">Grupo:</td>' +
-                '<td>' + data.Subgrupo.Grupo.Nome + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Nome:</td>' +
-                '<td>' + data.Subgrupo.Nome + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Observação:</td>' +
-                '<td>' + data.Subgrupo.Observacao + '</td>' +
-                '</tr>' +
-                '</table>' +
-                '</div>' +
-                '<hr>' +
-                '<div class="sec-table-div">' +
-                '<span class="sec-table-title">Investimento</span>' +
-                '<table cellpadding="5" cellspacing="0" border="0" class="table table-bordered table-striped details-table">' +
-                '<tr>' +
-                '<td class="title">Descrição:</td>' +
-                '<td>' + data.Investimento.Descricao + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Observação:</td>' +
-                '<td>' + data.Investimento.Observacao + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Data do cadastro:</td>' +
-                '<td>' + data.Investimento.DataCadastro + '</td>' +
-                '<td class="title">Data de atualização:</td>' +
-                '<td>' + data.Investimento.DataAtualizacao + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Situação:</td>' +
-                '<td>' + data.Investimento.Situacao + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Total:</td>' +
-                '<td>' + data.Investimento.Total + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<table cellpadding="5" cellspacing="0" border="0" class="table table-bordered table-striped details-table">' +
-                '<tr>' +
-                '<td class="title">Descrição:</td>' +
-                '<td>' + data.Investimento.Cronograma.Nome + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Observação:</td>' +
-                '<td>' + data.Investimento.Cronograma.Observacao + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Ano Inicial:</td>' +
-                '<td>' + data.Investimento.Cronograma.AnoInicial + '</td>' +
-                '<td class="title">Ano Final:</td>' +
-                '<td>' + data.Investimento.Cronograma.AnoFinal + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="title">Situação:</td>' +
-                '<td>' + data.Investimento.Situacao + '</td>' +
-                '</tr>' +
-                '</table>' +
-                '</tr>' +
-                '</table>' +
-                '</div>' +
-                '</div>';
-            return sTable;
-        }*/
 
     </script>
 

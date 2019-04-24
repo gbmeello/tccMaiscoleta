@@ -10,31 +10,19 @@
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-placa">Placa</label>
-                            <input type="text" class="form-control" id="txt-veiculo-placa" maxlength="10">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="veiculo-tipo">Tipo</label>
-                            <input type="text" class="form-control" id="txt-veiculo-tipo" maxlength="50">
+                            <label class="control-label" for="rota-placa">Nome</label>
+                            <input type="text" class="form-control" id="txt-rota-placa" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-modelo">Modelo</label>
-                            <input type="text" class="form-control" id="txt-veiculo-modelo" maxlength="100">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label" for="veiculo-observacao">Observa&ccedil;&atilde;o</label>
-                            <textarea rows="4" id="txt-veiculo-observacao" class="form-control" maxlength="300"></textarea>
+                            <label class="control-label" for="rota-observacao">Observa&ccedil;&atilde;o</label>
+                            <textarea rows="4" id="txt-rota-observacao" class="form-control" maxlength="500"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="box-footer">
-                    <button id="btn-veiculo-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-rota-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                     <br>
@@ -53,24 +41,20 @@
     <script>
 
         $(document).ready(function() {
-            $('#btn-veiculo-salvar').unbind('click').click(function() {
+            $('#btn-rota-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
 
         function cadastrar() {
 
-            let placa       = $('#txt-veiculo-placa').val();
-            let tipo        = $('#txt-veiculo-tipo').val();
-            let modelo      = $('#txt-veiculo-modelo').val();
-            let observacao  = $('#txt-veiculo-observacao').val();
+            let nome       = $('#txt-rota-nome').val();
+            let observacao  = $('#txt-rota-observacao').val();
 
             $.post(
-                '{{url('api/v1/veiculo/cadastrar')}}',
+                '{{url('api/v1/rota/cadastrar')}}',
                 {
-                    placa: placa,
-                    tipo: tipo,
-                    modelo: modelo,
+                    nome: nome,
                     observacao: observacao
                 },
                 function(data, xhr) {

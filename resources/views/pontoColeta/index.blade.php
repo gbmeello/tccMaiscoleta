@@ -10,8 +10,8 @@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <a href="{{url('/ponto-coleta/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-user-plus"></i> Cadastrar dsadsa
                     </a>
                 </div>
                 <div class="box-body">

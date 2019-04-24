@@ -49,30 +49,27 @@
         $('#table-tipo-residuo-listar').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ url('api/tipo-residuo/listar') }}",
+            "ajax": "{{ url('api/v1/tipo-residuo/listar') }}",
             "columns": [
                 { "data": "id" },
                 { "data": "nome" },
                 { "data": "descricao" },
-                { "data": "status", render: function(data, type, row) {
-                    let html = '';
+                { "data": "ativo", render: function(data, type, row) {
+                        let html = '';
+console.log(row);
+                        if(data == true) {
+                            html = '<small class="label pull-right bg-green">Ativo</small>';
+                        }
 
-                    switch (data) {
-                        case 1: html = '<small class="label pull-right bg-green">Ativo</small>';
-                            break;
-                        case 2: html = '<small class="label pull-right bg-red">Inativo</small>';
-                            break;
-                    }
-
-                    return html;
-                }},
+                        return html;
+                    }},
                 { "data": null , width: "100px", render: function(data, type, row) {
                         let html = '';
                         html += `
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                                </div>`;
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                    </div>`;
                         return html;
                     },
                     "targets": -1,
