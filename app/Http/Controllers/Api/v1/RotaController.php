@@ -8,16 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class ColetaController extends Controller
+class RotaController extends ApiController
 {
-    public function index()
-    {
-        return response()->json([
-            'message' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => 1
-        ]);
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -80,8 +72,6 @@ class ColetaController extends Controller
         } else {
             $search = $request->input('search.value');
 
-            new \ReflectionClass('');
-
             $rotas =  Rota::where('pk_rota', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
@@ -125,8 +115,10 @@ class ColetaController extends Controller
     {
         $model = Rota::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'hasSuccess' => false,
+                'message' => 'Rota não encontrada'
+            ]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -158,12 +150,27 @@ class ColetaController extends Controller
         }
     }
 
-    public function delete(TipoResiduo $tipoResiduo)
+    public function delete($id)
     {
-        $tipoResiduo->delete();
+        $model = TipoResiduo::find($id);
+        if(empty($model)) {
+            echo 'nop';
+            return;
+        }
 
-        return response()->json([
-            'message' => 'Successfully deleted TipoResiduo!'
-        ]);
+        $model->ativo = false;
+        $hasSuccess = $model->save();
+
+        if($hasSuccess) {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Exclusão realizada com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
+            ]);
+        }
     }
 }

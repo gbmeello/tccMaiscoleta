@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rota extends Model
+class RotaFinal extends Model
 {
     protected $table = 'rota';
     protected $primaryKey = 'pk_rota';

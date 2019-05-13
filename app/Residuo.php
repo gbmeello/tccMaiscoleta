@@ -15,7 +15,7 @@ class Residuo extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
-    public function residuos() {
-        $this->belongsTo(Residuo::class, 'pk_residuo');
+    public function tipoResiduo() {
+        $this->hasOne(TipoResiduo::class, 'pk_tipo_residuo');
     }
 }

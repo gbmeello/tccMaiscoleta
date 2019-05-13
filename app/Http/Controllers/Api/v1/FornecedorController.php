@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Fornecedor;
 use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class FornecedorController extends Controller
+class FornecedorController extends ApiController
 {
-
-    public function index()
-    {
-        return response()->json([
-            'message' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => 1
-        ]);
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -123,8 +115,16 @@ class FornecedorController extends Controller
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, TipoResiduo $tipoResiduo)
+    public function update(Request $request, $id)
     {
+        $model = Fornecedor::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'hasSuccess' => false,
+                'message' => 'Fornecedor não encontrado'
+            ]);
+        }
+
         $validator = Validator::make($request->all(), [
             'nome' => 'required|max:100',
             'descricao' => 'max:600'
@@ -139,10 +139,7 @@ class FornecedorController extends Controller
             ]);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $hasSuccess = $model->fill($request->toArray())->save();
 
         if($hasSuccess) {
             return response()->json([
@@ -157,12 +154,27 @@ class FornecedorController extends Controller
         }
     }
 
-    public function delete(TipoResiduo $tipoResiduo)
+    public function delete($id)
     {
-        $tipoResiduo->delete();
+        $model = TipoResiduo::find($id);
+        if(empty($model)) {
+            echo 'nop';
+            return;
+        }
 
-        return response()->json([
-            'message' => 'Successfully deleted TipoResiduo!'
-        ]);
+        $model->ativo = false;
+        $hasSuccess = $model->save();
+
+        if($hasSuccess) {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Exclusão realizada com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
+            ]);
+        }
     }
 }

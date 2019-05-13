@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class VeiculoController extends Controller
+class VeiculoController extends ApiController
 {
 
     public function index()
@@ -165,12 +165,27 @@ class VeiculoController extends Controller
         }
     }
 
-    public function delete(TipoResiduo $tipoResiduo)
+    public function delete($id)
     {
-        dd($tipoResiduo);
+        $model = Veiculo::find($id);
+        if(empty($model)) {
+            echo 'nop';
+            return;
+        }
 
-        return response()->json([
-            'message' => 'Successfully deleted TipoResiduo!'
-        ]);
+        $model->ativo = false;
+        $hasSuccess = $model->save();
+
+        if($hasSuccess) {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Exclusão realizada com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
+            ]);
+        }
     }
 }

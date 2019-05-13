@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPotgisExtensions extends Migration
+class CreateOauthPersonalAccessClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +13,11 @@ class AddPotgisExtensions extends Migration
      */
     public function up()
     {
-        //DB::statement('create extension if not exists postgis;');
-        //DB::statement('create extension if not exists postgis_topology;');
+        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('client_id')->index();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -25,7 +27,6 @@ class AddPotgisExtensions extends Migration
      */
     public function down()
     {
-        //DB::statement('drop extension if exists postgis_topology;');
-        //DB::statement('drop extension if exists postgis;');
+        Schema::dropIfExists('oauth_personal_access_clients');
     }
 }

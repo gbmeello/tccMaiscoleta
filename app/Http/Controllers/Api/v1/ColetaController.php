@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class ColetaController extends Controller
+class ColetaController extends ApiController
 {
     public function index()
     {
@@ -17,7 +17,7 @@ class ColetaController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function stores(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nome' => 'required|max:100',
@@ -122,7 +122,7 @@ class ColetaController extends Controller
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, TipoResiduo $tipoResiduo)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'nome' => 'required|max:100',
@@ -156,12 +156,27 @@ class ColetaController extends Controller
         }
     }
 
-    public function delete(TipoResiduo $tipoResiduo)
+    public function delete($id)
     {
-        $tipoResiduo->delete();
+        $model = TipoResiduo::find($id);
+        if(empty($model)) {
+            echo 'nop';
+            return;
+        }
 
-        return response()->json([
-            'message' => 'Successfully deleted TipoResiduo!'
-        ]);
+        $model->ativo = false;
+        $hasSuccess = $model->save();
+
+        if($hasSuccess) {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Exclusão realizada com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'hasSuccess' => $hasSuccess,
+                'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
+            ]);
+        }
     }
 }
