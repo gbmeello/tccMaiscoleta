@@ -7,7 +7,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Cadastro de Ve&iacute;culos</h3>
                 </div>
-                <div class="box-body">
+                <form class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="veiculo-placa">Placa</label>
@@ -32,7 +32,7 @@
                             <textarea rows="4" id="txt-veiculo-observacao" class="form-control" maxlength="300"></textarea>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="box-footer">
                     <button id="btn-veiculo-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
@@ -53,17 +53,14 @@
     <script>
 
         $(document).ready(function() {
-            $('#btn-veiculo-salvar').unbind('click').click(function() {
+            $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
 
         function cadastrar() {
 
-            let placa       = $('#txt-veiculo-placa').val();
-            let tipo        = $('#txt-veiculo-tipo').val();
-            let modelo      = $('#txt-veiculo-modelo').val();
-            let observacao  = $('#txt-veiculo-observacao').val();
+
 
             $.post(
                 '{{url('api/v1/veiculo/cadastrar')}}',

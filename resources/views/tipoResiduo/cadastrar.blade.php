@@ -7,22 +7,22 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Cadastro de Tipo de res&iacute;duos</h3>
                 </div>
-                <div class="box-body">
+                <form id="form-tipo-residuo" role="form" class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label  class="control-label" for="txt-tipo-residuo-nome">Nome</label>
-                            <input type="text" class="form-control" id="txt-tipo-residuo-nome" maxlength="100">
+                            <input type="text" class="form-control" id="nome" name="nome" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label  class="control-label" for="tipo-residuo-nome">Descrição</label>
-                            <textarea rows="4" id="txt-tipo-residuo-descricao" class="form-control" maxlength="600"></textarea>
+                            <textarea rows="4" id="descricao" name="descricao" class="form-control" maxlength="600"></textarea>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="box-footer">
-                    <button id="btn-tipo-residuo-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                     <br>
@@ -39,30 +39,41 @@
     <script>
 
         $(document).ready(function() {
-            $('#btn-tipo-residuo-salvar').unbind('click').click(function() {
+            $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
 
         function cadastrar() {
 
-            let nome        = $('#txt-tipo-residuo-nome').val();
-            let descricao   = $('#txt-tipo-residuo-descricao').val();
+            let data = $('#form-tipo-residuo').serialize();
 
-            $.post(
-                '{{url('api/v1/tipo-residuo/cadastrar')}}',
-                {
-                    nome: nome,
-                    descricao: descricao
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/tipo-residuoju/cadastrar',
+                data: data,
+                dataType: 'json',
+                beforeSend: function() {
+                    console.log('antes de enviar');
                 },
-                function(data, xhr) {
+                complete: function() {
+                    console.log('completo');
+                },
+                success: function(data) {
+
                     if(data.hasSuccess) {
                         $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(showValidationErrors(data));
+                        $('#div-resultado').html(showValidationErrors(data.message));
                     }
+
+                },
+                error: function(xhr) { // if error occured
+                    console.log(xhr);
+                    console.error('error');
                 }
-            );
+            });
+
         }
 
     </script>

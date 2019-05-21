@@ -26,7 +26,7 @@ class CreateClienteFinalTable extends Migration
             $table->string('nome_fantasia', 200)->comment('Nome fantasia do cliente final');
             $table->string('razao_social', 300)->comment('Razão Social do cliente final');
             $table->string('email', 100)->comment('Email do cliente final');
-            $table->char('telefone1', 15)->comment('Telefone 1 do cliente final');
+            $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do cliente final');
             $table->char('telefone2', 15)->nullable()->comment('Telefone 2 do cliente final');
             $table->string('cidade', 150)->comment('Cidade onde o cliente final reside');
             $table->string('estado', 50)->comment('Estado onde o cliente final reside');

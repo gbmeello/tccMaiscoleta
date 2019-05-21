@@ -22,13 +22,13 @@ class CreateFornecedorTable extends Migration
 
         $schema->create('fornecedor', function (Blueprint $table) {
             $table->increments('pk_fornecedor')->comment('Chave primária e única da tabela Ponto_Coleta');
+            $table->unsignedInteger('fk_estado')->comment('Estado onde o fornecedor reside');
+            $table->unsignedInteger('fk_cidade')->comment('Cidade onde o fornecedor reside');
             $table->string('nome_fantasia', 200)->comment('Nome fantasia do fornecedor');
             $table->string('razao_social', 300)->comment('Razão Social do fornecedor');
             $table->string('email', 100)->comment('Email do fornecedor');
-            $table->char('telefone1', 15)->comment('Telefone 1 do fornecedor');
+            $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do fornecedor');
             $table->char('telefone2', 15)->nullable()->comment('Telefone 2 do fornecedor');
-            $table->string('cidade', 150)->comment('Cidade onde o fornecedor reside');
-            $table->string('estado', 50)->comment('Estado onde o fornecedor reside');
             $table->char('cep', 8)->nullable()->comment('CEP de onde o fornecedor reside');
             $table->string('bairro', 150)->nullable()->comment('Bairro de onde o fornecedor reside');
             $table->string('rua', 150)->nullable()->comment('Rua de onde o fornecedor reside');
@@ -36,6 +36,10 @@ class CreateFornecedorTable extends Migration
             $table->string('complemento', 300)->nullable()->comment('Complemento onde o fornecedor reside');
             $table->customTimestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
+
+            $table->foreign('fk_estado')->references('pk_estado')->on('estados')->onDelete('cascade');
+            $table->foreign('fk_cidade')->references('pk_cidade')->on('cidades')->onDelete('cascade');
+
         });
     }
 

@@ -10,26 +10,74 @@
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-placa">Placa</label>
-                            <input type="text" class="form-control" id="txt-veiculo-placa" maxlength="10">
+                            <label class="control-label" for="txt-fornecedor-nome-fantasia">Nome Fantasia</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-nome-fantasia" maxlength="200">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-tipo">Tipo</label>
-                            <input type="text" class="form-control" id="txt-veiculo-tipo" maxlength="50">
+                            <label class="control-label" for="txt-fornecedor-razao-social">Razão Social</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-razao-social" maxlength="300">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-modelo">Modelo</label>
-                            <input type="text" class="form-control" id="txt-veiculo-modelo" maxlength="100">
+                            <label class="control-label" for="txt-fornecedor-email">Email</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-email" maxlength="100">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="veiculo-observacao">Observa&ccedil;&atilde;o</label>
-                            <textarea rows="4" id="txt-veiculo-observacao" class="form-control" maxlength="300"></textarea>
+                            <label class="control-label" for="txt-fornecedor-telefone1">Telefone 1:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-telefone1" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-telefone1">Telefone 2:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-telefone2" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-estado">Estado:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-estado" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-cidade">Cidade:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-cidade" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-cidade">Cep:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-cidade" maxlength="8">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-cidade">Bairro:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-cidade" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-rua">Rua:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-rua" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-logradouro">Logradouro:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-logradouro" maxlength="200">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="txt-fornecedor-complemento">Complemento:</label>
+                            <input type="text" class="form-control" id="txt-fornecedor-complemento" maxlength="300">
                         </div>
                     </div>
                 </div>

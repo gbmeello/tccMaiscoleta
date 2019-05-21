@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('tipo-residuo')->group(function () {
     Route::get('/', 'TipoResiduoController@index');
     Route::get('index', 'TipoResiduoController@index');
@@ -27,7 +26,6 @@ Route::prefix('tipo-residuo')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('usuario')->group(function () {
     Route::get('/', 'UsuarioController@index');
     Route::get('index', 'UsuarioController@index');
@@ -37,7 +35,6 @@ Route::prefix('usuario')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('coleta')->group(function () {
     Route::get('/', 'ColetaController@index');
     Route::get('index', 'ColetaController@index');
@@ -47,7 +44,6 @@ Route::prefix('coleta')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('veiculo')->group(function () {
     Route::get('/', 'VeiculoController@index');
     Route::get('index', 'VeiculoController@index');
@@ -57,7 +53,6 @@ Route::prefix('veiculo')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('ponto-coleta')->group(function () {
     Route::get('/', 'PontoColetaController@index');
     Route::get('index', 'PontoColetaController@index');
@@ -67,7 +62,6 @@ Route::prefix('ponto-coleta')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
 Route::prefix('triagem')->group(function () {
     Route::get('/', 'TriagemController@index');
     Route::get('index', 'TriagemController@index');
@@ -77,7 +71,24 @@ Route::prefix('triagem')->group(function () {
 });
 
 
-//Route::prefix('tipo-residuo')->middleware('auth')->group(function () {
+Route::prefix('fornecedor')->group(function () {
+    Route::get('/', 'FornecedorController@index');
+    Route::get('index', 'FornecedorController@index');
+    Route::get('cadastrar', 'FornecedorController@create');
+    Route::get('editar/{id}', 'FornecedorController@edit');
+    Route::get('listar', 'FornecedorController@listar');
+});
+
+
+Route::prefix('cliente-final')->group(function () {
+    Route::get('/', 'ClienteFinalController@index');
+    Route::get('index', 'ClienteFinalController@index');
+    Route::get('cadastrar', 'ClienteFinalController@create');
+    Route::get('editar/{id}', 'ClienteFinalController@edit');
+    Route::get('listar', 'ClienteFinalController@listar');
+});
+
+
 Route::prefix('rota')->group(function () {
     Route::get('/', 'RotaController@index')->name('rota');
     Route::get('index', 'RotaController@index')->name('rota.index');

@@ -9,7 +9,7 @@ class Fornecedor extends Model
     protected $primaryKey = "pk_fornecedor";
     protected $table = "fornecedor";
     protected $fillable = [
-        'nome_fantasia', 'razao_social', 'email', 'telefone1', 'telefone2',
+        'pk_fornecedor', 'nome_fantasia', 'razao_social', 'email', 'telefone1', 'telefone2',
         'cidade', 'estado', 'cep', 'bairro', 'rua', 'logradouro', 'complemento', 'ativo'
     ];
 

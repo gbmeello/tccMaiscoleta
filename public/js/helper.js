@@ -109,7 +109,8 @@ var showValidationErrors = function(arrayError) {
 };
 
 var getMessageRecursive = function(arrayError) {
-    jQuery.each(arrayError, function(i, value) {
+    console.log(arrayError);
+    $.each(arrayError, function(i, value) {
         if(Array.isArray(value)) {
             getMessageRecursive(value);
         } else {

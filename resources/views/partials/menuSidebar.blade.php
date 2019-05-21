@@ -34,9 +34,21 @@
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active">-->
             <li>
+                <a href="{{ action('ClienteFinalController@index')  }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Cliente Final</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ action('ColetaController@index')  }}">
                     <i class="fa fa-circle-o"></i>
                     <span>Coleta</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ action('FornecedorController@index')  }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Fornecedor</span>
                 </a>
             </li>
             <li class="treeview">
@@ -65,7 +77,7 @@
             <li>
                 <a href="{{ action('TipoResiduoController@index')  }}">
                     <i class="fa fa-circle-o"></i>
-                    <span>Tipo de Res&iacute;do</span>
+                    <span>Tipo de Res&iacute;duo</span>
                 </a>
             </li>
             <li>

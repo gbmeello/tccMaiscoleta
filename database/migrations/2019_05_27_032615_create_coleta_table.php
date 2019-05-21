@@ -1,6 +1,7 @@
 <?php
 
 use App\Extendz\CustomBlueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -24,7 +25,7 @@ class CreateColetaTable extends Migration
             $table->increments('pk_coleta')->comment('Chave primária e única da tabela Coleta');
             $table->unsignedInteger('fk_rota_final')->comment('Chave estrangeira vinda da tabela Rota_Final');
             $table->unsignedInteger('fk_veiculo')->nullable()->comment('Chave estrangeira vinda da tabela Veiculo');
-            $table->unsignedInteger('fk_fornecedor')->comment('Chave estrangeira vinda da tabela Fornecedor');
+            $table->unsignedInteger('fk_fornecedor')->comment('Chave estrangeira vinda da tabela fornecedor');
             $table->timestamp('data_coleta')->comment('Data da coleta');
             $table->boolean('has_coleta')->comment('Se teve coleta ou não naquele dia');
             $table->string('observacao', 1000)->nullable()->comment('Observação relacionada a coleta');

@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Fornecedor;
-use App\TipoResiduo;
+use App\ClienteFinal;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class FornecedorController extends ApiController
+
+class ClienteFinalController extends ApiController
 {
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'fk_ponto_coleta' => 'required',
-            'fk_veiculo' => 'required'
+            'nome_fantasia' => 'required|max:200',
+            'razao_social' => 'required|max:300',
+            'email' => 'required|email|unique:cliente_final|max:100',
+            'telefone1' => 'required|numeric|max:15',
+            'telefone2' => 'numeric|max:15',
+            'cidade' => 'required|max:150',
+            'estado' => 'required|max:50',
+            'cep' => 'integer|max:8',
+            'bairro' => 'max:150',
+            'rua' => 'max:150',
+            'logradouro' => 'max:200',
+            'complemento' => 'max:300',
         ]);
 
         if ($validator->fails()) {
@@ -26,10 +35,8 @@ class FornecedorController extends ApiController
             ]);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $model = new ClienteFinal();
+        $hasSuccess = $model->fill($request->toArray())->save();
 
         if($hasSuccess) {
             return response()->json([
@@ -47,7 +54,7 @@ class FornecedorController extends ApiController
     public function list(Request $request)
     {
         $columns = [
-            'pk_fornecedor',
+            'pk_cliente_final',
             'nome_fantasia',
             'razao_social',
             'email',
@@ -63,7 +70,7 @@ class FornecedorController extends ApiController
             'ativo'
         ];
 
-        $totalData = Fornecedor::count();
+        $totalData = ClienteFinal::count();
 
         $totalFiltered = $totalData;
 
@@ -78,7 +85,7 @@ class FornecedorController extends ApiController
 
         if(empty($request->input('search.value')))
         {
-            $model = Fornecedor::offset($start)
+            $model = ClienteFinal::offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -86,7 +93,7 @@ class FornecedorController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $model =  Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
+            $model =  ClienteFinal::where('pk_fornecedor', 'LIKE', "%{$search}%")
                 ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('razao_social', 'LIKE',"%{$search}%")
                 ->orWhere('email', 'LIKE',"%{$search}%")
@@ -105,7 +112,7 @@ class FornecedorController extends ApiController
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
+            $totalFiltered = ClienteFinal::where('pk_fornecedor', 'LIKE', "%{$search}%")
                 ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('razao_social', 'LIKE',"%{$search}%")
                 ->orWhere('email', 'LIKE',"%{$search}%")
@@ -157,11 +164,11 @@ class FornecedorController extends ApiController
 
     public function update(Request $request, $id)
     {
-        $model = Fornecedor::find($id);
+        $model = ClienteFinal::find($id);
         if(empty($model)) {
             return response()->json([
                 'hasSuccess' => false,
-                'message' => 'fornecedor não encontrado'
+                'message' => 'Cliente Final não existe'
             ]);
         }
 
@@ -196,7 +203,7 @@ class FornecedorController extends ApiController
 
     public function delete($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = ClienteFinal::find($id);
         if(empty($model)) {
             echo 'nop';
             return;

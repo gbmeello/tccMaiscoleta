@@ -5,17 +5,17 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Ve&iacute;culos</h3>
+                    <h3 class="box-title">Lista de Fornecedores</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/veiculo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                    <a href="{{url('/fornecedor/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
                     <i class="fa fa-user-plus"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-veiculo" class="table table-bordered table-striped dataTable">
+                    <table id="table-fornecedor" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
                                 <th></th>
@@ -23,13 +23,16 @@
                                     Id
                                 </th>
                                 <th>
-                                    Modelo
+                                    Nome Fantasia
                                 </th>
                                 <th>
-                                    Placa
+                                    Razão Social
                                 </th>
                                 <th>
-                                    Tipo
+                                    Estado
+                                </th>
+                                <th>
+                                    Cidade
                                 </th>
                                 <th>
                                     Status
@@ -52,11 +55,11 @@
 
         $(document).ready(function () {
 
-            let $table = $('#table-veiculo');
+            let $table = $('#table-fornecedor');
             let dt = $table.DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('api/v1/veiculo/listar') }}",
+                "ajax": "{{ url('api/v1/fornecedor/listar') }}",
                 "columns": [
                     {
                         "class":          "details-control",
@@ -65,9 +68,10 @@
                         "defaultContent": ""
                     },
                     { "data": "id" },
-                    { "data": "modelo" },
-                    { "data": "placa" },
-                    { "data": "tipo" },
+                    { "data": "nome_fantasia" },
+                    { "data": "razao_social" },
+                    { "data": "estado" },
+                    { "data": "cidade" },
                     { "data": "ativo", render: function(data, type, row) {
                         let html = '';
 
@@ -94,7 +98,45 @@
             });
 
             configDatatable.addShowDetails($table, dt, function(d) {
-                return `<p><strong>${d.observacao}</strong></p>`;
+                let table =
+                    `<div class="form-group">
+                        <div class="col-sm-4 col-md-4">
+                            <span>Email: </span>
+                            <span>${d.email}</span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <span>Telefone 1: </span>
+                            <span>${d.telefone1}</span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <span>Telefone 2: </span>
+                            <span>${d.telefone2}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6">
+                            <span>Cep: </span>
+                            <span>${d.cep}</span>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <span>Bairro: </span>
+                            <span>${d.bairro}</span>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <span>Rua: </span>
+                            <span>${d.rua}</span>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <span>Logradouro: </span>
+                            <span>${d.logradouro}</span>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <span>Rua: </span>
+                            <span>${d.complemento}</span>
+                        </div>
+                    </div>`;
+
+                return table;
             });
 
         });

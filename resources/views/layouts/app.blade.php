@@ -40,6 +40,7 @@
             <div class="content-wrapper">
                 @include('partials.contentHeader')
                 <section class="content">
+                    @include('partials.contentResultado')
                     @yield('content')
                 </section>
             </div>

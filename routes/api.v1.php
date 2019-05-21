@@ -57,19 +57,31 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
         Route::delete('/deletar/{id}', 'FornecedorController@delete')->name('api.fornecedor.delete');
 
+    });
+
+
+    Route::prefix('cliente-final')->group(function() {
+
+        Route::get('/listar', 'ClienteFinalController@list')->name('api.clienteFinal.list');
+
+        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.clienteFinal.store');
+
+        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.clienteFinal.update');
+
+        Route::delete('/deletar/{id}', 'ClienteFinalController@delete')->name('api.clienteFinal.delete');
 
     });
 
 
     Route::prefix('cliente')->group(function() {
 
-        Route::get('/listar', 'ClienteController@list')->name('api.cliente.list');
+        Route::get('/listar', 'ClienteFinalController@list')->name('api.cliente.list');
 
-        Route::post('/cadastrar', 'ClienteController@store')->name('api.cliente.store');
+        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.cliente.store');
 
-        Route::put('/editar/{id}', 'ClienteController@update')->name('api.cliente.update');
+        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.cliente.update');
 
-        Route::delete('/deletar/{id}', 'ClienteController@delete')->name('api.cliente.delete');
+        Route::delete('/deletar/{id}', 'ClienteFinalController@delete')->name('api.cliente.delete');
 
     });
 

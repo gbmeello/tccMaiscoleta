@@ -1,11 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <?
+        if(isset($obj))
+            dd($obj);
+        else
+            echo 'não existe $obj';
+    ?>
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Ve&iacute;culos</h3>
+                    <h3 class="box-title">Edição do Cliente - {{ $obj->nome_fantasia }}</h3>
                 </div>
                 <div class="box-body">
                     <div class="col-md-6">
@@ -68,13 +76,13 @@
                             <input type="text" class="form-control" id="txt-fornecedor-rua" maxlength="150">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="txt-fornecedor-logradouro">Logradouro:</label>
                             <input type="text" class="form-control" id="txt-fornecedor-logradouro" maxlength="200">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="txt-fornecedor-complemento">Complemento:</label>
                             <input type="text" class="form-control" id="txt-fornecedor-complemento" maxlength="300">

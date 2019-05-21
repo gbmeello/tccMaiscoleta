@@ -3,33 +3,30 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Fornecedor;
-use App\TipoResiduo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\FornecedorStoreRequest;
+use App\Http\Requests\FornecedorUpdateRequest;
 
 class FornecedorController extends ApiController
 {
-    public function store(Request $request)
+    public function store(FornecedorStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'fk_ponto_coleta' => 'required',
-            'fk_veiculo' => 'required'
-        ]);
+        $validate = $request->validated();
+
+        dd($validate);
 
         if ($validator->fails()) {
             $mensagens = $validator->errors()->messages();
 
             return response()->json([
                 'hasSuccess' => false,
-                'message' => $mensagens
+                'message' => $validate
             ]);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $model = new Fornecedor();
+        $hasSuccess = $model->fill($request->toArray())->save();
 
         if($hasSuccess) {
             return response()->json([
@@ -47,13 +44,23 @@ class FornecedorController extends ApiController
     public function list(Request $request)
     {
         $columns = [
-            0 => 'pk_tipo_residuo',
-            1 => 'nome',
-            2 => 'descricao',
-            3 => 'status'
+            'pk_fornecedor',
+            'nome_fantasia',
+            'razao_social',
+            'email',
+            'telefone1',
+            'telefone2',
+            'cidade',
+            'estado',
+            'cep',
+            'bairro',
+            'rua',
+            'logradouro',
+            'complemento',
+            'ativo'
         ];
 
-        $totalData = TipoResiduo::count();
+        $totalData = Fornecedor::count();
 
         $totalFiltered = $totalData;
 
@@ -63,12 +70,12 @@ class FornecedorController extends ApiController
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = $request->input('order.0.dir');
-        $tipoResiduos  = null;
+        $model  = null;
         //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
-            $tipoResiduos = TipoResiduo::offset($start)
+            $model = Fornecedor::offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -76,31 +83,61 @@ class FornecedorController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $tipoResiduos =  TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
-                ->orWhere('nome', 'LIKE',"%{$search}%")
-                ->orWhere('descricao', 'LIKE',"%{$search}%")
+            $model =  Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('email', 'LIKE',"%{$search}%")
+                ->orWhere('telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('cidade', 'LIKE',"%{$search}%")
+                ->orWhere('estado', 'LIKE',"%{$search}%")
+                ->orWhere('cep', 'LIKE',"%{$search}%")
+                ->orWhere('bairro', 'LIKE',"%{$search}%")
+                ->orWhere('rua', 'LIKE',"%{$search}%")
+                ->orWhere('logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('complemento', 'LIKE',"%{$search}%")
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
-                ->orderBy($order,$dir)
+                ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
-                ->orWhere('nome', 'LIKE',"%{$search}%")
-                ->orWhere('descricao', 'LIKE',"%{$search}%")
+            $totalFiltered = Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('email', 'LIKE',"%{$search}%")
+                ->orWhere('telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('cidade', 'LIKE',"%{$search}%")
+                ->orWhere('estado', 'LIKE',"%{$search}%")
+                ->orWhere('cep', 'LIKE',"%{$search}%")
+                ->orWhere('bairro', 'LIKE',"%{$search}%")
+                ->orWhere('rua', 'LIKE',"%{$search}%")
+                ->orWhere('logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('complemento', 'LIKE',"%{$search}%")
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
 
         $data = [];
-        if(!empty($tipoResiduos))
+        if(!empty($model))
         {
-            foreach ($tipoResiduos as $tipoResiduo)
+            foreach ($model as $obj)
             {
-                $nestedData['id']           = $tipoResiduo->pk_tipo_residuo;
-                $nestedData['nome']             = $tipoResiduo->nome;
-                $nestedData['descricao']        = $tipoResiduo->descricao;
-                $nestedData['status']           = $tipoResiduo->status;
+                $nestedData['id']               = $obj->pk_fornecedor;
+                $nestedData['nome_fantasia']    = $obj->nome_fantasia;
+                $nestedData['razao_social']     = $obj->razao_social;
+                $nestedData['email']            = $obj->email;
+                $nestedData['telefone1']        = $obj->telefone1;
+                $nestedData['telefone2']        = $obj->telefone2;
+                $nestedData['cidade']           = $obj->cidade;
+                $nestedData['estado']           = $obj->estado;
+                $nestedData['cep']              = $obj->cep;
+                $nestedData['bairro']           = $obj->bairro;
+                $nestedData['rua']              = $obj->rua;
+                $nestedData['logradouro']       = $obj->logradouro;
+                $nestedData['complemento']      = $obj->complemento;
+                $nestedData['ativo']            = $obj->ativo;
                 $data[] = $nestedData;
             }
         }
@@ -115,13 +152,13 @@ class FornecedorController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, $id)
+    public function update(FornecedorUpdateRequest $request, $id)
     {
         $model = Fornecedor::find($id);
         if(empty($model)) {
             return response()->json([
                 'hasSuccess' => false,
-                'message' => 'Fornecedor não encontrado'
+                'message' => 'fornecedor não encontrado'
             ]);
         }
 
@@ -156,7 +193,7 @@ class FornecedorController extends ApiController
 
     public function delete($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = Fornecedor::find($id);
         if(empty($model)) {
             echo 'nop';
             return;

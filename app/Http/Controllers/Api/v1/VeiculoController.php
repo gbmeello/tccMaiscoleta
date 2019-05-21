@@ -10,15 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class VeiculoController extends ApiController
 {
-
-    public function index()
-    {
-        return response()->json([
-            'modelo' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => 1
-        ]);
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -30,7 +21,7 @@ class VeiculoController extends ApiController
 
         if ($validator->fails()) {
             $mensagens = $validator->errors()->messages();
-            return response()->json($mensagens);
+            return response()->json($mensagens, 400);
         }
 
         $veiculo = new Veiculo();

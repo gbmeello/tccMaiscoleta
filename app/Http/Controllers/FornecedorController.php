@@ -6,37 +6,39 @@ use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
 {
+    private $viewName = 'fornecedor';
+
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = Fornecedor::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view($this->viewName.'.atualizar', compact(['obj' => $obj]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "Fornecedor não foi encontrado");
+        return redirect($this->viewName.'/index')->send();
     }
 
     public function delete($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $tipoResiduo = Fornecedor::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "Fornecedor não foi encontrado");
+        return redirect($this->viewName.'/index')->send();
     }
 }
