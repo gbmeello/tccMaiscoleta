@@ -13,6 +13,9 @@ class Roles extends Model
     ];
 
 
+    public $timestamps = false;
+
+
     /**
      * relacionamento N:1
     */

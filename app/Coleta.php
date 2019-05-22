@@ -17,6 +17,8 @@ class Coleta extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function rotaFinal() {
         $this->hasOne(RotaFinal::class, 'pk_rota_final');
     }

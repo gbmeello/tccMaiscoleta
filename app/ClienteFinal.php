@@ -17,6 +17,8 @@ class ClienteFinal extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function triagem() {
         $this->belongsTo(Triagem::class, 'pk_triagem');
     }

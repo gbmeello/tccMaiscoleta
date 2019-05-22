@@ -30,6 +30,8 @@ class Usuario extends Authenticatable implements JWTSubject
         'senha', 'remember_token',
     ];
 
+    public $timestamps = false;
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

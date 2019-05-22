@@ -12,6 +12,8 @@ class PontoColeta extends Model
         'nome', 'latitude', 'longitude', 'descricao', 'ativo'
     ];
 
+    public $timestamps = false;
+
     public function rotas() {
         return $this->belongsToMany('App\Rota', 'rota_final', 'pk_rota', 'pk_ponto_coleta');
     }

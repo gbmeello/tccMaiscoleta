@@ -4,39 +4,25 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\ClienteFinal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-
+use App\Http\Requests\ClienteFinalRequest;
 
 class ClienteFinalController extends ApiController
 {
-    public function store(Request $request)
+    public function store(ClienteFinalRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nome_fantasia' => 'required|max:200',
-            'razao_social' => 'required|max:300',
-            'email' => 'required|email|unique:cliente_final|max:100',
-            'telefone1' => 'required|numeric|max:15',
-            'telefone2' => 'numeric|max:15',
-            'cidade' => 'required|max:150',
-            'estado' => 'required|max:50',
-            'cep' => 'integer|max:8',
-            'bairro' => 'max:150',
-            'rua' => 'max:150',
-            'logradouro' => 'max:200',
-            'complemento' => 'max:300',
-        ]);
+        $validate = $request->validated();
 
-        if ($validator->fails()) {
+        /*if ($validator->fails()) {
             $mensagens = $validator->errors()->messages();
 
             return response()->json([
                 'hasSuccess' => false,
                 'message' => $mensagens
             ]);
-        }
+        }*/
 
         $model = new ClienteFinal();
-        $hasSuccess = $model->fill($request->toArray())->save();
+        $hasSuccess = $model->fill($validate)->save();
 
         if($hasSuccess) {
             return response()->json([
@@ -171,11 +157,6 @@ class ClienteFinalController extends ApiController
                 'message' => 'Cliente Final não existe'
             ]);
         }
-
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'max:600'
-        ]);
 
         if ($validator->fails()) {
             $mensagens = $validator->errors()->messages();

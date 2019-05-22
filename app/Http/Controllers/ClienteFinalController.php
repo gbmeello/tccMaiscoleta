@@ -24,7 +24,7 @@ class ClienteFinalController extends Controller
         $obj = ClienteFinal::find($id);
 
         if(!empty($obj)) {
-            return view($this->viewName.'.atualizar', compact(['obj' => $obj]));
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
         Session::flash('message', "Cliente Final não foi encontrado");

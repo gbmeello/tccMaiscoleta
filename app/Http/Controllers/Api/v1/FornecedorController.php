@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Api\v1;
 use App\Fornecedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\FornecedorStoreRequest;
-use App\Http\Requests\FornecedorUpdateRequest;
+use App\Http\Requests\FornecedorRequest;
 
 class FornecedorController extends ApiController
 {
-    public function store(FornecedorStoreRequest $request)
+    public function store(FornecedorRequest $request)
     {
         $validate = $request->validated();
 
@@ -152,7 +151,7 @@ class FornecedorController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function update(FornecedorUpdateRequest $request, $id)
+    public function update(FornecedorRequest $request, $id)
     {
         $model = Fornecedor::find($id);
         if(empty($model)) {

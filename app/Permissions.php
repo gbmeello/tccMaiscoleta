@@ -13,6 +13,8 @@ class Permissions extends Model
         'nome', 'descricao', 'grupo'
     ];
 
+    public $timestamps = false;
+
     /**
      * relacionamento N:M
     */

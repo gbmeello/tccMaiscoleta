@@ -15,6 +15,8 @@ class Residuo extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function tipoResiduo() {
         $this->hasOne(TipoResiduo::class, 'pk_tipo_residuo');
     }

@@ -23,7 +23,7 @@ var configDatatable = {
 
         $table.on( 'click', 'tr td.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = dt.row( tr );
+            var row = dataTable.row( tr );
             var idx = $.inArray( tr.attr('id'), detailRows );
 
             if ( row.child.isShown() ) {

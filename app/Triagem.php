@@ -17,6 +17,8 @@ class Triagem extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function coleta() {
         $this->hasOne(Coleta::class, 'pk_coleta', 'fk_coleta');
     }

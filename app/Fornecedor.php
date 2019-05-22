@@ -13,6 +13,8 @@ class Fornecedor extends Model
         'cidade', 'estado', 'cep', 'bairro', 'rua', 'logradouro', 'complemento', 'ativo'
     ];
 
+    public $timestamps = false;
+
     protected $guarded = [
         'data_criacao', 'data_atualizacao'
     ];

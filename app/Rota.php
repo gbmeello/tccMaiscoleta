@@ -17,6 +17,8 @@ class Rota extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function pontosColeta() {
         return $this->belongsToMany('App\PontoColeta', 'rota_final', 'pk_ponto_coleta', 'pk_rota');
     }

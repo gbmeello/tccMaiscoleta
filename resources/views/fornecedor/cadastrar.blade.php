@@ -8,7 +8,6 @@
                     <h3 class="box-title">Cadastro de Fornecedores</h3>
                 </div>
                 <form id="form-fornecedor" class="box-body">
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
@@ -53,14 +52,14 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Cep:</label>
-                            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="8">
+                            <label class="control-label" for="cep">Cep:</label>
+                            <input type="text" class="form-control" name="cep" id="cep" maxlength="8">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Bairro:</label>
-                            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="150">
+                            <label class="control-label" for="bairro">Bairro:</label>
+                            <input type="text" class="form-control" name="bairro" id="bairro" maxlength="150">
                         </div>
                     </div>
                     <div class="col-md-4">
