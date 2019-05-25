@@ -22,7 +22,6 @@ class CreateFornecedorTable extends Migration
 
         $schema->create('fornecedor', function (Blueprint $table) {
             $table->increments('pk_fornecedor')->comment('Chave primária e única da tabela Ponto_Coleta');
-            $table->unsignedInteger('fk_estado')->nullable()->comment('Estado onde o fornecedor reside');
             $table->unsignedInteger('fk_municipio')->nullable()->comment('Municpio onde o fornecedor reside');
             $table->string('nome_fantasia', 200)->comment('Nome fantasia do fornecedor');
             $table->string('razao_social', 300)->comment('Razão Social do fornecedor');
@@ -37,7 +36,6 @@ class CreateFornecedorTable extends Migration
             $table->customTimestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
-            $table->foreign('fk_estado')->references('pk_estado')->on('estado')->onDelete('cascade');
             $table->foreign('fk_municipio')->references('pk_municipio')->on('municipio')->onDelete('cascade');
 
         });
