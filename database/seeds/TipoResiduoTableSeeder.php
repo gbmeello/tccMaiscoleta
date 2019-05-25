@@ -1,21 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Seeder;
 
 //TODO referencia -> http://www.planalto.gov.br/ccivil_03/_ato2007-2010/2010/lei/l12305.htm
-
-class AddTipoResiduoDados extends Migration
+class TipoResiduoTableSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function up()
+    public function run()
     {
-        /* DB::table('tipo_residuo')->insert([
+        \DB::table('tipo_residuo')->insert([
             [
                 'nome'          => 'Resíduos de Papel',
                 'descricao'     =>
@@ -67,26 +64,6 @@ class AddTipoResiduoDados extends Migration
                 'nome'          => 'Resíduos de mineração',
                 'descricao'     => 'Gerados na atividade de pesquisa, extração ou beneficiamento de minérios.',
             ],
-        ]); */
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        /*DB::table('tipo_residuo')->whereIn('nome', [
-            'Resíduo Domiciliar',
-            'Resíduos de Limpeza Urbana',
-            'Resíduos Sólidos Urbanos',
-            'Resíduos de estabelecimentos comerciais e prestadores de serviços',
-            'Resíduos de serviços de saúde',
-            'Resíduos da construção civil',
-            'Resíduos agrossilvopastoris',
-            'Resíduos de serviços de transportes',
-            'Resíduos de mineração'
-        ])->delete();*/
+        ]);
     }
 }

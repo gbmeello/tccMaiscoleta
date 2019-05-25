@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\ClienteFinal;
 
 class ClienteFinalRequest extends BaseFormRequest
 {
@@ -35,7 +36,7 @@ class ClienteFinalRequest extends BaseFormRequest
             case 'POST':
             {
                 return [
-                    'nome_fantasia' => 'required|max:200',
+                    'nome_fantasia' => 'required|unique:cliente_final|max:200',
                     'razao_social' => 'required|max:300',
                     'email' => 'required|email|unique:cliente_final|max:100',
                     'telefone1' => 'required|numeric|digits_between:8,15',
@@ -52,6 +53,7 @@ class ClienteFinalRequest extends BaseFormRequest
             case 'PUT':
             case 'PATCH':
             {
+                $id = ClienteFinal::find();
                 return [
                     'nome_fantasia' => 'required|max:200',
                     'razao_social' => 'required|max:300',

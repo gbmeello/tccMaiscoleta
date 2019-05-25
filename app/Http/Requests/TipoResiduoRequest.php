@@ -13,7 +13,7 @@ class TipoResiduoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,38 @@ class TipoResiduoRequest extends FormRequest
      */
     public function rules()
     {
+        switch($this->method())
+        {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+            }
+            case 'POST':
+            {
+                return [
+                    'nome' => 'required|max:100|unique:tipo_residuo',
+                    'descricao' => 'required|max:600'
+                ];
+            }
+            case 'PUT':
+            case 'PATCH':
+            {
+                return [
+                    'nome' => 'required|max:100|unique:tipo_residuo,nome,'.$this->pk_tipo_residuo,
+                    'descricao' => 'required|max:600'
+                ];
+            }
+            default:break;
+        }
+    }
+
+    public function attributes()
+    {
         return [
-            //
+            'nome' => 'Nome',
+            'descricao' => 'Descrição'
         ];
     }
+
 }

@@ -2,53 +2,44 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\TipoResiduo;
 use App\Veiculo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\VeiculoRequest;
 
 class VeiculoController extends ApiController
 {
-    public function store(Request $request)
+    public function store(VeiculoRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'modelo' => 'required|max:100',
-            'observacao' => '',
-            'placa' => 'required|max:10',
-            'tipo' => 'max:50'
-        ]);
+        $validate = $request->validated();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-            return response()->json($mensagens, 400);
-        }
+        $model = new ClienteFinal();
+        $success = $model->fill($validate)->save();
 
-        $veiculo = new Veiculo();
-        $hasSuccess = $veiculo->fill($request->all())->save();
-
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Cadastro realizado com sucesso'
-            ], 200);
+            ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ], 400);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }
+
+
 
     public function list(Request $request)
     {
         $columns = [
-            0 => 'pk_veiculo',
-            1 => 'modelo',
-            2 => 'observacao',
-            3 => 'placa',
-            4 => 'tipo',
-            5 => 'ativo'
+            'pk_veiculo',
+            'modelo',
+            'observacao',
+            'placa',
+            'tipo',
+            'ativo'
         ];
 
         $totalData      = Veiculo::count();
@@ -114,45 +105,28 @@ class VeiculoController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, Veiculo $model)
+    public function update(VeiculoRequest $request, $id)
     {
-        $model = Veiculo::find($model->pk_veiculo);
+        $model = Veiculo::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Cliente Final não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $validator = Validator::make($request->all(), [
-            'modelo' => 'required|max:100',
-            'observacao' => '',
-            'placa' => 'required|max:10',
-            'tipo' => 'max:50'
-        ]);
+        $success = $model->fill($request->toArray())->save();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
+        if($success) {
             return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        dd($request->all());
-
-        $veiculo = new Veiculo();
-        $hasSuccess = $veiculo->fill($request->all())->save();
-
-        if($hasSuccess) {
-            return response()->json([
-                'hasSuccess' => $hasSuccess,
-                'message' => 'Cadastro realizado com sucesso'
+                'success' => $success,
+                'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+                'success' => $success,
+                'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 
@@ -160,8 +134,10 @@ class VeiculoController extends ApiController
     {
         $model = Veiculo::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Veículo não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -176,7 +152,7 @@ class VeiculoController extends ApiController
             return response()->json([
                 'hasSuccess' => $hasSuccess,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

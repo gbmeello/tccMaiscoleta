@@ -33,7 +33,7 @@ class FornecedorRequest extends BaseFormRequest
             case 'POST':
             {
                 return [
-                    'nome_fantasia' => 'required|max:200',
+                    'nome_fantasia' => 'required|unique:fornecedor|max:200',
                     'razao_social' => 'required|max:300',
                     'email' => 'required|email|unique:fornecedor|max:100',
                     'telefone1' => 'required|numeric|digits_between:8,15',
@@ -51,7 +51,7 @@ class FornecedorRequest extends BaseFormRequest
             case 'PATCH':
             {
                 return [
-                    'nome_fantasia' => 'required|max:200',
+                    'nome_fantasia' => 'required|max:200|unique:fornecedor,nome_fantasia,'.$this->pk_cliente_final,
                     'razao_social' => 'required|max:300',
                     'email' => 'required|email|max:100|unique:fornecedor,email,'.$this->pk_cliente_final,
                     'telefone1' => 'required|numeric|digits_between:8,15',

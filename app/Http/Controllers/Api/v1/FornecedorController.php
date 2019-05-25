@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Fornecedor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\FornecedorRequest;
 
 class FornecedorController extends ApiController
@@ -13,28 +12,17 @@ class FornecedorController extends ApiController
     {
         $validate = $request->validated();
 
-        dd($validate);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'hasSuccess' => false,
-                'message' => $validate
-            ]);
-        }
-
         $model = new Fornecedor();
-        $hasSuccess = $model->fill($request->toArray())->save();
+        $success = $model->fill($validate)->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Cadastro realizado com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ]);
         }
@@ -156,46 +144,35 @@ class FornecedorController extends ApiController
         $model = Fornecedor::find($id);
         if(empty($model)) {
             return response()->json([
-                'hasSuccess' => false,
-                'message' => 'fornecedor não encontrado'
+                'success' => false,
+                'message' => 'Cliente Final não existe'
             ]);
         }
 
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'max:600'
-        ]);
+        $success = $model->fill($request->toArray())->save();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
+        if($success) {
             return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $hasSuccess = $model->fill($request->toArray())->save();
-
-        if($hasSuccess) {
-            return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
+
 
     public function delete($id)
     {
         $model = Fornecedor::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Fornecedor não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -210,7 +187,7 @@ class FornecedorController extends ApiController
             return response()->json([
                 'hasSuccess' => $hasSuccess,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

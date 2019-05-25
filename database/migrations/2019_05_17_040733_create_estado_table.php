@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEstadosTable extends Migration
+class CreateEstadoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,14 +15,20 @@ class CreateEstadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('estados', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+
+        $schema->blueprintResolver(function($table, $callback) {
+            return new CustomBlueprint($table, $callback);
+        });
+
+        $schema->create('estado', function (Blueprint $table) {
             $table->increments('pk_estado');
             $table->string('nome');
             $table->string('sigla');
             $table->integer('cod_ibge');
-            $table->string('slug');
-            $table->integer('populacao');
-            $table->timestamps();
+            $table->string('slug')->nullable();
+            $table->integer('populacao')->nullable();
+            $table->customTimestamps();
         });
     }
 
@@ -33,6 +39,6 @@ class CreateEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estados');
+        Schema::dropIfExists('estado');
     }
 }

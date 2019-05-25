@@ -9,7 +9,7 @@ class Triagem extends Model
     protected $primaryKey = "pk_triagem";
     protected $table = "triagem";
     protected $fillable = [
-        'pk_triagem', 'fk_coleta', 'fk_cliente_final', 'fk_residuo',
+        'fk_coleta', 'fk_cliente_final', 'fk_residuo',
         'data_triagem', 'data_venda', 'observacao', 'ativo'
     ];
 
@@ -20,14 +20,14 @@ class Triagem extends Model
     public $timestamps = false;
 
     public function coleta() {
-        $this->hasOne(Coleta::class, 'pk_coleta', 'fk_coleta');
+        $this->belongsTo(Coleta::class, 'fk_coleta', 'pk_coleta');
     }
 
     public function clienteFinal() {
-        $this->hasOne(ClienteFinal::class, 'pk_cliente_final', 'fk_cliente_final');
+        $this->belongsTo(ClienteFinal::class, 'pk_cliente_final', 'fk_cliente_final');
     }
 
     public function residuo() {
-        $this->hasOne(Residuo::class, 'pk_residuo', 'fk_residuo');
+        $this->belongsTo(Residuo::class, 'pk_residuo', 'fk_residuo');
     }
 }

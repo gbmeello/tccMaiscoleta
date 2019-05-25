@@ -9,7 +9,7 @@ class Residuo extends Model
     protected $primaryKey = 'pk_residuo';
     protected $table = 'residuo';
     protected $fillable = [
-        'pk_residuo', 'nome', 'descricao', 'ativo'
+        'nome', 'descricao', 'ativo'
     ];
     protected $guarded = [
         'data_criacao', 'data_atualizacao'
@@ -18,6 +18,6 @@ class Residuo extends Model
     public $timestamps = false;
 
     public function tipoResiduo() {
-        $this->hasOne(TipoResiduo::class, 'pk_tipo_residuo');
+        return $this->belongsTo(TipoResiduo::class, 'pk_tipo_residuo', 'fk_tipo_residuo');
     }
 }

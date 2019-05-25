@@ -12,6 +12,9 @@
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/datatables.net/css/dataTables.bootstrap.min.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/select2/dist/css/select2.min.css') }}">
+
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/font-awesome/css/font-awesome.min.css') }}">
         <!-- Ionicons -->
@@ -69,6 +72,11 @@
         <script src="{{ asset('AdminLTE/bower_components/chart.js/Chart.js') }}"></script>
         <!-- Pace -->
         <script src="{{ asset('AdminLTE/bower_components/PACE/pace.min.js') }}"></script>
+
+        <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/select2.min.js') }}"></script>
+        <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/i18n/pt-BR.min.js') }}"></script>
+
+        <script src="{{ asset('AdminLTE/bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
         @yield('scripts')
     </body>
 

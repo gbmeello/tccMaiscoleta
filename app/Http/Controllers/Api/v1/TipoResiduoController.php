@@ -6,55 +6,37 @@ use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TipoResiduoRequest;
 
 class TipoResiduoController extends ApiController
 {
-
-    public function index()
+    public function store(TipoResiduoRequest $request)
     {
-        return response()->json([
-            'message' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => 1
-        ]);
-    }
+        $validate = $request->validated();
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'required|max:600'
-        ]);
+        $model = new TipoResiduo();
+        $success = $model->fill($validate)->save();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-            return response()->json($mensagens);
-        }
-
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
-
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Cadastro realizado com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }
 
     public function list(Request $request)
     {
         $columns = [
-            0 => 'pk_tipo_residuo',
-            1 => 'nome',
-            2 => 'descricao',
-            3 => 'ativo'
+           'pk_tipo_residuo',
+           'nome',
+           'descricao',
+           'ativo'
         ];
 
         $totalData = TipoResiduo::count();
@@ -119,37 +101,28 @@ class TipoResiduoController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, TipoResiduo $tipoResiduo)
+    public function update(TipoResiduoRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'max:600'
-        ]);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
+        $model = TipoResiduo::find($id);
+        if(empty($model)) {
             return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
+                'success' => false,
+                'message' => 'Tipo de Resíduo não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $success = $model->fill($request->toArray())->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 
@@ -157,8 +130,10 @@ class TipoResiduoController extends ApiController
     {
         $model = TipoResiduo::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Tipo de Resíduo não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -173,7 +148,7 @@ class TipoResiduoController extends ApiController
             return response()->json([
                 'hasSuccess' => $hasSuccess,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

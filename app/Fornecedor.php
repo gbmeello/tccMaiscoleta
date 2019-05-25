@@ -9,8 +9,8 @@ class Fornecedor extends Model
     protected $primaryKey = "pk_fornecedor";
     protected $table = "fornecedor";
     protected $fillable = [
-        'pk_fornecedor', 'nome_fantasia', 'razao_social', 'email', 'telefone1', 'telefone2',
-        'cidade', 'estado', 'cep', 'bairro', 'rua', 'logradouro', 'complemento', 'ativo'
+        'fk_estado', 'fk_municipio', 'nome_fantasia', 'razao_social', 'email',
+        'telefone1', 'telefone2', 'cep', 'bairro', 'rua', 'logradouro', 'complemento', 'ativo'
     ];
 
     public $timestamps = false;
@@ -21,6 +21,14 @@ class Fornecedor extends Model
 
     public function coleta() {
         $this->belongsTo(Coleta::class, 'pk_coleta');
+    }
+
+    public function municipio() {
+        return $this->belongsTo(Municipio::class, 'fk_municipio', 'pk_municipio');
+    }
+
+    public function estado() {
+        return $this->belongsTo(Estado::class, 'fk_estado', 'pk_estado');
     }
 
 }

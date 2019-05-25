@@ -15,4 +15,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 abstract class ApiController extends Controller
 {
+    public const HTTP_STATUS_SUCCESS = 200;
+    public const HTTP_STATUS_CREATED = 201;
+    public const HTTP_STATUS_BAD_REQUEST = 400;
+    public const HTTP_STATUS_NOT_FOUND = 404;
 }

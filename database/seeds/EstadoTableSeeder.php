@@ -11,7 +11,7 @@ class EstadoTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('estados')->insert(array (
+        \DB::table('estado')->insert(array (
             0 =>
             array (
                 'pk_estado' => '1',

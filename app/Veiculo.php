@@ -9,11 +9,15 @@ class Veiculo extends Model
     protected $primaryKey = 'pk_veiculo';
     protected $table = 'veiculo';
     protected $fillable = [
-        'pk_veiculo', 'modelo', 'observacao', 'placa', 'ativo'
+        'modelo', 'observacao', 'placa', 'ativo'
     ];
     protected $guarded = [
         'data_criacao', 'data_atualizacao'
     ];
 
     public $timestamps = false;
+
+    public function coletas() {
+        return $this->hasMany(Coleta::class, 'fk_veiculo');
+    }
 }

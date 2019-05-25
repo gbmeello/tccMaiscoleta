@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\ClienteFinal;
-use Illuminate\Http\Request;
 use App\Http\Requests\ClienteFinalRequest;
 
 class ClienteFinalController extends ApiController
@@ -12,28 +11,19 @@ class ClienteFinalController extends ApiController
     {
         $validate = $request->validated();
 
-        /*if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
-        }*/
-
         $model = new ClienteFinal();
-        $hasSuccess = $model->fill($validate)->save();
+        $success = $model->fill($validate)->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Cadastro realizado com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }
 
@@ -139,46 +129,37 @@ class ClienteFinalController extends ApiController
         }
 
         $json_data = [
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
+            'draw'            => intval($request->input('draw')),
+            'recordsTotal'    => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data'            => $data
         ];
 
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, $id)
+    public function update(ClienteFinalRequest $request, $id)
     {
         $model = ClienteFinal::find($id);
         if(empty($model)) {
             return response()->json([
-                'hasSuccess' => false,
+                'success' => false,
                 'message' => 'Cliente Final não existe'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
+        $success = $model->fill($request->toArray())->save();
 
+        if($success) {
             return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $hasSuccess = $model->fill($request->toArray())->save();
-
-        if($hasSuccess) {
-            return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 
@@ -186,8 +167,10 @@ class ClienteFinalController extends ApiController
     {
         $model = ClienteFinal::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Cliente Final não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -202,7 +185,7 @@ class ClienteFinalController extends ApiController
             return response()->json([
                 'hasSuccess' => $hasSuccess,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

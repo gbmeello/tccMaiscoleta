@@ -2,18 +2,11 @@
 
 @section('content')
 
-    <?php/*
-        if(isset($obj))
-            dd($obj);
-        else
-            echo 'não existe $obj';*/
-    ?>
-
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Edição do Cliente - </h3>
+                <h3 class="box-title">Edição do Cliente Final - {{ $obj->nome_fantasia }}</h3>
                 </div>
                 <form id="form-cliente-final" role="form" class="box-body">
                     <input name="pk_cliente_final" value="{{ $obj->pk_cliente_final }}" hidden>
@@ -50,13 +43,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="estado">Estado:</label>
-                            <input type="text" class="form-control" value="{{ $obj->estado }}"  name="estado" id="estado" maxlength="100">
+                            <input type="text" class="form-control" value="{{ $obj->estado }}"  name="estado" id="estado" maxlength="50">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="cidade">Cidade:</label>
-                            <input type="text" class="form-control" value="{{ $obj->cidade }}"  name="cidade" id="cidade" maxlength="100">
+                            <input type="text" class="form-control" value="{{ $obj->cidade }}"  name="cidade" id="cidade" maxlength="150">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -94,10 +87,6 @@
                     <button id="btn-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
-                    <br>
-                    <div class="clearfix"></div>
-                    <br>
-                    <div id="div-resultado"></div>
                 </div>
             </div>
         </div>
