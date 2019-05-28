@@ -23,7 +23,7 @@ class FornecedorController extends Controller
         $obj = Fornecedor::find($id);
 
         if(!empty($obj)) {
-            return view($this->viewName.'.atualizar', compact(['obj' => $obj]));
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
         Session::flash('message', "Fornecedor não foi encontrado");

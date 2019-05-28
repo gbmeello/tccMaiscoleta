@@ -15,7 +15,7 @@ class Municipio extends Model
 
     public $timestamps = false;
 
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 

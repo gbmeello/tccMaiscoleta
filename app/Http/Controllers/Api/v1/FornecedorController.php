@@ -8,27 +8,7 @@ use App\Http\Requests\FornecedorRequest;
 
 class FornecedorController extends ApiController
 {
-    public function store(FornecedorRequest $request)
-    {
-        $validate = $request->validated();
-
-        $model = new Fornecedor();
-        $success = $model->fill($validate)->save();
-
-        if($success) {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
-        }
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
             'pk_fornecedor',
@@ -37,8 +17,6 @@ class FornecedorController extends ApiController
             'email',
             'telefone1',
             'telefone2',
-            'cidade',
-            'estado',
             'cep',
             'bairro',
             'rua',
@@ -70,39 +48,47 @@ class FornecedorController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $model =  Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
-                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
-                ->orWhere('razao_social', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('telefone1', 'LIKE',"%{$search}%")
-                ->orWhere('telefone2', 'LIKE',"%{$search}%")
-                ->orWhere('cidade', 'LIKE',"%{$search}%")
-                ->orWhere('estado', 'LIKE',"%{$search}%")
-                ->orWhere('cep', 'LIKE',"%{$search}%")
-                ->orWhere('bairro', 'LIKE',"%{$search}%")
-                ->orWhere('rua', 'LIKE',"%{$search}%")
-                ->orWhere('logradouro', 'LIKE',"%{$search}%")
-                ->orWhere('complemento', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+            $model = Fornecedor::from('fornecedor as f')
+                ->select('f.*')
+                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
+                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('f.nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('e.nome', 'LIKE',"%{$search}%")
+                ->orWhere('m.nome', 'LIKE',"%{$search}%")
+                ->orWhere('f.razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('f.email', 'LIKE',"%{$search}%")
+                ->orWhere('f.telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('f.telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('f.cep', 'LIKE',"%{$search}%")
+                ->orWhere('f.bairro', 'LIKE',"%{$search}%")
+                ->orWhere('f.rua', 'LIKE',"%{$search}%")
+                ->orWhere('f.logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('f.complemento', 'LIKE',"%{$search}%")
+                ->orWhere('f.ativo', 'LIKE',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = Fornecedor::where('pk_fornecedor', 'LIKE', "%{$search}%")
-                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
-                ->orWhere('razao_social', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('telefone1', 'LIKE',"%{$search}%")
-                ->orWhere('telefone2', 'LIKE',"%{$search}%")
-                ->orWhere('cidade', 'LIKE',"%{$search}%")
-                ->orWhere('estado', 'LIKE',"%{$search}%")
-                ->orWhere('cep', 'LIKE',"%{$search}%")
-                ->orWhere('bairro', 'LIKE',"%{$search}%")
-                ->orWhere('rua', 'LIKE',"%{$search}%")
-                ->orWhere('logradouro', 'LIKE',"%{$search}%")
-                ->orWhere('complemento', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+            $totalFiltered = Fornecedor::from('fornecedor as f')
+                ->select('f.*')
+                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
+                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('f.nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('e.nome', 'LIKE',"%{$search}%")
+                ->orWhere('m.nome', 'LIKE',"%{$search}%")
+                ->orWhere('f.razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('f.email', 'LIKE',"%{$search}%")
+                ->orWhere('f.telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('f.telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('f.cep', 'LIKE',"%{$search}%")
+                ->orWhere('f.bairro', 'LIKE',"%{$search}%")
+                ->orWhere('f.rua', 'LIKE',"%{$search}%")
+                ->orWhere('f.logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('f.complemento', 'LIKE',"%{$search}%")
+                ->orWhere('f.ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
 
@@ -111,14 +97,16 @@ class FornecedorController extends ApiController
         {
             foreach ($model as $obj)
             {
+                $municipio = $obj->municipio()->first();
+
                 $nestedData['id']               = $obj->pk_fornecedor;
+                $nestedData['estado']           = $municipio->estado()->first()->nome;
+                $nestedData['municipio']        = $municipio->nome;
                 $nestedData['nome_fantasia']    = $obj->nome_fantasia;
                 $nestedData['razao_social']     = $obj->razao_social;
                 $nestedData['email']            = $obj->email;
                 $nestedData['telefone1']        = $obj->telefone1;
                 $nestedData['telefone2']        = $obj->telefone2;
-                $nestedData['cidade']           = $obj->cidade;
-                $nestedData['estado']           = $obj->estado;
                 $nestedData['cep']              = $obj->cep;
                 $nestedData['bairro']           = $obj->bairro;
                 $nestedData['rua']              = $obj->rua;
@@ -136,8 +124,31 @@ class FornecedorController extends ApiController
             "data"            => $data
         ];
 
-        echo json_encode($json_data);
+        return response()->json([
+            'success' => false,
+            $json_data
+        ]);
     }
+
+    public function store(FornecedorRequest $request)
+    {
+        $validate = $request->validated();
+
+        $model = new Fornecedor();
+        $success = $model->fill($validate)->save();
+
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ]);
+        }
+    }    
 
     public function update(FornecedorRequest $request, $id)
     {
@@ -165,7 +176,7 @@ class FornecedorController extends ApiController
     }
 
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = Fornecedor::find($id);
         if(empty($model)) {

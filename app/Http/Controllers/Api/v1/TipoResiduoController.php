@@ -4,33 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\TipoResiduo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TipoResiduoRequest;
 
 class TipoResiduoController extends ApiController
 {
-    public function store(TipoResiduoRequest $request)
-    {
-        $validate = $request->validated();
-
-        $model = new TipoResiduo();
-        $success = $model->fill($validate)->save();
-
-        if($success) {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ], ApiController::HTTP_STATUS_BAD_REQUEST);
-        }
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
            'pk_tipo_residuo',
@@ -101,6 +79,26 @@ class TipoResiduoController extends ApiController
         echo json_encode($json_data);
     }
 
+    public function store(TipoResiduoRequest $request)
+    {
+        $validate = $request->validated();
+
+        $model = new TipoResiduo();
+        $success = $model->fill($validate)->save();
+
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
+        }
+    }
+
     public function update(TipoResiduoRequest $request, $id)
     {
         $model = TipoResiduo::find($id);
@@ -126,7 +124,7 @@ class TipoResiduoController extends ApiController
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = TipoResiduo::find($id);
         if(empty($model)) {

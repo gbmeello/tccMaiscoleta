@@ -1,87 +1,95 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: marci
- * Date: 13/04/2019
- * Time: 18:16
- */
-
 
 Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
+    Route::prefix('estado')->group(function() {
+
+        Route::get('/listar', 'EstadoController@index')->name('api.estado.listar');
+
+        Route::get('/exibir/{id}', 'EstadoController@show')->name('api.estado.exibir');
+
+    });
+
+    Route::prefix('municipio')->group(function() {
+
+        Route::get('/listar', 'MunicipioController@index')->name('api.municipio.listar');
+
+        Route::get('/exibir/{id}', 'MunicipioController@show')->name('api.municipio.exibir');
+
+        Route::get('/listar-por-estado/{id}', 'MunicipioController@getByEstado')->name('api.municipio.listarPorEstado');
+
+    });
+
     Route::prefix('veiculo')->group(function() {
 
-        Route::get('/listar', 'VeiculoController@list')->name('api.veiculo.list');
+        Route::get('/listar', 'VeiculoController@index')->name('api.veiculo.listar');
 
-        Route::post('/cadastrar', 'VeiculoController@store')->name('api.veiculo.store');
+        Route::get('/exibir/{id}', 'VeiculoController@show')->name('api.municipio.exibir');
 
-        Route::put('/editar/{id}', 'VeiculoController@update')->name('api.veiculo.update');
+        Route::post('/cadastrar', 'VeiculoController@store')->name('api.veiculo.cadastrar');
 
-        Route::delete('/deletar/{id}', 'VeiculoController@delete')->name('api.veiculo.delete');
+        Route::put('/editar/{id}', 'VeiculoController@update')->name('api.veiculo.editar');
+
+        Route::delete('/deletar/{id}', 'VeiculoController@destroy')->name('api.veiculo.deletar');
 
     });
 
     Route::prefix('tipo-residuo')->group(function() {
 
-        Route::get('/listar', 'TipoResiduoController@list')->name('api.tipo_residuo.list');
+        Route::get('/listar', 'TipoResiduoController@index')->name('api.tipo_residuo.listar');
 
-        Route::post('/cadastrar', 'TipoResiduoController@store')->name('api.tipo_residuo.store');
+        Route::get('/exibir/{id}', 'TipoResiduoController@show')->name('api.municipio.exibir');
 
-        Route::put('/editar/{id}', 'TipoResiduoController@update')->name('api.tipo_residuo.update');
+        Route::post('/cadastrar', 'TipoResiduoController@store')->name('api.tipo_residuo.cadastrar');
 
-        Route::delete('/deletar/{id}', 'TipoResiduoController@delete')->name('api.tipo_residuo.delete');
+        Route::put('/editar/{id}', 'TipoResiduoController@update')->name('api.tipo_residuo.editar');
+
+        Route::delete('/deletar/{id}', 'TipoResiduoController@destroy')->name('api.tipo_residuo.deletar');
 
     });
 
 
     Route::prefix('coleta')->group(function() {
 
-        Route::get('/listar', 'ColetaController@list')->name('api.coleta.list');
+        Route::get('/listar', 'ColetaController@index')->name('api.coleta.listar');
 
-        Route::post('/cadastrar', 'ColetaController@store')->name('api.coleta.store');
+        Route::get('/exibir/{id}', 'ColetaController@show')->name('api.municipio.exibir');
 
-        Route::put('/editar/{id}', 'ColetaController@update')->name('api.coleta.update');
+        Route::post('/cadastrar', 'ColetaController@store')->name('api.coleta.cadastrar');
 
-        Route::delete('/deletar/{id}', 'ColetaController@delete')->name('api.coleta.delete');
+        Route::put('/editar/{id}', 'ColetaController@update')->name('api.coleta.editar');
+
+        Route::delete('/deletar/{id}', 'ColetaController@destroy')->name('api.coleta.deletar');
 
     });
 
 
     Route::prefix('fornecedor')->group(function() {
 
-        Route::get('/listar', 'FornecedorController@list')->name('api.fornecedor.list');
+        Route::get('/listar', 'FornecedorController@index')->name('api.fornecedor.listar');
 
-        Route::post('/cadastrar', 'FornecedorController@store')->name('api.fornecedor.store');
+        Route::get('/exibir/{id}', 'FornecedorController@show')->name('api.municipio.exibir');
 
-        Route::put('/editar/{id}', 'FornecedorController@update')->name('api.fornecedor.update');
+        Route::post('/cadastrar', 'FornecedorController@store')->name('api.fornecedor.cadastrar');
 
-        Route::delete('/deletar/{id}', 'FornecedorController@delete')->name('api.fornecedor.delete');
+        Route::put('/editar/{id}', 'FornecedorController@update')->name('api.fornecedor.editar');
+
+        Route::delete('/deletar/{id}', 'FornecedorController@destroy')->name('api.fornecedor.deletar');
 
     });
 
 
     Route::prefix('cliente-final')->group(function() {
 
-        Route::get('/listar', 'ClienteFinalController@list')->name('api.clienteFinal.list');
+        Route::get('/listar', 'ClienteFinalController@index')->name('api.cliente.listar');
 
-        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.clienteFinal.store');
+        Route::get('/exibir/{id}', 'ClienteFinalController@show')->name('api.municipio.exibir');
 
-        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.clienteFinal.update');
+        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.cliente.cadastrar');
 
-        Route::delete('/deletar/{id}', 'ClienteFinalController@delete')->name('api.clienteFinal.delete');
+        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.cliente.editar');
 
-    });
-
-
-    Route::prefix('cliente')->group(function() {
-
-        Route::get('/listar', 'ClienteFinalController@list')->name('api.cliente.list');
-
-        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.cliente.store');
-
-        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.cliente.update');
-
-        Route::delete('/deletar/{id}', 'ClienteFinalController@delete')->name('api.cliente.delete');
+        Route::delete('/deletar/{id}', 'ClienteFinalController@destroy')->name('api.cliente.deletar');
 
     });
 

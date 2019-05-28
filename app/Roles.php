@@ -12,6 +12,9 @@ class Roles extends Model
         'nome', 'descricao', 'grupo'
     ];
 
+    protected $hidden = [
+        'data_criacao', 'data_atualizacao'
+    ];
 
     public $timestamps = false;
 

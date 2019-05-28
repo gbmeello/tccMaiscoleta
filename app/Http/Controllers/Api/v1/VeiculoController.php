@@ -4,34 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Veiculo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\VeiculoRequest;
 
 class VeiculoController extends ApiController
 {
-    public function store(VeiculoRequest $request)
-    {
-        $validate = $request->validated();
-
-        $model = new ClienteFinal();
-        $success = $model->fill($validate)->save();
-
-        if($success) {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ], ApiController::HTTP_STATUS_BAD_REQUEST);
-        }
-    }
-
-
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
             'pk_veiculo',
@@ -105,6 +82,26 @@ class VeiculoController extends ApiController
         echo json_encode($json_data);
     }
 
+    public function store(VeiculoRequest $request)
+    {
+        $validate = $request->validated();
+
+        $model = new ClienteFinal();
+        $success = $model->fill($validate)->save();
+
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
+        }
+    }
+
     public function update(VeiculoRequest $request, $id)
     {
         $model = Veiculo::find($id);
@@ -130,7 +127,7 @@ class VeiculoController extends ApiController
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = Veiculo::find($id);
         if(empty($model)) {

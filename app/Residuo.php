@@ -11,7 +11,7 @@ class Residuo extends Model
     protected $fillable = [
         'nome', 'descricao', 'ativo'
     ];
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 
@@ -19,5 +19,9 @@ class Residuo extends Model
 
     public function tipoResiduo() {
         return $this->belongsTo(TipoResiduo::class, 'pk_tipo_residuo', 'fk_tipo_residuo');
+    }
+
+    public function triagens() {
+        $this->hasMany(Triagem::class, 'fk_residuo');
     }
 }

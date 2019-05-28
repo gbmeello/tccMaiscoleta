@@ -35,7 +35,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function() {
@@ -50,7 +49,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/api/v1/tipo-residuoju/cadastrar',
+                url: '/api/v1/tipo-residuo/cadastrar',
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
@@ -61,10 +60,10 @@
                 },
                 success: function(data) {
 
-                    if(data.hasSuccess) {
-                        $('#div-resultado').html(showMessage('success', data.message));
+                    if(data.success) {
+                        $('#div-resultado').html(Helper.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(showValidationErrors(data.message));
+                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
                     }
 
                 },

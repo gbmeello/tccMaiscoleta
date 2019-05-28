@@ -28,7 +28,7 @@ class CreateFornecedorTable extends Migration
             $table->string('email', 100)->comment('Email do fornecedor');
             $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do fornecedor');
             $table->char('telefone2', 15)->nullable()->comment('Telefone 2 do fornecedor');
-            $table->char('cep', 8)->nullable()->comment('CEP de onde o fornecedor reside');
+            $table->char('cep', 9)->nullable()->comment('CEP de onde o fornecedor reside');
             $table->string('bairro', 150)->nullable()->comment('Bairro de onde o fornecedor reside');
             $table->string('rua', 150)->nullable()->comment('Rua de onde o fornecedor reside');
             $table->string('logradouro', 200)->nullable()->comment('Logradouro de onde o fornecedor reside');

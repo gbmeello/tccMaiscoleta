@@ -93,7 +93,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function() {
@@ -119,10 +118,10 @@
                 },
                 success: function(data) {
 
-                    if(data.hasSuccess) {
-                        $('#div-resultado').html(showMessage('success', data.message));
+                    if(data.success) {
+                        $('#div-resultado').html(Helper.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(showValidationErrors(data.message));
+                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
                     }
 
                 },

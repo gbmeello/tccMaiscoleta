@@ -13,7 +13,7 @@ class Rota extends Model
         'pk_rota', 'nome', 'observacao', 'ativo'
     ];
 
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 

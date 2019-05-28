@@ -9,26 +9,22 @@ class Fornecedor extends Model
     protected $primaryKey = "pk_fornecedor";
     protected $table = "fornecedor";
     protected $fillable = [
-        'fk_estado', 'fk_municipio', 'nome_fantasia', 'razao_social', 'email',
+        'fk_municipio', 'nome_fantasia', 'razao_social', 'email',
         'telefone1', 'telefone2', 'cep', 'bairro', 'rua', 'logradouro', 'complemento', 'ativo'
     ];
 
     public $timestamps = false;
 
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 
-    public function coleta() {
-        $this->belongsTo(Coleta::class, 'pk_coleta');
+    public function coletas() {
+        $this->hasMany(Coleta::class, 'fk_fornecedor');
     }
 
     public function municipio() {
         return $this->belongsTo(Municipio::class, 'fk_municipio', 'pk_municipio');
-    }
-
-    public function estado() {
-        return $this->belongsTo(Estado::class, 'fk_estado', 'pk_estado');
     }
 
 }

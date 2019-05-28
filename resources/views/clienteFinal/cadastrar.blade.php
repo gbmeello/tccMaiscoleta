@@ -41,19 +41,26 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="estado">Estado:</label>
-                            <input type="text" class="form-control" name="estado" id="estado" maxlength="100">
+                            <select id="slt_estado" class="form-control" name="slt_estado">
+                                <option value="">Selecione o estado...</option>
+                                @foreach ($estados as $estado)
+                                    <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Cidade:</label>
-                            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="200">
+                            <label class="control-label" for="slt_municipio">Município:</label>
+                            <select id="slt_municipio" class="form-control" name="slt_municipio">
+                                <option value="">...</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="cep">Cep:</label>
-                            <input type="text" class="form-control" name="cep" id="cep" maxlength="8">
+                            <input type="text" class="form-control" name="cep" id="cep" maxlength="9">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -85,10 +92,6 @@
                     <button id="btn-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
-                    <br>
-                    <div class="clearfix"></div>
-                    <br>
-                    <div id="div-resultado"></div>
                 </div>
             </div>
         </div>
@@ -97,14 +100,33 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function() {
+
+            initValidation();
+
+            $sltEstado = $('#slt_estado').select2();
+
+            $sltEstado.change(function() {
+                Helper.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+            });
+
+            $sltMunicipio = $('#slt_municipio');
+            $sltMunicipio.select2();
+
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
+
+        function initValidation() {
+
+            $('#telefone1').inputmask('(99) 999999999');  //static mask
+            $('#telefone2').inputmask('(99) 999999999');  //static mask
+            $('#cep').inputmask('99999-999');  //static mask
+
+        }
 
         function cadastrar() {
 
@@ -124,9 +146,9 @@
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(showMessage('success', data.message));
+                        $('#div-resultado').html(Helper.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(showValidationErrors(data.message));
+                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
                     }
 
                 },

@@ -11,13 +11,13 @@ class TipoResiduo extends Model
     protected $fillable = [
         'nome', 'descricao', 'ativo'
     ];
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 
     public $timestamps = false;
 
     public function residuos() {
-        return $this->hasMany(Residuo::class, 'pk_residuo');
+        return $this->hasMany(Residuo::class, 'fk_residuo');
     }
 }

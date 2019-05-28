@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\TipoResiduo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class TipoResiduoController extends Controller
@@ -13,26 +12,28 @@ class TipoResiduoController extends Controller
     const PERM_TIPO_RESIDUO_LISTAR = 'tipo_residuo_listar';
     const PERM_TIPO_RESIDUO_REMOVER = 'tipo_residuo_remover';
 
+    private $viewName = 'tipoResiduo';
+
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = TipoResiduo::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
         Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        return redirect($this->viewName.'/index')->send();
     }
 
     public function delete($id)
@@ -40,10 +41,10 @@ class TipoResiduoController extends Controller
         $tipoResiduo = TipoResiduo::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
         }
 
         Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        return redirect($this->viewName.'/index')->send();
     }
 }

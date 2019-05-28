@@ -11,7 +11,12 @@ class Veiculo extends Model
     protected $fillable = [
         'modelo', 'observacao', 'placa', 'ativo'
     ];
-    protected $guarded = [
+
+    protected $maps = [
+        'pk_veiculo' => 'id'
+    ];
+
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 

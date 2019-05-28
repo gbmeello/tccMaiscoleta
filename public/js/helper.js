@@ -53,68 +53,94 @@ var configDatatable = {
     },
 };
 
-var divMessage = function(alertClass, titulo, mensagem, icone) {
 
-    return `<div class="alert alert-${alertClass} alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
-                ${mensagem}
-              </div>`;
-};
+class Helper {
 
+    static divMessage(alertClass, titulo, mensagem, icone) {
 
-var showMessage = function(tipo, mensagem, titulo = '') {
+        return `<div class="alert alert-${alertClass} alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
+                    ${mensagem}
+                  </div>`;
+    };
 
-    let icone = '',
-        alertClass = '';
+    static showMessage(tipo, mensagem, titulo = '') {
 
-    switch (tipo) {
-        case 'success':
-            icone = 'check';
-            titulo = (titulo == '' ? 'Sucesso!' : '');
-            alertClass = 'success';
-            break;
-        case 'danger':
-            icone = 'exclamation';
-            titulo = (titulo == '' ? 'Falha!' : '');
-            alertClass = 'danger';
-            break;
-        case 'warning':
-            icone = 'exclamation-triangle';
-            titulo = (titulo == '' ? 'Cuidado!' : '');
-            alertClass = 'warning';
-            break;
-        case 'info':
-            icone = 'exclamation-circle';
-            titulo = (titulo == '' ? 'Info!' : '');
-            alertClass = 'info';
-            break;
+        let icone = '',
+            alertClass = '';
+
+        switch (tipo) {
+            case 'success':
+                icone = 'check';
+                titulo = (titulo == '' ? 'Sucesso!' : '');
+                alertClass = 'success';
+                break;
+            case 'danger':
+                icone = 'exclamation';
+                titulo = (titulo == '' ? 'Falha!' : '');
+                alertClass = 'danger';
+                break;
+            case 'warning':
+                icone = 'exclamation-triangle';
+                titulo = (titulo == '' ? 'Cuidado!' : '');
+                alertClass = 'warning';
+                break;
+            case 'info':
+                icone = 'exclamation-circle';
+                titulo = (titulo == '' ? 'Info!' : '');
+                alertClass = 'info';
+                break;
+        }
+
+        return `<div class="alert alert-${alertClass} alert-dismissible">
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                     <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
+                     ${mensagem}
+                 </div>`;
+    };
+
+    static showValidationErrors(arrayError) {
+        let errorMessage = '<ul>';
+        $.each(arrayError, function(i, value) {
+            if(value !== null)
+                errorMessage += `<li>${value}</li>`;
+        });
+        return errorMessage = '</ul>';
     }
 
-    return `<div class="alert alert-${alertClass} alert-dismissible">
-                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                 <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
-                 ${mensagem}
-             </div>`;
-};
+    static loadSelectMunicipios(target, idEstado) {
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/municipio/listar-por-estado/'+idEstado,
+            dataType: 'json',
+            beforeSend: function() {
+                console.log('antes de enviar');
+            },
+            complete: function() {
+                console.log('completo');
+            },
+            success: function(response) {
 
+                let $target = $(target);
 
-var errorMessage = null;
-var showValidationErrors = function(arrayError) {
-    errorMessage = '';
-    errorMessage += '<ul>';
-    getMessageRecursive(arrayError);
-    errorMessage += '</ul>';
-    return divMessage('danger', 'Erro na validação', errorMessage, 'exclamation-triangle');
-};
+                if(response.success) {
+                    $target.empty().trigger('change');
+                    $.each(response.data, function(index, municipio) {
+                        $target.append(`<option value="${municipio.pk_municipio}">${municipio.nome}</option>`);
+                    });
+                    $target.trigger('change');
 
-var getMessageRecursive = function(arrayError) {
-    console.log(arrayError);
-    $.each(arrayError, function(i, value) {
-        if(Array.isArray(value)) {
-            getMessageRecursive(value);
-        } else {
-            errorMessage += `<li>${value}</li>`;
-        }
-    });
-};
+                } else {
+                    console.error('error');
+                }
+
+            },
+            error: function(xhr) { // if error occured
+                console.log(xhr);
+                console.error('error');
+            }
+        });
+    }
+
+}

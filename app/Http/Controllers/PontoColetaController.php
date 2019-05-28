@@ -21,7 +21,7 @@ class PontoColetaController extends Controller
         $tipoResiduo = TipoResiduo::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('pontoColeta.atualizar', compact(['pontoColeta' => $tipoResiduo]));
+            return view('pontoColeta.editar', compact(['pontoColeta' => $tipoResiduo]));
         }
 
         Session::flash('message', "pontoColeta não foi encontrado");

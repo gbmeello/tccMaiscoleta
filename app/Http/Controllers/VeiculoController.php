@@ -14,11 +14,6 @@ class VeiculoController extends Controller
         return view('veiculo.index');
     }
 
-    public function list()
-    {
-        return view('veiculo.index');
-    }
-
     public function create()
     {
         return view('veiculo.cadastrar');
@@ -29,7 +24,7 @@ class VeiculoController extends Controller
         $obj = Veiculo::find($id);
 
         if(!empty($obj)) {
-            return view('veiculo.atualizar', compact(['obj' => $obj]));
+            return view('veiculo.editar', compact(['obj' => $obj]));
         }
 
         Session::flash('message', "Veículo não foi encontrado");

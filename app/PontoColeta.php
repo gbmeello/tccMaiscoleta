@@ -11,6 +11,9 @@ class PontoColeta extends Model
     protected $fillable = [
         'nome', 'latitude', 'longitude', 'descricao', 'ativo'
     ];
+    protected $hidden = [
+        'data_criacao', 'data_atualizacao'
+    ];
 
     public $timestamps = false;
 

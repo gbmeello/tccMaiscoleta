@@ -11,15 +11,14 @@ class Estado extends Model
     protected $fillable = [
         'nome', 'sigla', 'cod_ibge', 'slug', 'populacao'
     ];
-
-    public $timestamps = false;
-
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 
+    public $timestamps = false;
+
     public function municipios() {
-        return $this->hasMany(Municipio::class, 'pk_municipio');
+        return $this->hasMany(Municipio::class, 'fk_estado');
     }
 
 }

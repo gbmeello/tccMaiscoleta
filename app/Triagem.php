@@ -13,7 +13,7 @@ class Triagem extends Model
         'data_triagem', 'data_venda', 'observacao', 'ativo'
     ];
 
-    protected $guarded = [
+    protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
 
@@ -24,10 +24,10 @@ class Triagem extends Model
     }
 
     public function clienteFinal() {
-        $this->belongsTo(ClienteFinal::class, 'pk_cliente_final', 'fk_cliente_final');
+        $this->belongsTo(ClienteFinal::class, 'fk_cliente_final', 'pk_cliente_final');
     }
 
     public function residuo() {
-        $this->belongsTo(Residuo::class, 'pk_residuo', 'fk_residuo');
+        $this->belongsTo(Residuo::class, 'fk_residuo', 'pk_residuo');
     }
 }

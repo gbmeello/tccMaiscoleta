@@ -53,6 +53,8 @@
 
         <!-- jQuery 3 -->
         <script src="{{ asset('AdminLTE/bower_components/jquery/dist/jquery.min.js') }}"></script>
+
+        <script src="{{ asset('AdminLTE/bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="{{ asset('AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <!-- FastClick -->
@@ -74,9 +76,10 @@
         <script src="{{ asset('AdminLTE/bower_components/PACE/pace.min.js') }}"></script>
 
         <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/select2.min.js') }}"></script>
-        <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/i18n/pt-BR.min.js') }}"></script>
+        <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/i18n/pt-BR.js') }}"></script>
 
-        <script src="{{ asset('AdminLTE/bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
+        <script src="{{ asset('/js/helper.js') }}"></script>
+
         @yield('scripts')
     </body>
 

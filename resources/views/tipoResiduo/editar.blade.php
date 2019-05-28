@@ -5,24 +5,25 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Tipo de res&iacute;duos</h3>
+                    <h3 class="box-title">Editar Tipo de res&iacute;duos - {{$obj->nome}}</h3>
                 </div>
-                <div class="box-body">
+                <form id="form-tipo-residuo" role="form" class="box-body">
+                    <input name="pk_tipo_residuo" id="pk_tipo_residuo" hidden value="{{$obj->pk_tipo_residuo}}">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label  class="control-label" for="txt-tipo-residuo-nome">Nome</label>
-                            <input type="text" class="form-control" id="tipo-residuo-nome" placeholder="Digite o nome do tipo de residuo" maxlength="100">
+                            <label  class="control-label" for="nome">Nome</label>
+                            <input type="text" class="form-control" value="{{$obj->nome}}" id="nome" name="nome" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label  class="control-label" for="tipo-residuo-nome">Descrição</label>
-                            <textarea rows="4" id="txt-tipo-residuo-descricao" class="form-control" placeholder="Digite a descrição do tipo de resíduo" maxlength="600"></textarea>
+                            <label  class="control-label" for="descricao">Descrição</label>
+                            <textarea rows="4" id="descricao" name="descricao" class="form-control" maxlength="600">{{$obj->descricao}}</textarea>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="box-footer">
-                    <button id="btn-tipo-residuo-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -35,19 +36,19 @@
 
     <script>
 
-        f$(document).ready(function() {
+        $(document).ready(function() {
             $('#btn-salvar').unbind('click').click(function() {
-                cadastrar();
+                editar();
             });
         });
 
-        function cadastrar() {
+        function editar() {
 
-            let data = $('#form-veiculo').serialize();
+            let data = $('#form-tipo-residuo').serialize();
 
             $.ajax({
-                type: 'POST',
-                url: '/api/v1/veiculo/cadastrar',
+                type: 'PUT',
+                url: '/api/v1/tipo-residuo/editar/' + {{$obj->pk_tipo_residuo}},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {

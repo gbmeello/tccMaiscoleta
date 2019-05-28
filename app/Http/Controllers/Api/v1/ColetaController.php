@@ -28,7 +28,7 @@ class ColetaController extends ApiController
             $mensagens = $validator->errors()->messages();
 
             return response()->json([
-                'hasSuccess' => false,
+                'success' => false,
                 'message' => $mensagens
             ]);
         }
@@ -36,16 +36,16 @@ class ColetaController extends ApiController
         $tipoResiduo = new TipoResiduo();
         $tipoResiduo->nome = $request->get('nome');
         $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $success = $tipoResiduo->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Cadastro realizado com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ]);
         }
@@ -133,7 +133,7 @@ class ColetaController extends ApiController
             $mensagens = $validator->errors()->messages();
 
             return response()->json([
-                'hasSuccess' => false,
+                'success' => false,
                 'message' => $mensagens
             ]);
         }
@@ -141,22 +141,22 @@ class ColetaController extends ApiController
         $tipoResiduo = new TipoResiduo();
         $tipoResiduo->nome = $request->get('nome');
         $tipoResiduo->descricao = $request->get('descricao');
-        $hasSuccess = $tipoResiduo->save();
+        $success = $tipoResiduo->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
             ]);
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = TipoResiduo::find($id);
         if(empty($model)) {
@@ -165,16 +165,16 @@ class ColetaController extends ApiController
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ]);
         }

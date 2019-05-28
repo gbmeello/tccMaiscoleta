@@ -56,7 +56,6 @@
                 { "data": "descricao" },
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
-console.log(row);
                         if(data == true) {
                             html = '<small class="label pull-right bg-green">Ativo</small>';
                         }
@@ -66,10 +65,10 @@ console.log(row);
                 { "data": null , width: "100px", render: function(data, type, row) {
                         let html = '';
                         html += `
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                                    </div>`;
+                            <div class="btn-group" role="group" aria-label="...">
+                                <a href="/tipo-residuo/editar/${data.id}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                            </div>`;
                         return html;
                     },
                     "targets": -1,

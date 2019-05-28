@@ -29,7 +29,7 @@ class CreateClienteFinalTable extends Migration
             $table->string('email', 100)->comment('Email do cliente final');
             $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do cliente final');
             $table->char('telefone2', 15)->nullable()->comment('Telefone 2 do cliente final');
-            $table->char('cep', 8)->nullable()->comment('CEP de onde o cliente final reside');
+            $table->char('cep', 9)->nullable()->comment('CEP de onde o cliente final reside');
             $table->string('bairro', 150)->nullable()->comment('Bairro de onde o cliente final reside');
             $table->string('rua', 150)->nullable()->comment('Rua de onde o cliente final reside');
             $table->string('logradouro', 200)->nullable()->comment('Logradouro de onde o cliente final reside');

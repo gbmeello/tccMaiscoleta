@@ -22,7 +22,7 @@ class UsuarioController extends Controller
         $tipoResiduo = TipoResiduo::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view('tipoResiduo.editar', compact(['tipoResiduo' => $tipoResiduo]));
         }
 
         Session::flash('message', "Tipo de Resíduo não foi encontrado");

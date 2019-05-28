@@ -10,38 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RotaController extends ApiController
 {
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'observacao' => 'required|max:500'
-        ]);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'hasSuccess' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $hasSuccess = Rota::create($request->all());
-
-        if($hasSuccess) {
-            return response()->json([
-                'hasSuccess' => $hasSuccess,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'hasSuccess' => $hasSuccess,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
-        }
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
             0 => 'pk_tipo_residuo',
@@ -111,12 +80,43 @@ class RotaController extends ApiController
         echo json_encode($json_data);
     }
 
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nome' => 'required|max:100',
+            'observacao' => 'required|max:500'
+        ]);
+
+        if ($validator->fails()) {
+            $mensagens = $validator->errors()->messages();
+
+            return response()->json([
+                'success' => false,
+                'message' => $mensagens
+            ]);
+        }
+
+        $success = Rota::create($request->all());
+
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ]);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         $model = Rota::find($id);
         if(empty($model)) {
             return response()->json([
-                'hasSuccess' => false,
+                'success' => false,
                 'message' => 'Rota não encontrada'
             ]);
         }
@@ -130,27 +130,27 @@ class RotaController extends ApiController
             $mensagens = $validator->errors()->messages();
 
             return response()->json([
-                'hasSuccess' => false,
+                'success' => false,
                 'message' => $mensagens
             ]);
         }
 
-        $hasSuccess = Rota::create($request->all());
+        $success = Rota::create($request->all());
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Edição realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
             ]);
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = TipoResiduo::find($id);
         if(empty($model)) {
@@ -159,16 +159,16 @@ class RotaController extends ApiController
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ]);
         }

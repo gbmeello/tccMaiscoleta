@@ -37,7 +37,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function() {

@@ -12,6 +12,9 @@ class Permissions extends Model
     protected $fillable = [
         'nome', 'descricao', 'grupo'
     ];
+    protected $hidden = [
+        'data_criacao', 'data_atualizacao'
+    ];
 
     public $timestamps = false;
 

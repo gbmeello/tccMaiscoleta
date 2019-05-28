@@ -43,13 +43,23 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="estado">Estado:</label>
-                            <input type="text" class="form-control" value="{{ $obj->estado }}"  name="estado" id="estado" maxlength="50">
+                            <select id="slt_estado" class="form-control" name="slt_estado">
+                                <option value="">Selecione o estado...</option>
+                                @foreach ($estados as $estado)
+                                    @if ($obj->municipio()->first()->estado()->pk_estado === $estado->pk_estado)
+                                        <option value="{{$estado->pk_estado}}" selected>{{$estado->nome}}</option>
+                                    @else
+                                        <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Cidade:</label>
-                            <input type="text" class="form-control" value="{{ $obj->cidade }}"  name="cidade" id="cidade" maxlength="150">
+                            <label class="control-label" for="slt_municipio">Município:</label>
+                            <select id="slt_municipio" class="form-control" name="slt_municipio">
+                                <option value="">...</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -95,45 +105,65 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
-    <script>
+<script>
 
-        $(document).ready(function() {
-            $('#btn-salvar').unbind('click').click(function() {
-                cadastrar();
-            });
+    $(document).ready(function() {
+
+        initValidation();
+
+        $sltEstado = $('#slt_estado').select2();
+
+        $sltEstado.change(function() {
+            Helper.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
         });
 
-        function cadastrar() {
+        $sltMunicipio = $('#slt_municipio');
+        $sltMunicipio.select2();
 
-            let data = $('#form-cliente-final').serialize();
+        $('#btn-salvar').unbind('click').click(function() {
+            cadastrar();
+        });
+    });
 
-            $.ajax({
-                type: 'PUT',
-                url: '/api/v1/cliente-final/editar/'+{{ $obj->pk_cliente_final }},
-                data: data,
-                dataType: 'json',
-                beforeSend: function() {
-                    console.log('antes de enviar');
-                },
-                complete: function() {
-                    console.log('completo');
-                },
-                success: function(data) {
+    function initValidation() {
 
-                    if(data.hasSuccess) {
-                        $('#div-resultado').html(showMessage('success', data.message));
-                    } else {
-                        $('#div-resultado').html(showValidationErrors(data.message));
-                    }
+        $('#telefone1').inputmask('999999999');  //static mask
+        $('#telefone2').inputmask('999999999');  //static mask
+        $('#cep').inputmask('99999-999');  //static mask
 
-                },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
+    }
+
+    function cadastrar() {
+
+        let data = $('#form-cliente-final').serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/cliente-final/editar/' + {{$obj->pk_cliente_final}},
+            data: data,
+            dataType: 'json',
+            beforeSend: function() {
+                console.log('antes de enviar');
+            },
+            complete: function() {
+                console.log('completo');
+            },
+            success: function(data) {
+
+                if(data.success) {
+                    $('#div-resultado').html(Helper.showMessage('success', data.message));
+                } else {
+                    $('#div-resultado').html(Helper.showValidationErrors(data.message));
                 }
-            });
-        }
 
-    </script>
+            },
+            error: function(xhr) { // if error occured
+                console.log(xhr);
+                console.error('error');
+            }
+        });
+    }
+
+</script>
 
 @endsection

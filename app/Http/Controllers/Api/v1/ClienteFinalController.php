@@ -7,37 +7,16 @@ use App\Http\Requests\ClienteFinalRequest;
 
 class ClienteFinalController extends ApiController
 {
-    public function store(ClienteFinalRequest $request)
-    {
-        $validate = $request->validated();
-
-        $model = new ClienteFinal();
-        $success = $model->fill($validate)->save();
-
-        if($success) {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ], ApiController::HTTP_STATUS_BAD_REQUEST);
-        }
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
             'pk_cliente_final',
+            'fk_municipio',
             'nome_fantasia',
             'razao_social',
             'email',
             'telefone1',
             'telefone2',
-            'cidade',
-            'estado',
             'cep',
             'bairro',
             'rua',
@@ -69,39 +48,47 @@ class ClienteFinalController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $model =  ClienteFinal::where('pk_fornecedor', 'LIKE', "%{$search}%")
-                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
-                ->orWhere('razao_social', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('telefone1', 'LIKE',"%{$search}%")
-                ->orWhere('telefone2', 'LIKE',"%{$search}%")
-                ->orWhere('cidade', 'LIKE',"%{$search}%")
-                ->orWhere('estado', 'LIKE',"%{$search}%")
-                ->orWhere('cep', 'LIKE',"%{$search}%")
-                ->orWhere('bairro', 'LIKE',"%{$search}%")
-                ->orWhere('rua', 'LIKE',"%{$search}%")
-                ->orWhere('logradouro', 'LIKE',"%{$search}%")
-                ->orWhere('complemento', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+            $model = ClienteFinal::from('cliente_final as cf')
+                ->select('cf.*')
+                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
+                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->where('cf.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('e.nome', 'LIKE',"%{$search}%")
+                ->orWhere('m.nome', 'LIKE',"%{$search}%")
+                ->orWhere('cf.razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('cf.email', 'LIKE',"%{$search}%")
+                ->orWhere('cf.telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('cf.telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('cf.cep', 'LIKE',"%{$search}%")
+                ->orWhere('cf.bairro', 'LIKE',"%{$search}%")
+                ->orWhere('cf.rua', 'LIKE',"%{$search}%")
+                ->orWhere('cf.logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('cf.complemento', 'LIKE',"%{$search}%")
+                ->orWhere('cf.ativo', 'LIKE',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = ClienteFinal::where('pk_fornecedor', 'LIKE', "%{$search}%")
-                ->orWhere('nome_fantasia', 'LIKE',"%{$search}%")
-                ->orWhere('razao_social', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('telefone1', 'LIKE',"%{$search}%")
-                ->orWhere('telefone2', 'LIKE',"%{$search}%")
-                ->orWhere('cidade', 'LIKE',"%{$search}%")
-                ->orWhere('estado', 'LIKE',"%{$search}%")
-                ->orWhere('cep', 'LIKE',"%{$search}%")
-                ->orWhere('bairro', 'LIKE',"%{$search}%")
-                ->orWhere('rua', 'LIKE',"%{$search}%")
-                ->orWhere('logradouro', 'LIKE',"%{$search}%")
-                ->orWhere('complemento', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+            $totalFiltered = ClienteFinal::from('cliente_final as cf')
+                ->select('cf.*')
+                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
+                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->where('cf.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
+                ->orWhere('e.nome', 'LIKE',"%{$search}%")
+                ->orWhere('m.nome', 'LIKE',"%{$search}%")
+                ->orWhere('cf.razao_social', 'LIKE',"%{$search}%")
+                ->orWhere('cf.email', 'LIKE',"%{$search}%")
+                ->orWhere('cf.telefone1', 'LIKE',"%{$search}%")
+                ->orWhere('cf.telefone2', 'LIKE',"%{$search}%")
+                ->orWhere('cf.cep', 'LIKE',"%{$search}%")
+                ->orWhere('cf.bairro', 'LIKE',"%{$search}%")
+                ->orWhere('cf.rua', 'LIKE',"%{$search}%")
+                ->orWhere('cf.logradouro', 'LIKE',"%{$search}%")
+                ->orWhere('cf.complemento', 'LIKE',"%{$search}%")
+                ->orWhere('cf.ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
 
@@ -110,14 +97,14 @@ class ClienteFinalController extends ApiController
         {
             foreach ($model as $obj)
             {
-                $nestedData['id']               = $obj->pk_fornecedor;
+                $nestedData['id']               = $obj->pk_cliente_final;
+                $nestedData['estado']           = $obj->municipio()->first()->estado()->nome;
+                $nestedData['municipio']        = $obj->municipio()->first()->nome;
                 $nestedData['nome_fantasia']    = $obj->nome_fantasia;
                 $nestedData['razao_social']     = $obj->razao_social;
                 $nestedData['email']            = $obj->email;
                 $nestedData['telefone1']        = $obj->telefone1;
                 $nestedData['telefone2']        = $obj->telefone2;
-                $nestedData['cidade']           = $obj->cidade;
-                $nestedData['estado']           = $obj->estado;
                 $nestedData['cep']              = $obj->cep;
                 $nestedData['bairro']           = $obj->bairro;
                 $nestedData['rua']              = $obj->rua;
@@ -136,6 +123,26 @@ class ClienteFinalController extends ApiController
         ];
 
         echo json_encode($json_data);
+    }
+
+    public function store(ClienteFinalRequest $request)
+    {
+        $validate = $request->validated();
+
+        $model = new ClienteFinal();
+        $success = $model->fill($validate)->save();
+
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
+        }
     }
 
     public function update(ClienteFinalRequest $request, $id)
@@ -163,7 +170,7 @@ class ClienteFinalController extends ApiController
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $model = ClienteFinal::find($id);
         if(empty($model)) {
@@ -174,16 +181,16 @@ class ClienteFinalController extends ApiController
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
