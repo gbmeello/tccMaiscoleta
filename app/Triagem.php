@@ -27,7 +27,7 @@ class Triagem extends Model
         $this->belongsTo(ClienteFinal::class, 'fk_cliente_final', 'pk_cliente_final');
     }
 
-    public function residuo() {
-        $this->belongsTo(Residuo::class, 'fk_residuo', 'pk_residuo');
+    public function tipoResiduo() {
+        $this->belongsTo(TipoResiduo::class, 'fk_tipo_residuo', 'pk_tipo_residuo');
     }
 }

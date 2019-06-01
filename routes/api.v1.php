@@ -93,4 +93,19 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
     });
 
+
+    Route::prefix('ponto-coleta')->group(function() {
+
+        Route::get('/listar', 'PontoColetaController@index')->name('api.pontoColeta.listar');
+
+        Route::get('/exibir/{id}', 'PontoColetaController@show')->name('api.pontoColeta.exibir');
+
+        Route::post('/cadastrar', 'PontoColetaController@store')->name('api.pontoColeta.cadastrar');
+
+        Route::put('/editar/{id}', 'PontoColetaController@update')->name('api.pontoColeta.editar');
+
+        Route::delete('/deletar/{id}', 'PontoColetaController@destroy')->name('api.pontoColeta.deletar');
+
+    });
+
 });

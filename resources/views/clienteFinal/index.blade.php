@@ -50,7 +50,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
     <script>
 
         $(document).ready(function () {
@@ -67,7 +66,7 @@
                         "data":           null,
                         "defaultContent": ""
                     },
-                    { "data": "id" },
+                    { "data": "pk_cliente_final" },
                     { "data": "nome_fantasia" },
                     { "data": "razao_social" },
                     { "data": "estado" },
@@ -86,7 +85,7 @@
                             html += `
                                     <div class="btn-group" role="group" aria-label="...">
                                         <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                        <button onclick="HelperJs.initializeDeleteDialog('cliente-final', ${html.pk_cliente_final})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                     </div>`;
                             return html;
                         },

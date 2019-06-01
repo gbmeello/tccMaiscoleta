@@ -17,7 +17,7 @@ class TipoResiduo extends Model
 
     public $timestamps = false;
 
-    public function residuos() {
-        return $this->hasMany(Residuo::class, 'fk_residuo');
+    public function triagens() {
+        $this->hasMany(Triagem::class, 'fk_tipo_residuo');
     }
 }

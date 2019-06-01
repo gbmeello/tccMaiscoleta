@@ -109,7 +109,7 @@
             $sltEstado = $('#slt_estado').select2();
 
             $sltEstado.change(function() {
-                Helper.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
             });
 
             $sltMunicipio = $('#slt_municipio');
@@ -146,9 +146,9 @@
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(Helper.showMessage('success', data.message));
+                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
+                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
                     }
 
                 },

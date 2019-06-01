@@ -23,7 +23,7 @@ class CreatePontoColetaTable extends Migration
 
         $schema->create('ponto_coleta', function (Blueprint $table) {
             $table->increments('pk_ponto_coleta')->comment('Chave primária e única da tabela Ponto_Coleta');
-            $table->string('nome', 100)->comment('Nome do ponto de coleta');
+            $table->string('nome', 100)->unique()->comment('Nome do ponto de coleta');
             $table->decimal('latitude', 12, 8)->comment('Latitude do ponto de coleta');
             $table->decimal('longitude', 12, 8)->comment('Longitude do ponto de coleta');;
             $table->string('descricao', 300)->nullable()->comment('Descrição do ponto de coleta');

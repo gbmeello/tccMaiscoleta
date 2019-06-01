@@ -49,10 +49,10 @@ class ClienteFinalController extends ApiController
             $search = $request->input('search.value');
 
             $model = ClienteFinal::from('cliente_final as cf')
-                ->select('cf.*')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
                 ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
-                ->where('cf.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")
                 ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")
                 ->orWhere('m.nome', 'LIKE',"%{$search}%")
@@ -72,10 +72,10 @@ class ClienteFinalController extends ApiController
                 ->get();
 
             $totalFiltered = ClienteFinal::from('cliente_final as cf')
-                ->select('cf.*')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
                 ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
-                ->where('cf.pk_fornecedor', 'LIKE', "%{$search}%")
+                ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")
                 ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")
                 ->orWhere('m.nome', 'LIKE',"%{$search}%")
@@ -97,9 +97,16 @@ class ClienteFinalController extends ApiController
         {
             foreach ($model as $obj)
             {
-                $nestedData['id']               = $obj->pk_cliente_final;
-                $nestedData['estado']           = $obj->municipio()->first()->estado()->nome;
-                $nestedData['municipio']        = $obj->municipio()->first()->nome;
+                $municipio = $obj->municipio()->first();
+
+                if(empty($municipio))
+                    continue;
+
+                $estado = $municipio->estado()->first();
+
+                $nestedData['pk_cliente_final'] = $obj->pk_cliente_final;
+                $nestedData['estado']           = $estado->nome;
+                $nestedData['municipio']        = $municipio->nome;
                 $nestedData['nome_fantasia']    = $obj->nome_fantasia;
                 $nestedData['razao_social']     = $obj->razao_social;
                 $nestedData['email']            = $obj->email;
@@ -143,6 +150,22 @@ class ClienteFinalController extends ApiController
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
+    }
+
+    public function show($id)
+    {
+        $model = ClienteFinal::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cliente Final não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => false,
+            'data' => $model
+        ]);
     }
 
     public function update(ClienteFinalRequest $request, $id)

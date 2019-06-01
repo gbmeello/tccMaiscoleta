@@ -2,70 +2,86 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Rota;
+use App\Fornecedor;
+use App\Http\Requests\PontoColetaRequest;
+use App\PontoColeta;
 use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
-class RotaController extends ApiController
+class PontoColetaController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         $columns = [
-            0 => 'pk_tipo_residuo',
-            1 => 'nome',
-            2 => 'descricao',
-            3 => 'status'
+            'pk_ponto_coleta',
+            'nome',
+            'latitude',
+            'longitude',
+            'ativo'
         ];
 
-        $totalData = TipoResiduo::count();
+        $totalData = PontoColeta::count();
 
         $totalFiltered = $totalData;
 
-        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = $request->input('order.0.dir');
-        $rotas  = null;
+        $model  = null;
         //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
-            $rotas = Rota::offset($start)
+            $model = PontoColeta::offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
-        } else {
+        }
+        else {
             $search = $request->input('search.value');
 
-            $rotas =  Rota::where('pk_rota', 'LIKE', "%{$search}%")
+            $model = PontoColeta::where('pk_ponto_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
-                ->orWhere('observacao', 'LIKE',"%{$search}%")
+                ->orWhere('latitude', 'LIKE',"%{$search}%")
+                ->orWhere('longitude', 'LIKE',"%{$search}%")
+                ->orWhere('descricao', 'LIKE',"%{$search}%")
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
 
-            $totalFiltered = Rota::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+            $totalFiltered = PontoColeta::where('pk_ponto_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
-                ->orWhere('observacao', 'LIKE',"%{$search}%")
+                ->orWhere('latitude', 'LIKE',"%{$search}%")
+                ->orWhere('longitude', 'LIKE',"%{$search}%")
+                ->orWhere('descricao', 'LIKE',"%{$search}%")
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
                 ->count();
         }
 
         $data = [];
-        if(!empty($rotas))
+        if(!empty($model))
         {
-            foreach ($rotas as $rota)
+            foreach ($model as $obj)
             {
-                $nestedData['id']           = $rota->pk_tipo_residuo;
-                $nestedData['nome']         = $rota->nome;
-                $nestedData['observacao']   = $rota->descricao;
-                $nestedData['ativo']        = $rota->status;
+                $nestedData['pk_ponto_coleta']  = $obj->pk_ponto_coleta;
+                $nestedData['nome']             = $obj->nome;
+                $nestedData['latitude']         = $obj->latitude;
+                $nestedData['longitude']        = $obj->longitude;
+                $nestedData['descricao']        = $obj->descricao;
+                $nestedData['ativo']            = $obj->ativo;
                 $data[] = $nestedData;
             }
         }
@@ -80,24 +96,18 @@ class RotaController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param PontoColetaRequest $request
+     * @return Response
+     */
+    public function store(PontoColetaRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'observacao' => 'required|max:500'
-        ]);
+        $validate = $request->validated();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'success' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $model = new Rota();
-        $success = $model->fill($request->toArray())->save();
+        $model = new PontoColeta();
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([
@@ -112,7 +122,13 @@ class RotaController extends ApiController
         }
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param PontoColetaRequest $id
+     * @return Response
+     */
+    public function show(PontoColetaRequest $id)
     {
         $model = Rota::find($id);
         if(empty($model)) {
@@ -122,37 +138,30 @@ class RotaController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        return response()->json([
+        return PontoColeta()->json([
             'success' => false,
             'data' => $model
         ]);
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param PontoColetaRequest $request
+     * @param int $id
+     * @return Response
+     */
+    public function update(PontoColetaRequest $request, $id)
     {
-        $model = Rota::find($id);
+        $model = PontoColeta::find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Rota não encontrada'
-            ]);
+                'message' => 'Ponto de Coleta não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'observacao' => 'required|max:500'
-        ]);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'success' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $success = Rota::create($request->all());
+        $success = $model->fill($request->toArray())->save();
 
         if($success) {
             return response()->json([
@@ -163,16 +172,24 @@ class RotaController extends ApiController
             return response()->json([
                 'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
     public function destroy($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = PontoColeta::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Tipo de Resíduo não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -180,14 +197,14 @@ class RotaController extends ApiController
 
         if($success) {
             return response()->json([
-                'success' => $success,
+                'hasSuccess' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'success' => $success,
+                'hasSuccess' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

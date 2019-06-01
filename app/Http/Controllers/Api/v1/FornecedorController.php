@@ -49,7 +49,7 @@ class FornecedorController extends ApiController
             $search = $request->input('search.value');
 
             $model = Fornecedor::from('fornecedor as f')
-                ->select('f.*')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
                 ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
@@ -72,7 +72,7 @@ class FornecedorController extends ApiController
                 ->get();
 
             $totalFiltered = Fornecedor::from('fornecedor as f')
-                ->select('f.*')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
                 ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
@@ -99,8 +99,13 @@ class FornecedorController extends ApiController
             {
                 $municipio = $obj->municipio()->first();
 
-                $nestedData['id']               = $obj->pk_fornecedor;
-                $nestedData['estado']           = $municipio->estado()->first()->nome;
+                if(empty($municipio))
+                    continue;
+                
+                $estado = $municipio->estado()->first();
+
+                $nestedData['pk_fornecedor']    = $obj->pk_fornecedor;
+                $nestedData['estado']           = $estado->nome;
                 $nestedData['municipio']        = $municipio->nome;
                 $nestedData['nome_fantasia']    = $obj->nome_fantasia;
                 $nestedData['razao_social']     = $obj->razao_social;
@@ -146,7 +151,7 @@ class FornecedorController extends ApiController
             return response()->json([
                 'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }    
 

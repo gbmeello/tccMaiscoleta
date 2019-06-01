@@ -47,7 +47,7 @@
 
 @section('scripts')
 
-    <script src="{{ asset('/js/helper.js') }}"></script>
+    <script src="{{ asset('helperJs.js') }}"></script>
     <script>
 
         $(document).ready(function () {

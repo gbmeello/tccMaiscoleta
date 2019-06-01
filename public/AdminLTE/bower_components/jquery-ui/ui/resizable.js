@@ -889,7 +889,7 @@ $.ui.plugin.add( "resizable", "containment", {
 				that.size.height = that.size.width / that.aspectRatio;
 				continueResize = false;
 			}
-			that.position.left = o.helper ? co.left : 0;
+			that.position.left = o.helperJs ? co.left : 0;
 		}
 
 		if ( cp.top < ( that._helper ? co.top : 0 ) ) {
@@ -956,7 +956,7 @@ $.ui.plugin.add( "resizable", "containment", {
 			co = that.containerOffset,
 			cop = that.containerPosition,
 			ce = that.containerElement,
-			helper = $( that.helper ),
+			helper = $( that.helperJs ),
 			ho = helper.offset(),
 			w = helper.outerWidth() - that.sizeDiff.width,
 			h = helper.outerHeight() - that.sizeDiff.height;
@@ -1049,7 +1049,7 @@ $.ui.plugin.add("resizable", "ghost", {
 			.addClass("ui-resizable-ghost")
 			.addClass(typeof o.ghost === "string" ? o.ghost : "");
 
-		that.ghost.appendTo(that.helper);
+		that.ghost.appendTo(that.helperJs);
 
 	},
 
@@ -1066,8 +1066,8 @@ $.ui.plugin.add("resizable", "ghost", {
 
 	stop: function() {
 		var that = $(this).resizable( "instance" );
-		if (that.ghost && that.helper) {
-			that.helper.get(0).removeChild(that.ghost.get(0));
+		if (that.ghost && that.helperJs) {
+			that.helperJs.get(0).removeChild(that.ghost.get(0));
 		}
 	}
 

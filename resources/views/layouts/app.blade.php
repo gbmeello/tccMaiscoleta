@@ -78,7 +78,9 @@
         <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/i18n/pt-BR.js') }}"></script>
 
-        <script src="{{ asset('/js/helper.js') }}"></script>
+        <script src="{{ asset('AdminLTE/plugins/bootbox-js/bootbox.all.min.js') }}"></script>
+
+        <script src="{{ asset('helperJs.js') }}"></script>
 
         @yield('scripts')
     </body>

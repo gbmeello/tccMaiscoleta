@@ -99,6 +99,22 @@ class TipoResiduoController extends ApiController
         }
     }
 
+    public function show($id)
+    {
+        $model = TipoResiduo::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cliente Final não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => false,
+            'data' => $model
+        ]);
+    }
+
     public function update(TipoResiduoRequest $request, $id)
     {
         $model = TipoResiduo::find($id);

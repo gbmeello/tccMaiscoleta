@@ -10,23 +10,21 @@
                 <form id="form-tipo-residuo" role="form" class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label  class="control-label" for="txt-tipo-residuo-nome">Nome</label>
+                            <label  class="control-label" for="nome">Nome</label>
                             <input type="text" class="form-control" id="nome" name="nome" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label  class="control-label" for="tipo-residuo-nome">Descrição</label>
+                            <label  class="control-label" for="descricao">Descrição</label>
                             <textarea rows="4" id="descricao" name="descricao" class="form-control" maxlength="600"></textarea>
                         </div>
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
                         <i class="fa fa-save"></i> Salvar
                     </button>
-                    <br>
-                    <div id="div-resultado"></div>
                 </div>
             </div>
         </div>
@@ -45,6 +43,7 @@
 
         function cadastrar() {
 
+            let $btnSalvar = $('#btn-salvar');
             let data = $('#form-tipo-residuo').serialize();
 
             $.ajax({
@@ -53,17 +52,17 @@
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
-                    console.log('antes de enviar');
+                    $btnSalvar.button('loading');
                 },
                 complete: function() {
-                    console.log('completo');
+                    $btnSalvar.button('reset');
                 },
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(Helper.showMessage('success', data.message));
+                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
+                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
                     }
 
                 },

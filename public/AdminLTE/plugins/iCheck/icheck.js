@@ -249,7 +249,7 @@
           }
         });
 
-        // Helper events
+        // HelperJs events
         helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function(event) {
           var type = event[_type],
 
@@ -327,7 +327,7 @@
       }
     } else if (!direct || method == 'toggle') {
 
-      // Helper or label was clicked
+      // HelperJs or label was clicked
       if (!direct) {
         input[_callback]('ifClicked');
       }

@@ -216,7 +216,7 @@ $.widget( "ui.droppable", {
 	ui: function( c ) {
 		return {
 			draggable: ( c.currentItem || c.element ),
-			helper: c.helper,
+			helper: c.helperJs,
 			position: c.position,
 			offset: c.positionAbs
 		};

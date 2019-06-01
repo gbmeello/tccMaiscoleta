@@ -5,70 +5,64 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro da Coleta</h3>
+                    <h3 class="box-title">Cadastro de Triagem</h3>
                 </div>
                 <form id="form-triagem" class="box-body">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="slt_veiculo">Fornecedor</label>
-                            <select name="slt_fornecedor" id="slt_fornecedor">
-                                @if(isset($fornecedores) && $fornecedores->exists())
-                                    <option value=""> Selecione o fornecedor... </option>
-                                    @foreach($fornecedores as $fornecedor)
-                                        <option value="{{$fornecedor->pk_fornecedor}}"> {{$fornecedor->nome_fantasia}} </option>
+                            <label class="control-label" for="slt_coleta">Coleta</label>
+                            <select name="slt_coleta" id="slt_coleta">
+                                @if($clientesFinais->exists())
+                                    <option value=""> Selecione a coleta... </option>
+                                    @foreach($coletas as $coleta)
+                                        <option value="{{$coleta->pk_coleta}}"> {{$coleta->nome}} </option>
                                     @endforeach
                                 @else
-                                    <option value=""> Nenhum fornecedor foi cadastrado... </option>
+                                    <option value=""> Nenhum cliente foi cadastrado... </option>
                                 @endif
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="slt_veiculo">Veículo</label>
-                            <select name="slt_veiculo" id="slt_veiculo">
-                                @if(isset($veículos) && $veículos->exists())
+                            <label class="control-label" for="slt_cliente_final">Cliente Final</label>
+                            <select name="slt_cliente_final" id="slt_cliente_final">
+                                @if($clientesFinais->exists())
                                     <option value=""> Selecione o cliente... </option>
-                                    @foreach($veículos as $veículo)
-                                        <option value="{{$veículo->pk_veiculo}}"> {{$veículo->tipo}} | {{$veículo->modelo}} | {{$veículo->placa}}</option>
+                                    @foreach($clientesFinais as $cliente)
+                                        <option value="{{$cliente->pk_cliente_final}}"> {{$cliente->nome_fantasia}} </option>
                                     @endforeach
                                 @else
-                                    <option value=""> Nenhum veículo foi cadastrado... </option>
+                                    <option value=""> Nenhum cliente foi cadastrado... </option>
                                 @endif
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="slt_veiculo">Fornecedor</label>
-                            <select name="slt_fornecedor" id="slt_fornecedor">
-                                @if(isset($fornecedores) && $fornecedores->exists())
-                                    <option value=""> Selecione o fornecedor... </option>
-                                    @foreach($fornecedores as $fornecedor)
-                                        <option value="{{$fornecedor->pk_fornecedor}}"> {{$fornecedor->nome_fantasia}} </option>
+                            <label class="control-label" for="slt_tipo_residuo">Tipo de Res&iacute;duo</label>
+                            <select name="slt_tipo_residuo" id="slt_tipo_residuo">
+                                @if($tipoResiduos->exists())
+                                    <option value=""> Selecione o tipo de res&iacute;duo... </option>
+                                    @foreach($tipoResiduos as $tipoResiduo)
+                                        <option value="{{$tipoResiduo->pk_tipo_residuo}}"> {{$tipoResiduo->nome}} </option>
                                     @endforeach
                                 @else
-                                    <option value=""> Nenhum fornecedor foi cadastrado... </option>
+                                    <option value=""> Nenhum tipo de resíduo foi cadastrado... </option>
                                 @endif
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="telefone1">Data de Coleta:</label>
-                            <input type="date" class="form-control" name="data_coleta" id="data_coleta">
+                            <label class="control-label" for="telefone1">Data de Triagem:</label>
+                            <input type="text" class="form-control" name="data_triagem" id="data_triagem">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="telefone1">Teve coleta?</label>
-                            <input type="checkbox" class="form-control" name="chk_coleta" id="chk_coleta">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label  class="control-label" for="observacao">Descrição</label>
-                            <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="1000"></textarea>
+                            <label class="control-label" for="telefone1">Data de Venda:</label>
+                            <input type="date" class="form-control" name="data_venda" id="data_venda">
                         </div>
                     </div>
                 </form>

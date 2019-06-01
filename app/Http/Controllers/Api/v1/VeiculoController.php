@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\ClienteFinal;
 use App\Veiculo;
 use Illuminate\Http\Request;
 use App\Http\Requests\VeiculoRequest;
@@ -86,7 +87,7 @@ class VeiculoController extends ApiController
     {
         $validate = $request->validated();
 
-        $model = new ClienteFinal();
+        $model = new Veiculo();
         $success = $model->fill($validate)->save();
 
         if($success) {
@@ -100,6 +101,22 @@ class VeiculoController extends ApiController
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
+    }
+
+    public function show($id)
+    {
+        $model = Veiculo::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cliente Final não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => false,
+            'data' => $model
+        ]);
     }
 
     public function update(VeiculoRequest $request, $id)

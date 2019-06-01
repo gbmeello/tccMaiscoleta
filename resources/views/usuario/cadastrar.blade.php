@@ -59,9 +59,9 @@
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(Helper.showMessage('success', data.message));
+                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(Helper.showValidationErrors(data.message));
+                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
                     }
 
                 },

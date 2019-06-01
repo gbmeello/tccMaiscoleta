@@ -54,7 +54,7 @@ var configDatatable = {
 };
 
 
-class Helper {
+class HelperJs {
 
     static divMessage(alertClass, titulo, mensagem, icone) {
 
@@ -142,5 +142,51 @@ class Helper {
             }
         });
     }
+
+    static initializeDeleteDialog(url, id) {
+        debugger;
+        bootbox.confirm({
+            message: "Você realmente deseja deletar o registro?",
+            buttons: {
+                confirm: {
+                    className: 'btn-success'
+                },
+                cancel: {
+                    className: 'btn-danger'
+                }
+            },
+            locale: 'br',
+            callback: function (confirm) {
+                if(confirm) {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: `/api/v1/${url}/${id}`,
+                        dataType: 'json',
+                        beforeSend: function() {
+                            console.log('antes de enviar');
+                        },
+                        complete: function() {
+                            console.log('completo');
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                bootbox.alert({
+                                    message: "Registro deletado com sucesso!",
+                                    confirm: {
+                                        className: 'btn-success'
+                                    }
+                                });
+                            }
+                        },
+                        error: function(xhr) { // if error occured
+                            console.log(xhr);
+                            console.error('error');
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 
 }

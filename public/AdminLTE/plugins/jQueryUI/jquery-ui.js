@@ -6624,9 +6624,9 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 					sortable.isOver = 1;
 
 					// Store draggable's parent in case we need to reappend to it later.
-					draggable._parent = ui.helper.parent();
+					draggable._parent = ui.helperJs.parent();
 
-					sortable.currentItem = ui.helper
+					sortable.currentItem = ui.helperJs
 						.appendTo( sortable.element )
 						.data( "ui-sortable-item", true );
 
@@ -6634,7 +6634,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 					sortable.options._helper = sortable.options.helper;
 
 					sortable.options.helper = function() {
-						return ui.helper[ 0 ];
+						return ui.helperJs[ 0 ];
 					};
 
 					// Fire the start events of the sortable with our passed browser event,
@@ -6704,7 +6704,7 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 
 					// Restore and recalculate the draggable's offset considering the sortable
 					// may have modified them in unexpected ways. (#8809, #10669)
-					ui.helper.appendTo( draggable._parent );
+					ui.helperJs.appendTo( draggable._parent );
 					draggable._refreshOffsets( event );
 					ui.position = draggable._generatePosition( event, true );
 
@@ -6744,7 +6744,7 @@ $.ui.plugin.add("draggable", "cursor", {
 
 $.ui.plugin.add("draggable", "opacity", {
 	start: function( event, ui, instance ) {
-		var t = $( ui.helper ),
+		var t = $( ui.helperJs ),
 			o = instance.options;
 		if (t.css("opacity")) {
 			o._opacity = t.css("opacity");
@@ -6754,7 +6754,7 @@ $.ui.plugin.add("draggable", "opacity", {
 	stop: function( event, ui, instance ) {
 		var o = instance.options;
 		if (o._opacity) {
-			$(ui.helper).css("opacity", o._opacity);
+			$(ui.helperJs).css("opacity", o._opacity);
 		}
 	}
 });
@@ -6762,7 +6762,7 @@ $.ui.plugin.add("draggable", "opacity", {
 $.ui.plugin.add("draggable", "scroll", {
 	start: function( event, ui, i ) {
 		if ( !i.scrollParentNotHidden ) {
-			i.scrollParentNotHidden = i.helper.scrollParent( false );
+			i.scrollParentNotHidden = i.helperJs.scrollParent( false );
 		}
 
 		if ( i.scrollParentNotHidden[ 0 ] !== i.document[ 0 ] && i.scrollParentNotHidden[ 0 ].tagName !== "HTML" ) {
@@ -6933,7 +6933,7 @@ $.ui.plugin.add("draggable", "stack", {
 
 $.ui.plugin.add("draggable", "zIndex", {
 	start: function( event, ui, instance ) {
-		var t = $( ui.helper ),
+		var t = $( ui.helperJs ),
 			o = instance.options;
 
 		if (t.css("zIndex")) {
@@ -6945,7 +6945,7 @@ $.ui.plugin.add("draggable", "zIndex", {
 		var o = instance.options;
 
 		if (o._zIndex) {
-			$(ui.helper).css("zIndex", o._zIndex);
+			$(ui.helperJs).css("zIndex", o._zIndex);
 		}
 	}
 });
@@ -7829,7 +7829,7 @@ $.ui.plugin.add( "resizable", "containment", {
 				that.size.height = that.size.width / that.aspectRatio;
 				continueResize = false;
 			}
-			that.position.left = o.helper ? co.left : 0;
+			that.position.left = o.helperJs ? co.left : 0;
 		}
 
 		if ( cp.top < ( that._helper ? co.top : 0 ) ) {
@@ -7896,7 +7896,7 @@ $.ui.plugin.add( "resizable", "containment", {
 			co = that.containerOffset,
 			cop = that.containerPosition,
 			ce = that.containerElement,
-			helper = $( that.helper ),
+			helper = $( that.helperJs ),
 			ho = helper.offset(),
 			w = helper.outerWidth() - that.sizeDiff.width,
 			h = helper.outerHeight() - that.sizeDiff.height;
@@ -7989,7 +7989,7 @@ $.ui.plugin.add("resizable", "ghost", {
 			.addClass("ui-resizable-ghost")
 			.addClass(typeof o.ghost === "string" ? o.ghost : "");
 
-		that.ghost.appendTo(that.helper);
+		that.ghost.appendTo(that.helperJs);
 
 	},
 
@@ -8006,8 +8006,8 @@ $.ui.plugin.add("resizable", "ghost", {
 
 	stop: function() {
 		var that = $(this).resizable( "instance" );
-		if (that.ghost && that.helper) {
-			that.helper.get(0).removeChild(that.ghost.get(0));
+		if (that.ghost && that.helperJs) {
+			that.helperJs.get(0).removeChild(that.ghost.get(0));
 		}
 	}
 
@@ -9149,7 +9149,7 @@ $.widget( "ui.droppable", {
 	ui: function( c ) {
 		return {
 			draggable: ( c.currentItem || c.element ),
-			helper: c.helper,
+			helper: c.helperJs,
 			position: c.position,
 			offset: c.positionAbs
 		};
