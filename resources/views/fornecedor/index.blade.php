@@ -15,7 +15,7 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-fornecedor" class="table table-bordered table-striped dataTable">
+                    <table id="table-fornecedor" class="table table-bordered table-striped dataTable table-responsive">
                         <thead>
                             <tr>
                                 <th></th>
@@ -32,7 +32,7 @@
                                     Estado
                                 </th>
                                 <th>
-                                    Cidade
+                                    Município
                                 </th>
                                 <th>
                                     Status
@@ -66,11 +66,11 @@
                         "data":           null,
                         "defaultContent": ""
                     },
-                    { "data": "id" },
+                    { "data": "pk_fornecedor" },
                     { "data": "nome_fantasia" },
                     { "data": "razao_social" },
                     { "data": "estado" },
-                    { "data": "cidade" },
+                    { "data": "municipio" },
                     { "data": "ativo", render: function(data, type, row) {
                         let html = '';
 
@@ -81,13 +81,13 @@
                         return html;
                     }},
                     { "data": null , width: "100px", render: function(data, type, row) {
-                            let html = '';
-                            html += `
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                                    </div>`;
-                            return html;
+                        let html = '';
+                        html += `
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <a href="{{url('fornecedor/editar/')}}${data.pk_fornecedor}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="HelperJs.initializeDeleteDialog('fornecedor/deletar', ${data.pk_fornecedor})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                </div>`;
+                        return html;
                         },
                         "targets": -1,
                     },

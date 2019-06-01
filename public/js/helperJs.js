@@ -144,9 +144,9 @@ class HelperJs {
     }
 
     static initializeDeleteDialog(url, id) {
-        debugger;
         bootbox.confirm({
-            message: "Você realmente deseja deletar o registro?",
+            title: '<strong>Você realmente deseja deletar o registro?</strong>',
+            message: "Após confirmação, o registro será deletado",
             buttons: {
                 confirm: {
                     className: 'btn-success'
@@ -158,6 +158,7 @@ class HelperJs {
             locale: 'br',
             callback: function (confirm) {
                 if(confirm) {
+                    debugger;
                     $.ajax({
                         type: 'DELETE',
                         url: `/api/v1/${url}/${id}`,
@@ -171,9 +172,18 @@ class HelperJs {
                         success: function(response) {
                             if(response.success) {
                                 bootbox.alert({
+                                    title: '<span><strong>Sucesso!</strong></span>',
                                     message: "Registro deletado com sucesso!",
                                     confirm: {
                                         className: 'btn-success'
+                                    }
+                                });
+                            } else {
+                                bootbox.alert({
+                                    title: '<span><strong>Falha!</strong></span>',
+                                    message: "Falha ao deletar o registro. Por favor, tente novamente",
+                                    confirm: {
+                                        className: 'btn-danger'
                                     }
                                 });
                             }

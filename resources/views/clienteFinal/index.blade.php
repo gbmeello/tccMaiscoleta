@@ -32,7 +32,7 @@
                                     Estado
                                 </th>
                                 <th>
-                                    Cidade
+                                    Município
                                 </th>
                                 <th>
                                     Status
@@ -70,7 +70,7 @@
                     { "data": "nome_fantasia" },
                     { "data": "razao_social" },
                     { "data": "estado" },
-                    { "data": "cidade" },
+                    { "data": "municipio" },
                     { "data": "ativo", render: function(data, type, row) {
                         let html = '';
 
@@ -84,8 +84,8 @@
                             let html = '';
                             html += `
                                     <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <button onclick="HelperJs.initializeDeleteDialog('cliente-final', ${html.pk_cliente_final})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                        <a href="{{url('cliente-final/editar/')}}${data.pk_cliente_final}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <button onclick="HelperJs.initializeDeleteDialog('cliente-final', ${data.pk_cliente_final})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                     </div>`;
                             return html;
                         },

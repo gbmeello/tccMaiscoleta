@@ -129,6 +129,8 @@ class VeiculoController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
+        $validate = $request->validated();
+
         $success = $model->fill($request->toArray())->save();
 
         if($success) {

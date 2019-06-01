@@ -12,6 +12,8 @@ class FornecedorController extends ApiController
     {
         $columns = [
             'pk_fornecedor',
+            'estado',
+            'municipio',
             'nome_fantasia',
             'razao_social',
             'email',
@@ -29,7 +31,7 @@ class FornecedorController extends ApiController
 
         $totalFiltered = $totalData;
 
-        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
@@ -41,6 +43,7 @@ class FornecedorController extends ApiController
         if(empty($request->input('search.value')))
         {
             $model = Fornecedor::offset($start)
+                ->where('ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -65,7 +68,7 @@ class FornecedorController extends ApiController
                 ->orWhere('f.rua', 'LIKE',"%{$search}%")
                 ->orWhere('f.logradouro', 'LIKE',"%{$search}%")
                 ->orWhere('f.complemento', 'LIKE',"%{$search}%")
-                ->orWhere('f.ativo', 'LIKE',"%{$search}%")
+                ->where('f.ativo', '=', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -88,7 +91,7 @@ class FornecedorController extends ApiController
                 ->orWhere('f.rua', 'LIKE',"%{$search}%")
                 ->orWhere('f.logradouro', 'LIKE',"%{$search}%")
                 ->orWhere('f.complemento', 'LIKE',"%{$search}%")
-                ->orWhere('f.ativo', 'LIKE',"%{$search}%")
+                ->where('f.ativo', '=', true)
                 ->count();
         }
 
@@ -101,7 +104,7 @@ class FornecedorController extends ApiController
 
                 if(empty($municipio))
                     continue;
-                
+
                 $estado = $municipio->estado()->first();
 
                 $nestedData['pk_fornecedor']    = $obj->pk_fornecedor;
@@ -129,10 +132,7 @@ class FornecedorController extends ApiController
             "data"            => $data
         ];
 
-        return response()->json([
-            'success' => false,
-            $json_data
-        ]);
+        echo json_encode($json_data);
     }
 
     public function store(FornecedorRequest $request)
@@ -153,7 +153,23 @@ class FornecedorController extends ApiController
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
-    }    
+    }
+
+    public function show(PontoColetaRequest $id)
+    {
+        $model = Fornecedor::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fornecedor não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        return response()->json([
+            'success' => false,
+            'data' => $model
+        ]);
+    }
 
     public function update(FornecedorRequest $request, $id)
     {
@@ -165,7 +181,9 @@ class FornecedorController extends ApiController
             ]);
         }
 
-        $success = $model->fill($request->toArray())->save();
+        $validate = $request->validated();
+
+        $success = $model->fill($validate->toArray())->save();
 
         if($success) {
             return response()->json([
@@ -192,16 +210,16 @@ class FornecedorController extends ApiController
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }

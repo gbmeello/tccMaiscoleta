@@ -3,40 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rota;
 
 class RotaController extends Controller
 {
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view('rota.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view('/rota.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $tipoResiduo = Rota::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.editar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view('rota.editar', compact(['tipoResiduo' => $tipoResiduo]));
         }
 
         Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        return redirect('rota/index')->send();
     }
 
     public function delete($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $tipoResiduo = Rota::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
+            return view('rota.deletar', compact(['tipoResiduo' => $tipoResiduo]));
         }
 
         Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        return redirect('rota/index')->send();
     }
 }

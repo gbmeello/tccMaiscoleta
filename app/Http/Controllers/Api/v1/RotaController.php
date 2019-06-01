@@ -3,69 +3,69 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Rota;
-use App\TipoResiduo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\RotaRequest;
 
 class RotaController extends ApiController
 {
     public function index(Request $request)
     {
         $columns = [
-            0 => 'pk_tipo_residuo',
-            1 => 'nome',
-            2 => 'descricao',
-            3 => 'status'
+            'pk_rota',
+            'nome',
+            'observacao',
+            'ativo'
         ];
 
-        $totalData = TipoResiduo::count();
+        $totalData = Rota::count();
 
         $totalFiltered = $totalData;
 
-        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = $request->input('order.0.dir');
-        $rotas  = null;
+        $model  = null;
         //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
-            $rotas = Rota::offset($start)
+            $model = Rota::offset($start)
+                ->where('ativo', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
         } else {
             $search = $request->input('search.value');
 
-            $rotas =  Rota::where('pk_rota', 'LIKE', "%{$search}%")
+            $model =  Rota::where('pk_rota', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
                 ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
 
-            $totalFiltered = Rota::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+            $totalFiltered = Rota::where('pk_rota', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->count();
         }
 
         $data = [];
-        if(!empty($rotas))
+        if(!empty($model))
         {
-            foreach ($rotas as $rota)
+            foreach ($model as $obj)
             {
-                $nestedData['id']           = $rota->pk_tipo_residuo;
-                $nestedData['nome']         = $rota->nome;
-                $nestedData['observacao']   = $rota->descricao;
-                $nestedData['ativo']        = $rota->status;
+                $nestedData['id']           = $obj->pk_rota;
+                $nestedData['nome']         = $obj->nome;
+                $nestedData['observacao']   = $obj->observacao;
+                $nestedData['ativo']        = $obj->ativo;
                 $data[] = $nestedData;
             }
         }
@@ -80,24 +80,12 @@ class RotaController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function store(Request $request)
+    public function store(RotaRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'observacao' => 'required|max:500'
-        ]);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'success' => false,
-                'message' => $mensagens
-            ]);
-        }
+        $validate = $request->validated();
 
         $model = new Rota();
-        $success = $model->fill($request->toArray())->save();
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([
@@ -108,7 +96,7 @@ class RotaController extends ApiController
             return response()->json([
                 'success' => $success,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }
 
@@ -118,7 +106,7 @@ class RotaController extends ApiController
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Rota não existe'
+                'message' => 'Rota não encontrada'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
@@ -128,7 +116,7 @@ class RotaController extends ApiController
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(RotaRequest $request, $id)
     {
         $model = Rota::find($id);
         if(empty($model)) {
@@ -138,21 +126,9 @@ class RotaController extends ApiController
             ]);
         }
 
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'observacao' => 'required|max:500'
-        ]);
+        $validate = $request->validated();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'success' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $success = Rota::create($request->all());
+        $success = Rota::create($validate->toArray());
 
         if($success) {
             return response()->json([
@@ -169,10 +145,12 @@ class RotaController extends ApiController
 
     public function destroy($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = Rota::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Rota não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -180,14 +158,14 @@ class RotaController extends ApiController
 
         if($success) {
             return response()->json([
-                'success' => $success,
+                'hasSuccess' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'success' => $success,
+                'hasSuccess' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

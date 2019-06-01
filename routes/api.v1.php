@@ -81,15 +81,15 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
     Route::prefix('cliente-final')->group(function() {
 
-        Route::get('/listar', 'ClienteFinalController@index')->name('api.cliente.listar');
+        Route::get('/listar', 'ClienteFinalController@index')->name('api.clienteFinal.listar');
 
-        Route::get('/exibir/{id}', 'ClienteFinalController@show')->name('api.municipio.exibir');
+        Route::get('/exibir/{id}', 'ClienteFinalController@show')->name('api.clienteFinal.exibir');
 
-        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.cliente.cadastrar');
+        Route::post('/cadastrar', 'ClienteFinalController@store')->name('api.clienteFinal.cadastrar');
 
-        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.cliente.editar');
+        Route::put('/editar/{id}', 'ClienteFinalController@update')->name('api.clienteFinal.editar');
 
-        Route::delete('/deletar/{id}', 'ClienteFinalController@destroy')->name('api.cliente.deletar');
+        Route::delete('/deletar/{id}', 'ClienteFinalController@destroy')->name('api.clienteFinal.deletar');
 
     });
 
@@ -108,4 +108,18 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
     });
 
+
+    Route::prefix('rota')->group(function() {
+
+        Route::get('/listar', 'RotaController@index')->name('api.rota.listar');
+
+        Route::get('/exibir/{id}', 'RotaController@show')->name('api.rota.exibir');
+
+        Route::post('/cadastrar', 'RotaController@store')->name('api.rota.cadastrar');
+
+        Route::put('/editar/{id}', 'RotaController@update')->name('api.rota.editar');
+
+        Route::delete('/deletar/{id}', 'RotaController@destroy')->name('api.rota.deletar');
+
+    });
 });

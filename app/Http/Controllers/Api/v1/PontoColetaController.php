@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Fornecedor;
 use App\Http\Requests\PontoColetaRequest;
 use App\PontoColeta;
-use App\TipoResiduo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -44,6 +42,7 @@ class PontoColetaController extends Controller
         if(empty($request->input('search.value')))
         {
             $model = PontoColeta::offset($start)
+                ->where('ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -56,7 +55,7 @@ class PontoColetaController extends Controller
                 ->orWhere('latitude', 'LIKE',"%{$search}%")
                 ->orWhere('longitude', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', '=', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -67,7 +66,7 @@ class PontoColetaController extends Controller
                 ->orWhere('latitude', 'LIKE',"%{$search}%")
                 ->orWhere('longitude', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', '=', true)
                 ->count();
         }
 
@@ -130,7 +129,7 @@ class PontoColetaController extends Controller
      */
     public function show(PontoColetaRequest $id)
     {
-        $model = Rota::find($id);
+        $model = PontoColeta::find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -138,7 +137,7 @@ class PontoColetaController extends Controller
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        return PontoColeta()->json([
+        return response()->json([
             'success' => false,
             'data' => $model
         ]);

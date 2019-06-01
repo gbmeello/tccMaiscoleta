@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\ClienteFinal;
 use App\Http\Requests\ClienteFinalRequest;
+use Illuminate\Http\Request;
 
 class ClienteFinalController extends ApiController
 {
@@ -41,6 +42,7 @@ class ClienteFinalController extends ApiController
         if(empty($request->input('search.value')))
         {
             $model = ClienteFinal::offset($start)
+                ->where('ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -65,7 +67,7 @@ class ClienteFinalController extends ApiController
                 ->orWhere('cf.rua', 'LIKE',"%{$search}%")
                 ->orWhere('cf.logradouro', 'LIKE',"%{$search}%")
                 ->orWhere('cf.complemento', 'LIKE',"%{$search}%")
-                ->orWhere('cf.ativo', 'LIKE',"%{$search}%")
+                ->where('cf.ativo', '=', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -88,7 +90,7 @@ class ClienteFinalController extends ApiController
                 ->orWhere('cf.rua', 'LIKE',"%{$search}%")
                 ->orWhere('cf.logradouro', 'LIKE',"%{$search}%")
                 ->orWhere('cf.complemento', 'LIKE',"%{$search}%")
-                ->orWhere('cf.ativo', 'LIKE',"%{$search}%")
+                ->where('cf.ativo', '=', true)
                 ->count();
         }
 
@@ -178,7 +180,9 @@ class ClienteFinalController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $success = $model->fill($request->toArray())->save();
+        $validate = $request->validated();
+
+        $success = $model->fill($validate->toArray())->save();
 
         if($success) {
             return response()->json([

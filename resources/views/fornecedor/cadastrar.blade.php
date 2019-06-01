@@ -41,13 +41,20 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="estado">Estado:</label>
-                            <input type="text" class="form-control" name="estado" id="estado" maxlength="15">
+                            <select id="slt_estado" class="form-control" name="slt_estado">
+                                <option value="">Selecione o estado...</option>
+                                @foreach ($estados as $estado)
+                                    <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Cidade:</label>
-                            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="15">
+                            <label class="control-label" for="slt_municipio">Município:</label>
+                            <select id="slt_municipio" class="form-control" name="slt_municipio">
+                                <option value="">...</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -82,7 +89,7 @@
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -96,14 +103,35 @@
     <script>
 
         $(document).ready(function() {
+
+            initValidation();
+
+            $sltEstado = $('#slt_estado').select2();
+
+            $sltEstado.change(function() {
+                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+            });
+
+            $sltMunicipio = $('#slt_municipio');
+            $sltMunicipio.select2();
+
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
 
+        function initValidation() {
+
+            $('#telefone1').inputmask('(99) 999999999');  //static mask
+            $('#telefone2').inputmask('(99) 999999999');  //static mask
+            $('#cep').inputmask('99999-999');  //static mask
+
+        }
+
         function cadastrar() {
 
             let data = $('#form-fornecedor').serialize();
+            let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
                 type: 'POST',
@@ -111,10 +139,10 @@
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
-                    console.log('antes de enviar');
+                    $btnSalvar.button('loading');
                 },
                 complete: function() {
-                    console.log('completo');
+                    $btnSalvar.button('reset');
                 },
                 success: function(data) {
 

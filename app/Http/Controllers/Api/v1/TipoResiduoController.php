@@ -125,7 +125,9 @@ class TipoResiduoController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $success = $model->fill($request->toArray())->save();
+        $validate = $request->validated();
+
+        $success = $model->fill($validate->toArray())->save();
 
         if($success) {
             return response()->json([

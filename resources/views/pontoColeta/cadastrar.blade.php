@@ -19,6 +19,21 @@
                     <form id="form-ponto-coleta" class="col-sm-6 col-md-6">
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label class="control-label" for="nome">Rota:</label>
+                                @if(!$rotas->isEmpty())
+                                    <select id="slt_rota" class="form-control" name="slt_rota">
+                                        <option value="">Selecione a rota...</option>
+                                        @foreach ($rotas as $rota)
+                                            <option value="{{$rota->pk_rota}}">{{$rota->nome}}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <a href="{{url('rota/cadastrar')}}">Cadastrar nova rota</a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label class="control-label" for="nome">Nome:</label>
                                 <input type="text" class="form-control" name="nome" id="nome">
                             </div>
@@ -41,18 +56,18 @@
                                 <input type="text" class="form-control" name="descricao" id="descricao">
                             </div>
                         </div>
+                        <div id="lista-ponto-coleta" style="max-height: 200px" class="col-sm-12 col-md-12">
+                            <table id="tbl-ponto-coleta" style="max-height: 200px; overflow: scroll;" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>Nome</td>
+                                        <td>Latitude</td>
+                                        <td>Longitude</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </form>
-                    <div id="lista-ponto-coleta" class="col-sm-12 col-md-12">
-                        <table id="tbl-ponto-coleta" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <td>Nome</td>
-                                    <td>Latitude</td>
-                                    <td>Longitude</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
                 </div>
                 <div class="box-footer">
                     <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
@@ -147,7 +162,13 @@
             map.on('click', function (e) {
 
                 if(!$('#nome').val()) {
-                    alert('O nome do ponto de coleta precisa ser preenchido');
+                    bootbox.alert({
+                        title: '<span><strong>Atenção!</strong></span>',
+                        message: "O campo nome está vazio!",
+                        ok: {
+                            className: 'btn-danger'
+                        }
+                    });
                     return;
                 }
 
@@ -204,15 +225,6 @@
                     }
 
                 });
-
-                // $.each(arrayPontosColeta, function(index, value) {
-                //     table.append(`
-                //         <tr>
-                //             <td>value.id</td>
-                //             <td>value.lat</td>
-                //             <td>value.lng</td>
-                //         </tr>`);
-                // });
 
             });
         }

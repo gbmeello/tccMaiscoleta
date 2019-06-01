@@ -89,7 +89,7 @@
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -131,6 +131,7 @@
         function cadastrar() {
 
             let data = $('#form-cliente-final').serialize();
+            let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
                 type: 'POST',
@@ -138,10 +139,10 @@
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
-                    console.log('antes de enviar');
+                    $btnSalvar.button('loading');
                 },
                 complete: function() {
-                    console.log('completo');
+                    $btnSalvar.button('reset');
                 },
                 success: function(data) {
 

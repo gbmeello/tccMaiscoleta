@@ -5,13 +5,13 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Tipo de res&iacute;duos</h3>
+                    <h3 class="box-title">Lista de Rotas</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/rota/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                        <i class="fa fa-user-plus"></i> Cadastrar dsadsa
+                        <i class="fa fa-map-signs"></i> Cadastrar nova rota
                     </a>
                 </div>
                 <div class="box-body">

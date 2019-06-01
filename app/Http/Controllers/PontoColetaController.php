@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rota;
 
 class PontoColetaController extends Controller
 {
@@ -13,7 +14,9 @@ class PontoColetaController extends Controller
 
     public function create()
     {
-        return view('pontoColeta.cadastrar');
+        $rotas = Rota::where('ativo', '=', true)->get();
+
+        return view('pontoColeta.cadastrar', ['rotas' => $rotas]);
     }
 
     public function edit($id)
