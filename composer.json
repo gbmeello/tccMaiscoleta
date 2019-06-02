@@ -11,7 +11,10 @@
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0"
+        "laravel/passport": "^7.2",
+        "laravel/tinker": "^1.0",
+        "mpociot/laravel-apidoc-generator": "^3.7",
+        "tymon/jwt-auth": "1.0.0-rc.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -37,6 +40,7 @@
         },
         "classmap": [
             "database/seeds",
+            "database/migrations",
             "database/factories"
         ]
     },
@@ -57,6 +61,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize",
+            "chmod -R 777 public/"
         ]
     }
 }

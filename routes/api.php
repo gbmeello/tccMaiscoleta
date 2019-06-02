@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//if(config('app.api_version_latest') == 1) {
+//    require_once('api.v1.php');
+//}
+
+require_once('api.v' .config('app.api_version_latest'). '.php');

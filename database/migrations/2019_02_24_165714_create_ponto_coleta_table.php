@@ -1,5 +1,7 @@
 <?php
 
+use App\Extendz\CustomBlueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,12 +15,20 @@ class CreatePontoColetaTable extends Migration
      */
     public function up()
     {
-        Schema::create('ponto_coleta', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+
+        $schema->blueprintResolver(function($table, $callback) {
+            return new CustomBlueprint($table, $callback);
+        });
+
+        $schema->create('ponto_coleta', function (Blueprint $table) {
             $table->increments('pk_ponto_coleta')->comment('Chave primária e única da tabela Ponto_Coleta');
-            $table->string('nome', 100)->comment('Nome do ponto de coleta');
-            $table->point('coordenada')->comment('Coordenada do ponto de coleta');
-            $table->string('descricao', 300)->comment('Descrição do ponto de coleta');
+            $table->string('nome', 100)->unique()->comment('Nome do ponto de coleta');
+            $table->decimal('latitude', 16, 12)->comment('Latitude do ponto de coleta');
+            $table->decimal('longitude', 16, 12)->comment('Longitude do ponto de coleta');
+            $table->string('descricao', 300)->nullable()->comment('Descrição do ponto de coleta');
             $table->customTimestamps();
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
         });
     }
 
