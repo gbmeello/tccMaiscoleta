@@ -1,11 +1,22 @@
 <?php
 
-$url = parse_url(getenv("DATABASE_URL"));
+if(env('APP_ENV') === 'production')
+{
+    $url = parse_url(getenv("DATABASE_URL"));
+    $host = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $database = substr($url["path"], 1);
+}
+elseif(env('APP_ENV') === 'development')
+{
+    $url = parse_url(getenv("DATABASE_URL"));
+    $host = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $database = substr($url["path"], 1);
+}
 
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
 
 return [
 
