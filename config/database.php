@@ -1,21 +1,26 @@
 <?php
 
-if(env('APP_ENV') === 'production')
-{
-    $url = parse_url(getenv("DATABASE_URL"));
-    $host = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $database = substr($url["path"], 1);
-}
-elseif(env('APP_ENV') === 'development')
-{
-    $url = parse_url(getenv("DATABASE_URL"));
-    $host = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $database = substr($url["path"], 1);
-}
+$url = parse_url(getenv("HEROKU_POSTGRESQL_GRAY_URL"));
+$host = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
+
+// if(env('APP_ENV') === 'production')
+// {
+//     $url = parse_url(getenv("DATABASE_URL"));
+//     $host = $url["host"];
+//     $username = $url["user"];
+//     $password = $url["pass"];
+//     $database = substr($url["path"], 1);
+// }
+// elseif(env('APP_ENV') === 'development')
+// {
+//     $host       = env('DB_HOST');
+//     $username   = env('DB_USERNAME');
+//     $password   = env('DB_PASSWORD');
+//     $database   = env('DB_DATABASE');
+// }
 
 
 return [
@@ -31,7 +36,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'pgsql_heroku'),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,6 +80,19 @@ return [
         ],
 
         'pgsql' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'postgres'),
+            'username' => env('DB_USERNAME', 'postgres'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
+        'pgsql_heroku' => [
             'driver' => 'pgsql',
             'host'     => $host,
             'database' => $database,
