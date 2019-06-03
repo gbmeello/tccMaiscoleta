@@ -62,7 +62,7 @@ class RotaController extends ApiController
         {
             foreach ($model as $obj)
             {
-                $nestedData['id']           = $obj->pk_rota;
+                $nestedData['pk_rota']      = $obj->pk_rota;
                 $nestedData['nome']         = $obj->nome;
                 $nestedData['observacao']   = $obj->observacao;
                 $nestedData['ativo']        = $obj->ativo;

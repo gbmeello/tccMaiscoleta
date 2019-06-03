@@ -12,10 +12,6 @@ class Veiculo extends Model
         'modelo', 'observacao', 'placa', 'ativo'
     ];
 
-    protected $maps = [
-        'pk_veiculo' => 'id'
-    ];
-
     protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];

@@ -128,7 +128,7 @@ class TipoResiduoController extends ApiController
 
         $validate = $request->validated();
 
-        $success = $model->fill($validate->toArray())->save();
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([

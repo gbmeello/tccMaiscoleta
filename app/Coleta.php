@@ -9,7 +9,7 @@ class Coleta extends Model
     protected $primaryKey = "pk_coleta";
     protected $table = "coleta";
     protected $fillable = [
-        'fk_rota_final', 'fk_veiculo', 'fk_fornecedor', 'data_coleta', 'has_coleta',
+        'fk_rota', 'fk_veiculo', 'fk_fornecedor', 'data_coleta', 'has_coleta',
         'observacao', 'ativo'
     ];
     protected $hidden = [
@@ -17,6 +17,18 @@ class Coleta extends Model
     ];
 
     public $timestamps = false;
+
+    public function setFornecedorAttribute($value) {
+        $this->attributes['fk_fornecedor'] = $value;
+    }
+
+    public function setVeiculoAttribute($value) {
+        $this->attributes['fk_veiculo'] = $value;
+    }
+
+    public function setRotaAttribute($value) {
+        $this->attributes['fk_rota'] = $value;
+    }
 
     public function veiculo() {
         $this->belongsTo(Veiculo::class, 'fk_veiculo', 'pk_veiculo');

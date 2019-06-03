@@ -11,7 +11,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/veiculo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <i class="fa fa-car"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
@@ -32,7 +32,7 @@
                                     Tipo
                                 </th>
                                 <th>
-                                    Status
+                                    Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -59,12 +59,12 @@
                 "ajax": "{{ url('api/v1/veiculo/listar') }}",
                 "columns": [
                     {
-                        "class":          "details-control",
-                        "orderable":      false,
-                        "data":           null,
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
                         "defaultContent": ""
                     },
-                    { "data": "id" },
+                    { "data": "pk_veiculo" },
                     { "data": "modelo" },
                     { "data": "placa" },
                     { "data": "tipo" },
@@ -81,8 +81,8 @@
                             let html = '';
                             html += `
                                     <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                        <a href="{{url('veiculo/editar')}}/${data.pk_veiculo}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <button onclick="initializeDeleteDialog('veiculo/deletar', ${data.pk_veiculo})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                     </div>`;
                             return html;
                         },

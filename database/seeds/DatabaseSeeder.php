@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoTableSeeder::class);
         $this->call(MunicipioTableSeeder::class);
         $this->call(TipoResiduoTableSeeder::class);
+        $this->call(PontoColetaTableSeeder::class);
+        $this->call(RotaTableSeeder::class);
     }
 }

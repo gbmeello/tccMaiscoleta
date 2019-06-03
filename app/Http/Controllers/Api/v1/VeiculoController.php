@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Api\v1;
 use App\Veiculo;
 use Illuminate\Http\Request;
 use App\Http\Requests\VeiculoRequest;
-use App\Http\Requests\BaseFormRequest;
 
-class VeiculoController extends BaseFormRequest
+class VeiculoController extends ApiController
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $columns = [
@@ -84,6 +88,12 @@ class VeiculoController extends BaseFormRequest
         echo json_encode($json_data);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(VeiculoRequest $request)
     {
         $validate = $request->validated();
@@ -104,6 +114,12 @@ class VeiculoController extends BaseFormRequest
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $model = Veiculo::find($id);
@@ -120,6 +136,13 @@ class VeiculoController extends BaseFormRequest
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(VeiculoRequest $request, $id)
     {
         $model = Veiculo::find($id);
@@ -147,6 +170,12 @@ class VeiculoController extends BaseFormRequest
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $model = Veiculo::find($id);
@@ -158,16 +187,16 @@ class VeiculoController extends BaseFormRequest
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }

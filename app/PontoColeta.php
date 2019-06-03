@@ -18,6 +18,6 @@ class PontoColeta extends Model
     public $timestamps = false;
 
     public function rotas() {
-        return $this->belongsToMany(Rota::class, 'rota_final', 'pk_rota', 'pk_ponto_coleta');
+        return $this->belongsToMany(Rota::class, 'rota_final', 'fk_ponto_coleta', 'fk_rota');
     }
 }

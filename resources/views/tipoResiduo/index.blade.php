@@ -11,7 +11,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <i class="fa fa-trash"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
@@ -28,7 +28,7 @@
                                     Descri&ccedil;&atilde;o
                                 </th>
                                 <th>
-                                    Status
+                                    Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -43,7 +43,6 @@
 
 @section('scripts')
 
-    <script src="{{asset('helperJs.js')}}"></script>
     <script>
 
         $('#table-tipo-residuo-listar').DataTable({
@@ -51,24 +50,23 @@
             "serverSide": true,
             "ajax": "{{ url('api/v1/tipo-residuo/listar') }}",
             "columns": [
-                { "data": "id" },
+                { "data": "pk_tipo_residuo" },
                 { "data": "nome" },
                 { "data": "descricao" },
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
                         if(data == true) {
-                            html = '<small class="label pull-right bg-green">Ativo</small>';
+                            html = '<small class="label pull-right bg-green">Sim</small>';
                         }
-
                         return html;
                     }},
                 { "data": null , width: "100px", render: function(data, type, row) {
                         let html = '';
                         html += `
-                            <div class="btn-group" role="group" aria-label="...">
-                                <a href="/tipo-residuo/editar/${data.id}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                            </div>`;
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <a href="{{url('tipo-residuo/editar')}}/${data.pk_tipo_residuo}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="initializeDeleteDialog('tipo-residuo/deletar', ${data.pk_tipo_residuo})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                </div>`;
                         return html;
                     },
                     "targets": -1,

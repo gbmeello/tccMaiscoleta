@@ -21,12 +21,34 @@ class PontoColetaRequest extends BaseFormRequest
      */
     public function rules()
     {
-        return [
-            'nome' => 'required|unique|max:100',
-            'latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'descricao' => 'max:300'
-        ];
+        switch($this->method())
+        {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+            }
+            case 'POST':
+            {
+                return [
+                    'nome' => 'required|unique:ponto_coleta,nome|max:100',
+                    'latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta,latitude'],
+                    'longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta,longitude'],
+                    'descricao' => 'max:300'
+                ];
+            }
+            case 'PUT':
+            case 'PATCH':
+            {
+                return [
+                    'nome' => 'required|unique:ponto_coleta,nome|max:100',
+                    'latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta,latitude'],
+                    'longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta,longitude'],
+                    'descricao' => 'max:300'
+                ];
+            }
+            default:break;
+        }
     }
 
     public function attributes()

@@ -55,7 +55,7 @@
 
         function cadastrar() {
 
-            let data = $('#form-fornecedor').serialize();
+            let data = $('#form-veiculo').serialize();
             let $btnSalvar = $('#btn-salvar');
 
             $.ajax({

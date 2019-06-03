@@ -2,65 +2,22 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\TipoResiduo;
+use App\Coleta;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ColetaRequest;
 
 class ColetaController extends ApiController
 {
-    public function index()
-    {
-        return response()->json([
-            'message' => 'Great success! New TipoResiduo created',
-            'TipoResiduo' => 1
-        ]);
-    }
-
-    public function stores(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'required|max:600'
-        ]);
-
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
-
-            return response()->json([
-                'success' => false,
-                'message' => $mensagens
-            ]);
-        }
-
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $success = $tipoResiduo->save();
-
-        if($success) {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Cadastro realizado com sucesso'
-            ]);
-        } else {
-            return response()->json([
-                'success' => $success,
-                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
-        }
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $columns = [
-            0 => 'pk_tipo_residuo',
-            1 => 'nome',
-            2 => 'descricao',
-            3 => 'status'
+           'pk_coleta',
+           'nome',
+           'descricao',
+           'ativo'
         ];
 
-        $totalData = TipoResiduo::count();
+        $totalData = Coleta::count();
 
         $totalFiltered = $totalData;
 
@@ -69,13 +26,14 @@ class ColetaController extends ApiController
         $limit  = $request->input('length');
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
-        $dir    = $request->input('order.0.dir');
-        $tipoResiduos  = null;
+        $dir    = (empty($request->input('order.0.dir')) ? 'asc' : $request->input('order.0.dir'));
+        $models = null;
         //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
-            $tipoResiduos = TipoResiduo::offset($start)
+            $models = Coleta::offset($start)
+                ->where('ativo', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -83,31 +41,31 @@ class ColetaController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $tipoResiduos =  TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+            $models = Coleta::where('pk_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
 
-            $totalFiltered = TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+            $totalFiltered = Coleta::where('pk_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->count();
         }
 
         $data = [];
-        if(!empty($tipoResiduos))
+        if(!empty($models))
         {
-            foreach ($tipoResiduos as $tipoResiduo)
+            foreach ($models as $model)
             {
-                $nestedData['id']           = $tipoResiduo->pk_tipo_residuo;
-                $nestedData['nome']             = $tipoResiduo->nome;
-                $nestedData['descricao']        = $tipoResiduo->descricao;
-                $nestedData['status']           = $tipoResiduo->status;
+                $nestedData['pk_coleta']  = $model->pk_coleta;
+                $nestedData['nome']       = $model->nome;
+                $nestedData['descricao']  = $model->descricao;
+                $nestedData['ativo']      = $model->ativo;
                 $data[] = $nestedData;
             }
         }
@@ -122,26 +80,55 @@ class ColetaController extends ApiController
         echo json_encode($json_data);
     }
 
-    public function update(Request $request, $id)
+    public function store(ColetaRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|max:100',
-            'descricao' => 'max:600'
-        ]);
+        $validate = $request->validated();
 
-        if ($validator->fails()) {
-            $mensagens = $validator->errors()->messages();
+        $model = new Coleta();
+        $success = $model->fill($validate)->save();
 
+        if($success) {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Cadastro realizado com sucesso'
+            ]);
+        } else {
+            return response()->json([
+                'success' => $success,
+                'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
+        }
+    }
+
+    public function show($id)
+    {
+        $model = Coleta::find($id);
+        if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => $mensagens
-            ]);
+                'message' => 'Coleta não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $tipoResiduo = new TipoResiduo();
-        $tipoResiduo->nome = $request->get('nome');
-        $tipoResiduo->descricao = $request->get('descricao');
-        $success = $tipoResiduo->save();
+        return response()->json([
+            'success' => false,
+            'data' => $model
+        ]);
+    }
+
+    public function update(ColetaRequest $request, $id)
+    {
+        $model = Coleta::find($id);
+        if(empty($model)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Coleta não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        $validate = $request->validated();
+
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([
@@ -152,16 +139,18 @@ class ColetaController extends ApiController
             return response()->json([
                 'success' => $success,
                 'message' => 'Falha ao realizar a edição. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 
     public function destroy($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = Coleta::find($id);
         if(empty($model)) {
-            echo 'nop';
-            return;
+            return response()->json([
+                'success' => false,
+                'message' => 'Coleta não existe'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $model->ativo = false;
@@ -176,7 +165,7 @@ class ColetaController extends ApiController
             return response()->json([
                 'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
 }

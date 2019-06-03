@@ -31,15 +31,15 @@ class VeiculoController extends Controller
         return redirect('veiculo/index')->send();
     }
 
-    public function delete($id)
-    {
-        $obj = Veiculo::find($id);
+    // public function delete($id)
+    // {
+    //     $obj = Veiculo::find($id);
 
-        if(!empty($obj)) {
-            return view('veiculo.deletar', compact(['obj' => $obj]));
-        }
+    //     if(!empty($obj)) {
+    //         return view('veiculo.deletar', compact(['obj' => $obj]));
+    //     }
 
-        Session::flash('message', "Veiculo não foi encontrado");
-        return redirect('veiculo/index')->send();
-    }
+    //     Session::flash('message', "Veiculo não foi encontrado");
+    //     return redirect('veiculo/index')->send();
+    // }
 }
