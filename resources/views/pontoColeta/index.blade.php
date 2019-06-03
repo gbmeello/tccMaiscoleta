@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css' type='text/css' />
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
@@ -50,6 +55,8 @@
 
 @section('scripts')
 
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js'></script>
     <script>
 
         let $table = $('#table-ponto-coleta-listar');
@@ -72,9 +79,8 @@
                 { "data": "descricao" },
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
-                        console.log(row);
                         if(data == true) {
-                            html = '<small class="label pull-right bg-green">Ativo</small>';
+                            html = '<small class="label pull-right bg-green">Sim</small>';
                         }
 
                         return html;
@@ -82,10 +88,10 @@
                 { "data": null , width: "100px", render: function(data, type, row) {
                         let html = '';
                         html += `
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <a href="/ponto-coleta/editar/${data.pk_ponto_coleta}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="/ponto-coleta/deletar/${data.pk_ponto_coleta}" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                                    </div>`;
+                            <div class="btn-group" role="group" aria-label="...">
+                                <a href="{{ url('rota/editar/') }}/${data.pk_ponto_coleta}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                <button onclick="initializeDeleteDialog('rota/deletar', ${data.pk_ponto_coleta})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                            </div>`;
                         return html;
                     },
                     "targets": -1,
@@ -99,7 +105,7 @@
         configDatatable.addShowDetails($table, dt, function(d) {
             let table =
                 `<div class="form-group" style="text-align: center; width: 100%">
-                    <button class="btn btn-app btn-lg"> <i class="fa fa-map"></i> Ver Mapa </button>
+                    <button onclick="initializeMapModal(${d.latitude}, ${d.longitude})" class="btn btn-app btn-lg"> <i class="fa fa-map"></i> Ver Mapa </button>
                 </div>`;
 
             return table;

@@ -108,6 +108,9 @@ function showValidationErrors(arrayError) {
 }
 
 function loadSelectMunicipios(target, idEstado) {
+
+    let $target = $(target);
+
     $.ajax({
         type: 'GET',
         url: '/api/v1/municipio/listar-por-estado/'+idEstado,
@@ -119,8 +122,6 @@ function loadSelectMunicipios(target, idEstado) {
             console.log('completo');
         },
         success: function(response) {
-
-            let $target = $(target);
 
             if(response.success) {
                 $target.empty().trigger('change');
@@ -191,4 +192,83 @@ function initializeDeleteDialog(url, id) {
             }
         }
     });
+}
+
+function initializeMapModal(lat, lng) {
+
+    bootbox.alert({
+        title: '<span><strong>Localização do ponto de coleta</strong></span>',
+        message: `
+            <div class="col-sm-12 col-md-12">
+                <div id='map' style="position: relative; width: 100%; height: 100vh;"></div>
+            </div>
+        `,
+        size: 'large',
+    });
+
+    debugger;
+
+    // example origin and destination
+    var start = {lat: 22.3077423, lng: 114.2287582};
+    var finish = {lat: 22.3131334, lng: 114.2205973};
+
+    var map = mapboxgl.Map('map', 'mapbox.streets', {
+        zoomControl: false }).setView([start.lat, start.lng], 14);
+
+    map.attributionControl.setPosition('bottomleft');
+    var directions = L.mapbox.directions({
+        profile: 'mapbox.walking'
+    });
+
+    // Set the origin and destination for the direction and call the routing service
+    directions.setOrigin(L.latLng(start.lat, start.lng));
+    directions.setDestination(L.latLng(finish.lat, finish.lng));
+    directions.query();
+
+    var directionsLayer = L.mapbox.directions.layer(directions).addTo(map);
+    var directionsRoutesControl = L.mapbox.directions.routesControl('routes', directions)
+        .addTo(map);
+
+    // mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2lvbWVuZGVzIiwiYSI6ImNqc2VtNGtmeTBzNGQzeXRscWxkMThvcXIifQ.83J82VEpsdmfE-xu9W4uUg';
+    // let map = new mapboxgl.Map({
+    //     container: 'map', // container id
+    //     style: 'mapbox://styles/mapbox/streets-v11',
+    //     center: [lng, lat], // starting position
+    //     zoom: 16 // starting zoom
+    // });
+
+    // map.loadImage('/img/truck-mark.png', function(error, image) {
+
+    //     if(error) {
+    //         throw error;
+    //     }
+
+    //     let name = "recyclage-image" + Math.round(Math.random() * 10000000);
+
+    //     map.addImage(name, image);
+    //     map.addLayer({
+    //         "id": name,
+    //         "type": "symbol",
+    //         "source": {
+    //             "type": "geojson",
+    //             "data": {
+    //                 "type": "FeatureCollection",
+    //                 "features": [{
+    //                     "type": "Feature",
+    //                     "geometry": {
+    //                         "type": "Point",
+    //                         "coordinates": [lng, lat]
+    //                     }
+    //                 }]
+    //             }
+    //         },
+    //         "layout": {
+    //             "icon-image": name,
+    //             "icon-size": 0.15
+    //         }
+    //     });
+
+
+    // });
+
 }
