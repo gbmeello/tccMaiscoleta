@@ -27,12 +27,13 @@ class TipoResiduoController extends ApiController
         $start  = $request->input('start');
         $order  = $columns[$columnOrder];
         $dir    = (empty($request->input('order.0.dir')) ? 'asc' : $request->input('order.0.dir'));
-        $tipoResiduos  = null;
+        $models = null;
         //$totalFiltered = null;
 
         if(empty($request->input('search.value')))
         {
-            $tipoResiduos = TipoResiduo::offset($start)
+            $models = TipoResiduo::offset($start)
+                ->where('ativo', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -40,10 +41,10 @@ class TipoResiduoController extends ApiController
         else {
             $search = $request->input('search.value');
 
-            $tipoResiduos =  TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
+            $models = TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -52,19 +53,19 @@ class TipoResiduoController extends ApiController
             $totalFiltered = TipoResiduo::where('pk_tipo_residuo', 'LIKE', "%{$search}%")
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('descricao', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->count();
         }
 
         $data = [];
-        if(!empty($tipoResiduos))
+        if(!empty($models))
         {
-            foreach ($tipoResiduos as $tipoResiduo)
+            foreach ($models as $tipoResiduo)
             {
-                $nestedData['id']          = $tipoResiduo->pk_tipo_residuo;
-                $nestedData['nome']        = $tipoResiduo->nome;
-                $nestedData['descricao']   = $tipoResiduo->descricao;
-                $nestedData['ativo']       = $tipoResiduo->ativo;
+                $nestedData['pk_tipo_residuo']  = $tipoResiduo->pk_tipo_residuo;
+                $nestedData['nome']             = $tipoResiduo->nome;
+                $nestedData['descricao']        = $tipoResiduo->descricao;
+                $nestedData['ativo']            = $tipoResiduo->ativo;
                 $data[] = $nestedData;
             }
         }
@@ -105,7 +106,7 @@ class TipoResiduoController extends ApiController
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cliente Final não existe'
+                'message' => 'Tipo de resíduo não existe'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
@@ -121,7 +122,7 @@ class TipoResiduoController extends ApiController
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tipo de Resíduo não existe'
+                'message' => 'Tipo de resíduo não existe'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
@@ -153,16 +154,16 @@ class TipoResiduoController extends ApiController
         }
 
         $model->ativo = false;
-        $hasSuccess = $model->save();
+        $success = $model->save();
 
-        if($hasSuccess) {
+        if($success) {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $hasSuccess,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }

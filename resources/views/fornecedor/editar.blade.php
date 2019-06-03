@@ -8,7 +8,7 @@
                     <h3 class="box-title">Edição do Fornecedor - [{{$obj->nome_fantasia}}]</h3>
                 </div>
                 <form id="form-fornecedor" role="form" class="box-body">
-                    <input name="pk_cliente_final" value="{{ $obj->pk_cliente_final }}" hidden>
+                    <input name="id" value="{{ $obj->pk_fornecedor }}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
@@ -42,19 +42,37 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="estado">Estado:</label>
-                            <input type="text" class="form-control" value="{{ $obj->estado }}"  name="estado" id="estado" maxlength="50">
+                            <select id="slt_estado" class="form-control" name="slt_estado">
+                                <option value="">Selecione o estado...</option>
+                                @foreach ($estados as $estado)
+                                    @if ($obj->municipio()->first()->estado()->first()->pk_estado === $estado->pk_estado)
+                                        <option value="{{$estado->pk_estado}}" selected>{{$estado->nome}}</option>
+                                    @else
+                                        <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="cidade">Cidade:</label>
-                            <input type="text" class="form-control" value="{{ $obj->cidade }}"  name="cidade" id="cidade" maxlength="150">
+                            <label class="control-label" for="slt_municipio">Município:</label>
+                            <select id="slt_municipio" class="form-control" name="slt_municipio">
+                                <option value="">...</option>
+                                @foreach ($municipios as $municipio)
+                                    @if ($obj->municipio()->first()->pk_municipio === $municipio->pk_municipio)
+                                        <option value="{{$municipio->pk_municipio}}" selected>{{$municipio->nome}}</option>
+                                    @else
+                                        <option value="{{$municipio->pk_municipio}}">{{$municipio->nome}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="cep">Cep:</label>
-                            <input type="text" class="form-control" value="{{ $obj->cep }}"  name="cep" id="cep" maxlength="8">
+                            <input type="text" class="form-control" value="{{ $obj->cep }}"  name="cep" id="cep" maxlength="9">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -97,37 +115,58 @@
     <script>
 
         $(document).ready(function() {
+
+            initValidation();
+
+            $sltEstado = $('#slt_estado').select2();
+
+            $sltEstado.change(function() {
+                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+            });
+
+            $sltMunicipio = $('#slt_municipio');
+            $sltMunicipio.select2();
+
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
 
+        function initValidation() {
+
+            $('#telefone1').inputmask('(99) 999999999');  //static mask
+            $('#telefone2').inputmask('(99) 999999999');  //static mask
+            $('#cep').inputmask('99999-999');  //static mask
+
+        }
+
         function cadastrar() {
 
             let data = $('#form-fornecedor').serialize();
+            let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
                 type: 'PUT',
-                url: '/api/v1/fornecedor/editar/'+{{ $obj->pk_cliente_final }},
+                url: '/api/v1/fornecedor/editar/' + {{$obj->pk_fornecedor}},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
-                    console.log('antes de enviar');
+                    $btnSalvar.button('loading');
                 },
                 complete: function() {
-                    console.log('completo');
+                    $btnSalvar.button('reset');
                 },
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
+                        $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
+                        $('#div-resultado').html(showValidationErrors(data.message));
                     }
 
                 },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
+                error: function(xhr, response) { // if error occured
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }

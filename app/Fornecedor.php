@@ -19,6 +19,10 @@ class Fornecedor extends Model
         'data_criacao', 'data_atualizacao'
     ];
 
+    public function setMunicipioAttribute($value) {
+        $this->attributes['fk_municipio'] = $value;
+    }
+
     public function coletas() {
         $this->hasMany(Coleta::class, 'fk_fornecedor');
     }

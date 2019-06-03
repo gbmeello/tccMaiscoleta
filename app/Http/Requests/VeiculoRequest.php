@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
 class VeiculoRequest extends BaseFormRequest
 {
@@ -23,12 +22,34 @@ class VeiculoRequest extends BaseFormRequest
      */
     public function rules()
     {
-        return [
-            'modelo' => 'required|max:100',
-            'observacao' => '',
-            'placa' => 'required|max:10',
-            'tipo' => 'max:50'
-        ];
+        switch($this->method())
+        {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+            }
+            case 'POST':
+            {
+                return [
+                    'modelo' => 'required|max:100',
+                    'observacao' => '',
+                    'placa' => 'required|max:10,unique:veiculo',
+                    'tipo' => 'max:50'
+                ];
+            }
+            case 'PUT':
+            case 'PATCH':
+            {
+                return [
+                    'modelo' => 'required|max:100',
+                    'observacao' => '',
+                    'placa' => 'required|max:10|unique:veiculo,placa,'.$this->input('id').',pk_veiculo',
+                    'tipo' => 'max:50'
+                ];
+            }
+            default:break;
+        }
     }
 
     public function attributes()

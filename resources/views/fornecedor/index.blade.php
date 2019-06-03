@@ -35,7 +35,7 @@
                                     Município
                                 </th>
                                 <th>
-                                    Status
+                                    Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -84,8 +84,8 @@
                         let html = '';
                         html += `
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a href="{{url('fornecedor/editar/')}}${data.pk_fornecedor}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <button onclick="HelperJs.initializeDeleteDialog('fornecedor/deletar', ${data.pk_fornecedor})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                    <a href="{{url('fornecedor/editar')}}/${data.pk_fornecedor}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="initializeDeleteDialog('fornecedor/deletar', ${data.pk_fornecedor})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                 </div>`;
                         return html;
                         },

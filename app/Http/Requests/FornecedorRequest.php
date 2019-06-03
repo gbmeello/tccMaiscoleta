@@ -49,12 +49,11 @@ class FornecedorRequest extends BaseFormRequest
             case 'PUT':
             case 'PATCH':
             {
-                $id = ClienteFinal::find($this->input('id'));
                 return [
                     'slt_municipio' => 'required|integer',
-                    'nome_fantasia' => 'required|max:200|unique:fornecedor,nome_fantasia,'.$id,
+                    'nome_fantasia' => 'required|max:200|unique:fornecedor,nome_fantasia,'.$this->input('id').',pk_fornecedor',
                     'razao_social' => 'required|max:300',
-                    'email' => 'required|email|max:100|unique:fornecedor,email,'.$id,
+                    'email' => 'required|email|max:100|unique:fornecedor,email,'.$this->input('id').',pk_fornecedor',
                     'telefone1' => 'max:15',
                     'telefone2' => 'max:15',
                     'cep' => 'max:9',

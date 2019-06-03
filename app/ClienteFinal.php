@@ -18,8 +18,8 @@ class ClienteFinal extends Model
 
     public $timestamps = false;
 
-    public function triagem() {
-        $this->belongsTo(Triagem::class, 'pk_triagem');
+    public function setMunicipioAttribute($value) {
+        $this->attributes['fk_municipio'] = $value;
     }
 
     public function municipio() {

@@ -139,6 +139,8 @@ class ClienteFinalController extends ApiController
         $validate = $request->validated();
 
         $model = new ClienteFinal();
+        $model->setMunicipioAttribute($validate['slt_municipio']);
+
         $success = $model->fill($validate)->save();
 
         if($success) {
@@ -182,7 +184,9 @@ class ClienteFinalController extends ApiController
 
         $validate = $request->validated();
 
-        $success = $model->fill($validate->toArray())->save();
+        $model->setMunicipioAttribute($validate['slt_municipio']);
+
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([

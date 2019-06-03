@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\ClienteFinal;
 
 class ClienteFinalRequest extends BaseFormRequest
@@ -53,12 +50,11 @@ class ClienteFinalRequest extends BaseFormRequest
             case 'PUT':
             case 'PATCH':
             {
-                $id = ClienteFinal::find($this->input('id'));
                 return [
                     'slt_municipio' => 'required|integer',
-                    'nome_fantasia' => 'required|max:200|unique:cliente_final,nome_fantasia,'.$id,
+                    'nome_fantasia' => 'required|max:200|unique:cliente_final,nome_fantasia,'.$this->input('id').',pk_cliente_final',
                     'razao_social' => 'required|max:300',
-                    'email' => 'required|email|max:100|unique:cliente_final,email,'.$id,
+                    'email' => 'required|email|max:100|unique:cliente_final,email,'.$this->input('id').',pk_cliente_final',
                     'telefone1' => 'max:15',
                     'telefone2' => 'max:15',
                     'cep' => 'max:9',

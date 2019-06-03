@@ -5,9 +5,10 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Ve&iacute;culos</h3>
+                    <h3 class="box-title">Edição do Ve&iacute;culo - [{{ $obj->placa }} / {{ $obj->modelo }}]</h3>
                 </div>
                 <form id="form-veiculo" class="box-body">
+                    <input type="hidden" name="id" id="id" value="{{$obj->pk_veiuclo}}">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="placa">Placa</label>
@@ -28,7 +29,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label" for="observacao">Observa&ccedil;&atilde;o</label>
+                            <label class="control-label" for="veiculo-observacao">Observa&ccedil;&atilde;o</label>
                             <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="300"></textarea>
                         </div>
                     </div>
@@ -55,12 +56,12 @@
 
         function cadastrar() {
 
-            let data = $('#form-fornecedor').serialize();
+            let data = $('#form-veiculo').serialize();
             let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
-                type: 'POST',
-                url: '/api/v1/veiculo/cadastrar',
+                type: 'PUT',
+                url: '/api/v1/veiculo/editar/'+{{$obj->pk_veiculo}},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {

@@ -109,7 +109,7 @@
             $sltEstado = $('#slt_estado').select2();
 
             $sltEstado.change(function() {
-                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+                loadSelectMunicipios('#slt_municipio', $sltEstado.val());
             });
 
             $sltMunicipio = $('#slt_municipio');
@@ -129,7 +129,6 @@
         }
 
         function cadastrar() {
-
             let data = $('#form-cliente-final').serialize();
             let $btnSalvar = $('#btn-salvar');
 
@@ -145,17 +144,15 @@
                     $btnSalvar.button('reset');
                 },
                 success: function(data) {
-
                     if(data.success) {
-                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
+                        $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
+                        $('#div-resultado').html(showValidationErrors(data.message));
                     }
 
                 },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
-                    console.error('error');
+                error: function(xhr, response) { // if error occured
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }

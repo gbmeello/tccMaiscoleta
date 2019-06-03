@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Estado;
+use App\Fornecedor;
 use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
@@ -15,15 +17,25 @@ class FornecedorController extends Controller
 
     public function create()
     {
-        return view($this->viewName.'.cadastrar');
+        $estados = Estado::All();
+        return view($this->viewName.'.cadastrar', ['estados' => $estados]);
     }
 
     public function edit($id)
     {
+        $estados = Estado::All();
+
         $obj = Fornecedor::find($id);
 
+        $estado     = $obj->municipio()->first()->estado()->first();
+        $municipios = $estado->municipios()->get();
+
         if(!empty($obj)) {
-            return view($this->viewName.'.editar', ['obj' => $obj]);
+            return view($this->viewName.'.editar', [
+                'obj' => $obj,
+                'estados' => $estados,
+                'municipios' => $municipios
+            ]);
         }
 
         Session::flash('message', "Fornecedor não foi encontrado");

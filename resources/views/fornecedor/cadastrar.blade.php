@@ -60,7 +60,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="cep">Cep:</label>
-                            <input type="text" class="form-control" name="cep" id="cep" maxlength="8">
+                            <input type="text" class="form-control" name="cep" id="cep" maxlength="9">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -89,7 +89,7 @@
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -109,7 +109,7 @@
             $sltEstado = $('#slt_estado').select2();
 
             $sltEstado.change(function() {
-                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+                loadSelectMunicipios('#slt_municipio', $sltEstado.val());
             });
 
             $sltMunicipio = $('#slt_municipio');
@@ -145,17 +145,15 @@
                     $btnSalvar.button('reset');
                 },
                 success: function(data) {
-
                     if(data.success) {
-                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
+                        $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
+                        $('#div-resultado').html(showValidationErrors(data.message));
                     }
 
                 },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
-                    console.error('error');
+                error: function(xhr, response) { // if error occured
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }

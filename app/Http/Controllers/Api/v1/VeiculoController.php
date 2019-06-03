@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\ClienteFinal;
 use App\Veiculo;
 use Illuminate\Http\Request;
 use App\Http\Requests\VeiculoRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class VeiculoController extends ApiController
+class VeiculoController extends BaseFormRequest
 {
     public function index(Request $request)
     {
@@ -22,7 +22,7 @@ class VeiculoController extends ApiController
 
         $totalData      = Veiculo::count();
         $totalFiltered  = $totalData;
-        $columnOrder    = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder    = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
@@ -32,6 +32,7 @@ class VeiculoController extends ApiController
 
         if(empty($request->input('search.value'))) {
             $models = Veiculo::offset($start)
+                ->where('ativo', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -43,7 +44,7 @@ class VeiculoController extends ApiController
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
                 ->orWhere('placa', 'LIKE',"%{$search}%")
                 ->orWhere('tipo', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -54,7 +55,7 @@ class VeiculoController extends ApiController
                 ->orWhere('observacao', 'LIKE',"%{$search}%")
                 ->orWhere('placa', 'LIKE',"%{$search}%")
                 ->orWhere('tipo', 'LIKE',"%{$search}%")
-                ->orWhere('ativo', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
                 ->count();
         }
 
@@ -63,7 +64,7 @@ class VeiculoController extends ApiController
         {
             foreach ($models as $model)
             {
-                $nestedData['id']           = $model->pk_veiculo;
+                $nestedData['pk_veiculo']   = $model->pk_veiculo;
                 $nestedData['modelo']       = $model->modelo;
                 $nestedData['observacao']   = $model->observacao;
                 $nestedData['placa']        = $model->placa;
@@ -109,7 +110,7 @@ class VeiculoController extends ApiController
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cliente Final não existe'
+                'message' => 'Veículo não existe'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
@@ -125,13 +126,13 @@ class VeiculoController extends ApiController
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cliente Final não existe'
+                'message' => 'Veículo não existe'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
         $validate = $request->validated();
 
-        $success = $model->fill($request->toArray())->save();
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([

@@ -101,10 +101,6 @@ class FornecedorController extends ApiController
             foreach ($model as $obj)
             {
                 $municipio = $obj->municipio()->first();
-
-                if(empty($municipio))
-                    continue;
-
                 $estado = $municipio->estado()->first();
 
                 $nestedData['pk_fornecedor']    = $obj->pk_fornecedor;
@@ -140,6 +136,8 @@ class FornecedorController extends ApiController
         $validate = $request->validated();
 
         $model = new Fornecedor();
+        $model->setMunicipioAttribute($validate['slt_municipio']);
+
         $success = $model->fill($validate)->save();
 
         if($success) {
@@ -183,7 +181,9 @@ class FornecedorController extends ApiController
 
         $validate = $request->validated();
 
-        $success = $model->fill($validate->toArray())->save();
+        $model->setMunicipioAttribute($validate['slt_municipio']);
+
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([

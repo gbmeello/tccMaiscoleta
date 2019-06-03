@@ -53,150 +53,142 @@ var configDatatable = {
     },
 };
 
+function divMessage(alertClass, titulo, mensagem, icone) {
 
-class HelperJs {
+    return `<div class="alert alert-${alertClass} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
+                ${mensagem}
+                </div>`;
+};
 
-    static divMessage(alertClass, titulo, mensagem, icone) {
+function showMessage(tipo, mensagem, titulo = '') {
 
-        return `<div class="alert alert-${alertClass} alert-dismissible">
+    let icone = '',
+        alertClass = '';
+
+    switch (tipo) {
+        case 'success':
+            icone = 'check';
+            titulo = (titulo == '' ? 'Sucesso' : '');
+            alertClass = 'success';
+            break;
+        case 'danger':
+            icone = 'exclamation';
+            titulo = (titulo == '' ? 'Atenção' : '');
+            alertClass = 'danger';
+            break;
+        case 'warning':
+            icone = 'exclamation-triangle';
+            titulo = (titulo == '' ? 'Cuidado' : '');
+            alertClass = 'warning';
+            break;
+        case 'info':
+            icone = 'exclamation-circle';
+            titulo = (titulo == '' ? 'Informação' : '');
+            alertClass = 'info';
+            break;
+    }
+
+    return `<div class="alert alert-${alertClass} alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
                     ${mensagem}
-                  </div>`;
-    };
+                </div>`;
+};
 
-    static showMessage(tipo, mensagem, titulo = '') {
+function showValidationErrors(arrayError) {
+    let errorMessage = '<ul>';
+    $.each(arrayError, function(i, value) {
+        if(value !== null)
+            errorMessage += `<li>${value}</li>`;
+    });
+    errorMessage += '</ul>';
+    return showMessage('danger', errorMessage);
+}
 
-        let icone = '',
-            alertClass = '';
+function loadSelectMunicipios(target, idEstado) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/municipio/listar-por-estado/'+idEstado,
+        dataType: 'json',
+        beforeSend: function() {
+            console.log('antes de enviar');
+        },
+        complete: function() {
+            console.log('completo');
+        },
+        success: function(response) {
 
-        switch (tipo) {
-            case 'success':
-                icone = 'check';
-                titulo = (titulo == '' ? 'Sucesso!' : '');
-                alertClass = 'success';
-                break;
-            case 'danger':
-                icone = 'exclamation';
-                titulo = (titulo == '' ? 'Falha!' : '');
-                alertClass = 'danger';
-                break;
-            case 'warning':
-                icone = 'exclamation-triangle';
-                titulo = (titulo == '' ? 'Cuidado!' : '');
-                alertClass = 'warning';
-                break;
-            case 'info':
-                icone = 'exclamation-circle';
-                titulo = (titulo == '' ? 'Info!' : '');
-                alertClass = 'info';
-                break;
+            let $target = $(target);
+
+            if(response.success) {
+                $target.empty().trigger('change');
+                $.each(response.data, function(index, municipio) {
+                    $target.append(`<option value="${municipio.pk_municipio}">${municipio.nome}</option>`);
+                });
+                $target.trigger('change');
+
+            } else {
+                console.error(response.message);
+            }
+
+        },
+        error: function(xhr) { // if error occured
+            console.error(xhr.responseJSON.message);
         }
+    });
+}
 
-        return `<div class="alert alert-${alertClass} alert-dismissible">
-                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                     <h4><i class="icon fa fa-${icone}"></i>${titulo}</h4>
-                     ${mensagem}
-                 </div>`;
-    };
-
-    static showValidationErrors(arrayError) {
-        let errorMessage = '<ul>';
-        $.each(arrayError, function(i, value) {
-            if(value !== null)
-                errorMessage += `<li>${value}</li>`;
-        });
-        return errorMessage = '</ul>';
-    }
-
-    static loadSelectMunicipios(target, idEstado) {
-        $.ajax({
-            type: 'GET',
-            url: '/api/v1/municipio/listar-por-estado/'+idEstado,
-            dataType: 'json',
-            beforeSend: function() {
-                console.log('antes de enviar');
+function initializeDeleteDialog(url, id) {
+    bootbox.confirm({
+        title: '<strong>Você realmente deseja deletar o registro?</strong>',
+        message: "Após confirmação, o registro será deletado",
+        buttons: {
+            confirm: {
+                className: 'btn-success'
             },
-            complete: function() {
-                console.log('completo');
-            },
-            success: function(response) {
-
-                let $target = $(target);
-
-                if(response.success) {
-                    $target.empty().trigger('change');
-                    $.each(response.data, function(index, municipio) {
-                        $target.append(`<option value="${municipio.pk_municipio}">${municipio.nome}</option>`);
-                    });
-                    $target.trigger('change');
-
-                } else {
-                    console.error('error');
-                }
-
-            },
-            error: function(xhr) { // if error occured
-                console.log(xhr);
-                console.error('error');
+            cancel: {
+                className: 'btn-danger'
             }
-        });
-    }
-
-    static initializeDeleteDialog(url, id) {
-        bootbox.confirm({
-            title: '<strong>Você realmente deseja deletar o registro?</strong>',
-            message: "Após confirmação, o registro será deletado",
-            buttons: {
-                confirm: {
-                    className: 'btn-success'
-                },
-                cancel: {
-                    className: 'btn-danger'
-                }
-            },
-            locale: 'br',
-            callback: function (confirm) {
-                if(confirm) {
-                    debugger;
-                    $.ajax({
-                        type: 'DELETE',
-                        url: `/api/v1/${url}/${id}`,
-                        dataType: 'json',
-                        beforeSend: function() {
-                            console.log('antes de enviar');
-                        },
-                        complete: function() {
-                            console.log('completo');
-                        },
-                        success: function(response) {
-                            if(response.success) {
-                                bootbox.alert({
-                                    title: '<span><strong>Sucesso!</strong></span>',
-                                    message: "Registro deletado com sucesso!",
-                                    confirm: {
-                                        className: 'btn-success'
-                                    }
-                                });
-                            } else {
-                                bootbox.alert({
-                                    title: '<span><strong>Falha!</strong></span>',
-                                    message: "Falha ao deletar o registro. Por favor, tente novamente",
-                                    confirm: {
-                                        className: 'btn-danger'
-                                    }
-                                });
-                            }
-                        },
-                        error: function(xhr) { // if error occured
-                            console.log(xhr);
-                            console.error('error');
+        },
+        locale: 'br',
+        callback: function (confirm) {
+            if(confirm) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: `/api/v1/${url}/${id}`,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        console.log('antes de enviar');
+                    },
+                    complete: function() {
+                        console.log('completo');
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            bootbox.alert({
+                                title: '<span><strong>Sucesso!</strong></span>',
+                                message: "Registro deletado com sucesso!",
+                                confirm: {
+                                    className: 'btn-success'
+                                }
+                            });
+                        } else {
+                            bootbox.alert({
+                                title: '<span><strong>Falha!</strong></span>',
+                                message: "Falha ao deletar o registro. Por favor, tente novamente",
+                                confirm: {
+                                    className: 'btn-danger'
+                                }
+                            });
                         }
-                    });
-                }
+                    },
+                    error: function(xhr) { // if error occured
+                        console.error(xhr.responseJSON.message);
+                    }
+                });
             }
-        });
-    }
-
-
+        }
+    });
 }
