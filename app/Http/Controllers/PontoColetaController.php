@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rota;
+use Illuminate\Support\Facades\Session;
 
 class PontoColetaController extends Controller
 {

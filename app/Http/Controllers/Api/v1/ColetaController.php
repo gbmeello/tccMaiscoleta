@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Coleta;
 use Illuminate\Http\Request;
 use App\Http\Requests\ColetaRequest;
+use Illuminate\Support\Carbon;
 
 class ColetaController extends ApiController
 {
@@ -33,13 +34,11 @@ class ColetaController extends ApiController
         if(empty($request->input('search.value')))
         {
             $models = Coleta::from('coleta as c')
-                ->select('c.*', 'v.modelo', 'v.placa', 'f.nome_fantasia')
+                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
                 ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
                 ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
                 ->where('c.ativo', true)
-                ->where('v.ativo', true)
-                ->where('f.ativo', true)
                 ->limit($limit)
                 ->offset($start)
                 ->orderBy($order, $dir)
@@ -49,13 +48,11 @@ class ColetaController extends ApiController
             $search = $request->input('search.value');
 
             $models = Coleta::from('coleta as c')
-                ->select('c.*', 'v.modelo', 'v.placa', 'f.nome_fantasia')
+                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
-                ->leftJoin('veiculo as v', 'r.pk_veiculo', '=', 'c.fk_veiculo')
-                ->leftJoin('fornecedor as f', 'r.pk_fornecedor', '=', 'c.fk_fornecedor')
+                ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
+                ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
                 ->where('c.ativo', true)
-                ->where('v.ativo', true)
-                ->where('f.ativo', true)
                 ->where('pk_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('c.data_coleta', 'LIKE',"%{$search}%")
                 ->orWhere('c.has_coleta', 'LIKE',"%{$search}%")
@@ -68,11 +65,9 @@ class ColetaController extends ApiController
             $totalFiltered = Coleta::from('coleta as c')
                 ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
-                ->leftJoin('veiculo as v', 'r.pk_veiculo', '=', 'c.fk_veiculo')
-                ->leftJoin('fornecedor as f', 'r.pk_fornecedor', '=', 'c.fk_fornecedor')
+                ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
+                ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
                 ->where('c.ativo', true)
-                ->where('v.ativo', true)
-                ->where('f.ativo', true)
                 ->where('pk_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('c.data_coleta', 'LIKE',"%{$search}%")
                 ->orWhere('c.has_coleta', 'LIKE',"%{$search}%")
@@ -86,7 +81,7 @@ class ColetaController extends ApiController
             foreach ($models as $model)
             {
                 $nestedData['pk_coleta']        = $model->pk_coleta;
-                $nestedData['data_coleta']      = $model->data_coleta->format('d/m/Y');
+                $nestedData['data_coleta']      = Carbon::parse($model->data_coleta)->format('d/m/Y');
                 $nestedData['has_coleta']       = $model->has_coleta;
                 $nestedData['observacao']       = $model->observacao;
                 $nestedData['veiculo_modelo']   = $model->modelo;
@@ -146,7 +141,7 @@ class ColetaController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $model->data_coleta = $model->data_coleta->format('d/m/Y');
+        $model->data_coleta = Carbon::parse($model->data_coleta)->format('d/m/Y');
 
         return response()->json([
             'success' => false,

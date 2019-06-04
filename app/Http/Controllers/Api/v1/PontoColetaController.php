@@ -121,7 +121,7 @@ class PontoColetaController extends Controller
 
                     if($rota === $model->rota) {
 
-                        if(! PontoColeta::where('nome', '=', $model->nome)->first()) {
+                        if(PontoColeta::where('nome', '=', $model->nome)->first()) {
 
                             return response()->json([
                                 'success' => false,

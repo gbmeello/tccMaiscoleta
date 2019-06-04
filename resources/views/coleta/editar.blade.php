@@ -1,107 +1,106 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Coleta
+        <small>Edição</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{asset('coleta/index')}}"><i class="fa fa-th-large"></i> Coleta - Lista</a></li>
+        <li class="active">Coleta</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Edição do Fornecedor - [{{$obj->nome_fantasia}}]</h3>
+                    <h3 class="box-title">Cadastro da Coleta</h3>
                 </div>
-                <form id="form-fornecedor" role="form" class="box-body">
-                    <input name="id" value="{{ $obj->pk_fornecedor }}" hidden>
-                    <div class="col-md-6">
+                <form id="form-coleta" class="box-body">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
-                            <input type="text" class="form-control" value="{{ $obj->nome_fantasia }}" name="nome_fantasia" id="nome_fantasia" maxlength="200">
+                            <label class="control-label" for="slt_rota">Rota</label>
+                            <select name="slt_rota" id="slt_rota" style="width: 100%;">
+                                @if(isset($rotas) && $rotas->count())
+                                    <option value=""> Selecione a rota... </option>
+                                    @foreach($rotas as $rota)
+                                        @if ($obj->fk_rota === $rota->pk_rota)
+                                            <option selected title="{{$rota->descricao}}" value="{{$rota->pk_rota}}"> {{$rota->nome}} </option>
+                                        @else
+                                            <option title="{{$rota->descricao}}" value="{{$rota->pk_rota}}"> {{$rota->nome}} </option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <option value=""> Nenhuma rota foi cadastrada... </option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="slt_veiculo">Veículo</label>
+                            <select name="slt_veiculo" id="slt_veiculo" style="width: 100%;">
+                                @if(isset($veículos) && $veículos->count())
+                                    <option value=""> Selecione o cliente... </option>
+                                    @foreach($veiculos as $veiculo)
+                                        @if ($obj->fk_veiculo === $veiculo->pk_veiculo)
+                                            <option selected value="{{$veiculo->pk_veiculo}}"> {{$veiculo->tipo}} | {{$veiculo->modelo}} | {{$veiculo->placa}}</option>
+                                        @else
+                                            <option value="{{$veiculo->pk_veiculo}}"> {{$veiculo->tipo}} | {{$veiculo->modelo}} | {{$veiculo->placa}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <option value=""> Nenhum veículo foi cadastrado... </option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="slt_veiculo">Fornecedor</label>
+                            <select name="slt_fornecedor" id="slt_fornecedor" style="width: 100%;">
+                                @if(isset($fornecedores) && $fornecedores->count())
+                                    <option value=""> Selecione o fornecedor... </option>
+                                    @foreach($fornecedores as $fornecedor)
+                                        @if ($obj->fk_fornecedor === $fornecedor->pk_fornecedor)
+                                            <option selected value="{{$obj->pk_fornecedor}}"> {{$obj->nome_fantasia}} </option>
+                                        @else
+                                            <option value="{{$obj->pk_fornecedor}}"> {{$obj->nome_fantasia}} </option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <option value=""> Nenhum fornecedor foi cadastrado... </option>
+                                @endif
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="razao_social">Razão Social</label>
-                            <input type="text" class="form-control" value="{{ $obj->razao_social }}" name="razao_social" id="razao_social" maxlength="300">
+                            <label class="control-label" for="data_coleta">Data de Coleta:</label>
+                            <input type="date" class="form-control" name="data_coleta" id="data_coleta">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="has_coleta">Teve coleta?</label>
+                            <br>
+                            <input type="checkbox" value="{{ $obj->has_coleta }}" class="" name="has_coleta" id="has_coleta">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label" for="email">Email</label>
-                            <input type="text" class="form-control" value="{{ $obj->email }}"  name="email" id="email" maxlength="100">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="telefone1">Telefone 1:</label>
-                            <input type="text" class="form-control" value="{{ $obj->telefone1 }}"  name="telefone1" id="telefone1" maxlength="15">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="telefone1">Telefone 2:</label>
-                            <input type="text" class="form-control" value="{{ $obj->telefone2 }}"  name="telefone2" id="telefone2" maxlength="15">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="estado">Estado:</label>
-                            <select id="slt_estado" class="form-control" name="slt_estado">
-                                <option value="">Selecione o estado...</option>
-                                @foreach ($estados as $estado)
-                                    @if ($obj->municipio()->first()->estado()->first()->pk_estado === $estado->pk_estado)
-                                        <option value="{{$estado->pk_estado}}" selected>{{$estado->nome}}</option>
-                                    @else
-                                        <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="slt_municipio">Município:</label>
-                            <select id="slt_municipio" class="form-control" name="slt_municipio">
-                                <option value="">...</option>
-                                @foreach ($municipios as $municipio)
-                                    @if ($obj->municipio()->first()->pk_municipio === $municipio->pk_municipio)
-                                        <option value="{{$municipio->pk_municipio}}" selected>{{$municipio->nome}}</option>
-                                    @else
-                                        <option value="{{$municipio->pk_municipio}}">{{$municipio->nome}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="cep">Cep:</label>
-                            <input type="text" class="form-control" value="{{ $obj->cep }}"  name="cep" id="cep" maxlength="9">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="bairro">Bairro:</label>
-                            <input type="text" class="form-control" value="{{ $obj->bairro }}"  name="bairro" id="bairro" maxlength="150">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="rua">Rua:</label>
-                            <input type="text" class="form-control" value="{{ $obj->rua }}"  name="rua" id="rua" maxlength="150">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="logradouro">Logradouro:</label>
-                            <input type="text" class="form-control" value="{{ $obj->logradouro }}"  name="logradouro" id="logradouro" maxlength="200">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="complemento">Complemento:</label>
-                            <input type="text" class="form-control" value="{{ $obj->complemento }}"  name="complemento" id="complemento" maxlength="300">
+                            <label  class="control-label" for="observacao">Observação</label>
+                            <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="1000">
+                                {{ $obj->observacao }}
+                            </textarea>
                         </div>
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat">
+                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -118,14 +117,13 @@
 
             initValidation();
 
-            $sltEstado = $('#slt_estado').select2();
+            $('#slt_rota').select2();
+            $('#slt_veiculo').select2();
+            $('#slt_fornecedor').select2();
 
-            $sltEstado.change(function() {
-                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
-            });
+            document.getElementById('data_coleta').value = '{{ $obj->data_coleta }}';
 
-            $sltMunicipio = $('#slt_municipio');
-            $sltMunicipio.select2();
+            $('#has_coleta').prop('checked', {{ $obj->has_coleta }});
 
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
@@ -134,20 +132,19 @@
 
         function initValidation() {
 
-            $('#telefone1').inputmask('(99) 999999999');  //static mask
-            $('#telefone2').inputmask('(99) 999999999');  //static mask
-            $('#cep').inputmask('99999-999');  //static mask
+            // $('#data_coleta').inputmask('__/__/____');  //static mask
 
         }
 
         function cadastrar() {
 
-            let data = $('#form-fornecedor').serialize();
             let $btnSalvar = $('#btn-salvar');
+
+            let data = $('#form-coleta').serialize();
 
             $.ajax({
                 type: 'PUT',
-                url: '/api/v1/fornecedor/editar/' + {{$obj->pk_fornecedor}},
+                url: '/api/v1/coleta/editar' + {{ $obj->pk_coleta }},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
@@ -165,8 +162,9 @@
                     }
 
                 },
-                error: function(xhr, response) { // if error occured
-                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
+                error: function(xhr) { // if error occured
+                    console.log(xhr);
+                    console.error('error');
                 }
             });
         }

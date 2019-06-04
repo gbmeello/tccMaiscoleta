@@ -36,15 +36,15 @@ class TipoResiduoController extends Controller
         return redirect($this->viewName.'/index')->send();
     }
 
-    public function delete($id)
-    {
-        $tipoResiduo = TipoResiduo::find($id);
+    // public function delete($id)
+    // {
+    //     $tipoResiduo = TipoResiduo::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
-        }
+    //     if(!empty($tipoResiduo)) {
+    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
+    //     }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
-    }
+    //     Session::flash('message', "Tipo de Resíduo não foi encontrado");
+    //     return redirect($this->viewName.'/index')->send();
+    // }
 }

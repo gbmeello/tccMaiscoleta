@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
+use App\Veiculo;
+
 class VeiculoController extends Controller
 {
     const PERM_VEICULO_ADICIONAR    = 'veiculo_adicionar';
@@ -9,14 +12,16 @@ class VeiculoController extends Controller
     const PERM_VEICULO_LISTAR       = 'veiculo_listar';
     const PERM_VEICULO_REMOVER      = 'veiculo_remover';
 
+    private $viewName = 'veiculo';
+
     public function index()
     {
-        return view('veiculo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('veiculo.cadastrar');
+        return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
@@ -24,11 +29,11 @@ class VeiculoController extends Controller
         $obj = Veiculo::find($id);
 
         if(!empty($obj)) {
-            return view('veiculo.editar', compact(['obj' => $obj]));
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
         Session::flash('message', "Veículo não foi encontrado");
-        return redirect('veiculo/index')->send();
+        return redirect($this->viewName.'/index')->send();
     }
 
     // public function delete($id)

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Rota;
+use App\Coleta;
 use App\Veiculo;
+use Carbon\Carbon;
 use App\Fornecedor;
+use Illuminate\Support\Facades\Session;
 
 class ColetaController extends Controller
 {
@@ -30,14 +33,15 @@ class ColetaController extends Controller
 
     public function edit($id)
     {
-
-        $obj = Fornecedor::find($id);
+        $obj = Coleta::find($id);
 
         if(!empty($obj)) {
 
             $rotas = Rota::where('ativo', true);
             $veiculos = Veiculo::where('ativo', true);
             $fornecedores = Fornecedor::where('ativo', true);
+
+            $obj->data_coleta = Carbon::parse($obj->data_coleta)->format('d/m/Y');
 
             return view($this->viewName.'.editar', [
                 'obj' => $obj,
@@ -47,7 +51,7 @@ class ColetaController extends Controller
             ]);
         }
 
-        Session::flash('message', "Fornecedor não foi encontrado");
+        Session::flash('message', "Coleta não foi encontrada");
         return redirect($this->viewName.'/index')->send();
     }
 

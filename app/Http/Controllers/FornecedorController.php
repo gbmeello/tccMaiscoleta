@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Estado;
 use App\Fornecedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class FornecedorController extends Controller
 {

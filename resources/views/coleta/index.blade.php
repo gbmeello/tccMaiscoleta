@@ -69,8 +69,8 @@
             "ajax": "{{ url('api/v1/coleta/listar') }}",
             "columns": [
                 { "data": "pk_coleta" },
-                { "data": "nome" },
-                { "data": "nome_fantasia" },
+                { "data": "rota_nome" },
+                { "data": "fornecedor" },
                 { "data": "data_coleta" },
                 { "data": "has_coleta", render: function(data, type, row) {
                         let html = '';
