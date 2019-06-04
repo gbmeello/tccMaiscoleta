@@ -23,7 +23,7 @@ class CreateTipoResiduoTable extends Migration
 
         $schema->create('tipo_residuo', function (Blueprint $table) {
             $table->increments('pk_tipo_residuo')->comment('Chave primária e única da tabela Tipo_Residuo');
-            $table->string('nome', 100)->comment('Nome do tipo de resíduo');
+            $table->string('nome', 100)->unique()->comment('Nome do tipo de resíduo');
             $table->string('descricao', 600)->nullable()->comment('Descrição do tipo de resíduo');
             $table->customTimestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');

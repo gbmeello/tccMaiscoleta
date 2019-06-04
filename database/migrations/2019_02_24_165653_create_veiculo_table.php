@@ -23,9 +23,9 @@ class CreateVeiculoTable extends Migration
 
         $schema->create('veiculo', function (Blueprint $table) {
             $table->increments('pk_veiculo')->comment('Chave primária e unica da tabela Veiculo');
+            $table->string('placa', 10)->unique()->comment('Placa do veículo');
             $table->string('modelo', 100)->comment('Modelo do veículo');
             $table->string('observacao', 300)->nullable()->comment('Observação relacionada ao veículo');
-            $table->string('placa', 10)->comment('Placa do veículo');
             $table->string('tipo', 50)->nullable()->comment('Tipo do veículo');
             $table->customTimestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');

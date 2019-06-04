@@ -23,7 +23,7 @@ class CreateFornecedorTable extends Migration
         $schema->create('fornecedor', function (Blueprint $table) {
             $table->increments('pk_fornecedor')->comment('Chave primária e única da tabela Ponto_Coleta');
             $table->unsignedInteger('fk_municipio')->nullable()->comment('Municpio onde o fornecedor reside');
-            $table->string('nome_fantasia', 200)->comment('Nome fantasia do fornecedor');
+            $table->string('nome_fantasia', 200)->unique()->comment('Nome fantasia do fornecedor');
             $table->string('razao_social', 300)->comment('Razão Social do fornecedor');
             $table->string('email', 100)->comment('Email do fornecedor');
             $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do fornecedor');

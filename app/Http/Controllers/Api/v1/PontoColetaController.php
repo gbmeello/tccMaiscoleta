@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Requests\PontoColetaRequest;
+use App\Rota;
 use App\PontoColeta;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\PontoColetaRequest;
 
 class PontoColetaController extends Controller
 {
@@ -101,23 +103,63 @@ class PontoColetaController extends Controller
      * @param PontoColetaRequest $request
      * @return Response
      */
-    public function store(PontoColetaRequest $request)
+    public function store(Request $request)
     {
-        $validate = $request->validated();
+        try {
 
-        $model = new PontoColeta();
-        $success = $model->fill($validate)->save();
+            $models = json_decode($request->input('json'));
 
-        if($success) {
+            $models = collect($models);
+
+            $idsRota = $models->pluck('rota')->unique()->values()->all();
+
+            foreach($idsRota as $rota) {
+
+                $pontosColeta = [];
+
+                foreach($models as $model) {
+
+                    if($rota === $model->rota) {
+
+                        if(! PontoColeta::where('nome', '=', $model->nome)->first()) {
+
+                            return response()->json([
+                                'success' => false,
+                                'message' => ['O nome já existe']
+                            ], ApiController::HTTP_STATUS_BAD_REQUEST);
+
+                        }
+
+                        $ids = PontoColeta::create([
+                            'nome'      => $model->nome,
+                            'latitude'  => $model->latitude,
+                            'longitude' => $model->longitude,
+                            'descricao' => $model->descricao
+                        ]);
+
+                        array_push($pontosColeta, $ids->pk_ponto_coleta);
+
+                    }
+
+                }
+
+                $obj = Rota::where('ativo', true)->find($rota);
+                $obj->pontosColeta()->attach($pontosColeta);
+            }
+
+            // $model = new PontoColeta();
+            // $success = $model->fill($validate)->save();
+
             return response()->json([
-                'success' => $success,
+                'success' => true,
                 'message' => 'Cadastro realizado com sucesso'
             ]);
-        } else {
+        }
+        catch(\Exception $ex) {
             return response()->json([
-                'success' => $success,
+                'success' => false,
                 'message' => 'Falha ao realizar o cadastro. Por favor, tente novamente'
-            ]);
+            ], ApiController::HTTP_STATUS_BAD_REQUEST);
         }
     }
 

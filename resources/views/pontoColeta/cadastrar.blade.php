@@ -3,7 +3,7 @@
 @section('styles')
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css' type='text/css' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/>
+    {{-- <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/> --}}
     {{-- <style>
         .info-box {
             height: 100px;
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div id="lista-ponto-coleta" style="max-height: 200px" class="col-sm-12 col-md-12">
-                            <table id="tbl-ponto-coleta" style="max-height: 200px; width:100% !important; overflow-y: auto;" class="table table-bordered table-striped table-responsive">
+                            <table id="tbl-ponto-coleta" style="display:block; max-height: 200px; width:100% !important; overflow-y: auto;" class="table table-bordered table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <td style="width: 10%">Rota</td>
@@ -119,7 +119,7 @@
 @section('scripts')
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js'></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script>
+    {{-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script> --}}
     <script src='{{ asset('js/mapboxhelper.js' )}}'></script>
     <script>
 
@@ -141,12 +141,18 @@
         function cadastrar() {
 
             let $btnSalvar = $('#btn-salvar');
-            let data = $('#form-triagem').serialize();
+
+            // debugger;
+
+            // arrayPontosColeta = JSON.parse(arrayPontosColeta);
+
 
             $.ajax({
                 type: 'POST',
                 url: '/api/v1/ponto-coleta/cadastrar',
-                data: data,
+                data: {
+                    json: JSON.stringify(arrayPontosColeta)
+                },
                 dataType: 'json',
                 beforeSend: function() {
                     $btnSalvar.button('loading');
@@ -184,7 +190,7 @@
 
             // debugger;
 
-            mapBoxHelper = new MapBoxHelper(mapboxgl, map, createPointMapDraw());
+            mapBoxHelper = new MapBoxHelper(mapboxgl, map);
 
             // add create, update, or delete actions
             map.on('draw.create', updatePoint);

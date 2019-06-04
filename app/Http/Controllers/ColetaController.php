@@ -2,41 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Rota;
+use App\Veiculo;
+use App\Fornecedor;
 
 class ColetaController extends Controller
 {
+    private $viewName = 'coleta';
+
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        $rotas = Rota::where('ativo', true)->get();
+        $veiculos = Veiculo::where('ativo', true)->get();
+        $fornecedores = Fornecedor::where('ativo', true)->get();
+
+        return view($this->viewName.'.cadastrar', [
+            'rotas' => $rotas,
+            'veiculos' => $veiculos,
+            'fornecedores' => $fornecedores,
+        ]);
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.atualizar', compact(['tipoResiduo' => $tipoResiduo]));
+        $obj = Fornecedor::find($id);
+
+        if(!empty($obj)) {
+
+            $rotas = Rota::where('ativo', true);
+            $veiculos = Veiculo::where('ativo', true);
+            $fornecedores = Fornecedor::where('ativo', true);
+
+            return view($this->viewName.'.editar', [
+                'obj' => $obj,
+                'rotas' => $rotas,
+                'veiculos' => $veiculos,
+                'fornecedores' => $fornecedores,
+            ]);
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "Fornecedor não foi encontrado");
+        return redirect($this->viewName.'/index')->send();
     }
 
-    public function delete($id)
-    {
-        $tipoResiduo = TipoResiduo::find($id);
+    // public function delete($id)
+    // {
+    //     $tipoResiduo = Fornecedor::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
-        }
+    //     if(!empty($tipoResiduo)) {
+    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
+    //     }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
-    }
+    //     Session::flash('message', "Fornecedor não foi encontrado");
+    //     return redirect($this->viewName.'/index')->send();
+    // }
 }

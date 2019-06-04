@@ -32,16 +32,20 @@ class ColetaRequest extends BaseFormRequest
             case 'POST':
             {
                 return [
-                    'nome' => 'required|unique:rota,nome|max:100',
-                    'observacao' => 'max:500'
+                    'slt_rota' => 'required',
+                    'data_coleta' => 'required',
+                    'has_coleta' => 'required',
+                    'observacao' => 'max:1000'
                 ];
             }
             case 'PUT':
             case 'PATCH':
             {
                 return [
-                    'nome' => 'required|max:100|unique:rota,nome,'.$this->input('id').',pk_rota',
-                    'observacao' => 'max:500'
+                    'slt_rota' => 'required',
+                    'data_coleta' => 'required',
+                    'has_coleta' => 'required',
+                    'observacao' => 'max:1000'
                 ];
             }
             default:break;
@@ -51,7 +55,9 @@ class ColetaRequest extends BaseFormRequest
     public function attributes()
     {
         return [
-            'nome' => 'Nome',
+            'slt_rota' => 'Rota',
+            'data_coleta' => 'Data de Coleta',
+            'has_coleta' => 'Teve coleta?',
             'observacao' => 'Observação'
         ];
     }

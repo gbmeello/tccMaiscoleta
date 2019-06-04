@@ -5,37 +5,38 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Fornecedores</h3>
+                    <h3 class="box-title">Edição do Fornecedor - [{{$obj->nome_fantasia}}]</h3>
                 </div>
-                <form id="form-fornecedor" class="box-body">
+                <form id="form-fornecedor" role="form" class="box-body">
+                    <input name="id" value="{{ $obj->pk_fornecedor }}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
-                            <input type="text" class="form-control" name="nome_fantasia" id="nome_fantasia" maxlength="200">
+                            <input type="text" class="form-control" value="{{ $obj->nome_fantasia }}" name="nome_fantasia" id="nome_fantasia" maxlength="200">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="razao_social">Razão Social</label>
-                            <input type="text" class="form-control" name="razao_social" id="razao_social" maxlength="300">
+                            <input type="text" class="form-control" value="{{ $obj->razao_social }}" name="razao_social" id="razao_social" maxlength="300">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="email">Email</label>
-                            <input type="text" class="form-control" name="email" id="email" maxlength="100">
+                            <input type="text" class="form-control" value="{{ $obj->email }}"  name="email" id="email" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="telefone1">Telefone 1:</label>
-                            <input type="text" class="form-control" name="telefone1" id="telefone1" maxlength="15">
+                            <input type="text" class="form-control" value="{{ $obj->telefone1 }}"  name="telefone1" id="telefone1" maxlength="15">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="telefone1">Telefone 2:</label>
-                            <input type="text" class="form-control" name="telefone2" id="telefone2" maxlength="15">
+                            <input type="text" class="form-control" value="{{ $obj->telefone2 }}"  name="telefone2" id="telefone2" maxlength="15">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -44,7 +45,11 @@
                             <select id="slt_estado" class="form-control" name="slt_estado">
                                 <option value="">Selecione o estado...</option>
                                 @foreach ($estados as $estado)
-                                    <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                    @if ($obj->municipio()->first()->estado()->first()->pk_estado === $estado->pk_estado)
+                                        <option value="{{$estado->pk_estado}}" selected>{{$estado->nome}}</option>
+                                    @else
+                                        <option value="{{$estado->pk_estado}}">{{$estado->nome}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -54,41 +59,49 @@
                             <label class="control-label" for="slt_municipio">Município:</label>
                             <select id="slt_municipio" class="form-control" name="slt_municipio">
                                 <option value="">...</option>
+                                @foreach ($municipios as $municipio)
+                                    @if ($obj->municipio()->first()->pk_municipio === $municipio->pk_municipio)
+                                        <option value="{{$municipio->pk_municipio}}" selected>{{$municipio->nome}}</option>
+                                    @else
+                                        <option value="{{$municipio->pk_municipio}}">{{$municipio->nome}}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="cep">Cep:</label>
-                            <input type="text" class="form-control" name="cep" id="cep" maxlength="9">
+                            <input type="text" class="form-control" value="{{ $obj->cep }}"  name="cep" id="cep" maxlength="9">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="bairro">Bairro:</label>
-                            <input type="text" class="form-control" name="bairro" id="bairro" maxlength="150">
+                            <input type="text" class="form-control" value="{{ $obj->bairro }}"  name="bairro" id="bairro" maxlength="150">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="rua" id="rua" maxlength="150">
+                            <label class="control-label" for="rua">Rua:</label>
+                            <input type="text" class="form-control" value="{{ $obj->rua }}"  name="rua" id="rua" maxlength="150">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="logradouro">Logradouro:</label>
-                            <input type="text" class="form-control" name="logradouro" id="logradouro" maxlength="200">
+                            <input type="text" class="form-control" value="{{ $obj->logradouro }}"  name="logradouro" id="logradouro" maxlength="200">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="complemento">Complemento:</label>
-                            <input type="text" class="form-control" name="complemento" id="complemento" maxlength="300">
+                            <input type="text" class="form-control" value="{{ $obj->complemento }}"  name="complemento" id="complemento" maxlength="300">
                         </div>
                     </div>
                 </form>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>">
+                    <button id="btn-salvar" class="btn btn-success btn-flat">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -108,7 +121,7 @@
             $sltEstado = $('#slt_estado').select2();
 
             $sltEstado.change(function() {
-                loadSelectMunicipios('#slt_municipio', $sltEstado.val());
+                HelperJs.loadSelectMunicipios('#slt_municipio', $sltEstado.val());
             });
 
             $sltMunicipio = $('#slt_municipio');
@@ -133,8 +146,8 @@
             let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
-                type: 'POST',
-                url: '/api/v1/fornecedor/cadastrar',
+                type: 'PUT',
+                url: '/api/v1/fornecedor/editar/' + {{$obj->pk_fornecedor}},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {
@@ -144,6 +157,7 @@
                     $btnSalvar.button('reset');
                 },
                 success: function(data) {
+
                     if(data.success) {
                         $('#div-resultado').html(showMessage('success', data.message));
                     } else {

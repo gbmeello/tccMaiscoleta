@@ -24,7 +24,7 @@ class CreateClienteFinalTable extends Migration
         $schema->create('cliente_final', function (Blueprint $table) {
             $table->increments('pk_cliente_final')->comment('Chave primária e única da Tabela Cliente_Final');
             $table->integer('fk_municipio')->unsigned()->nullable()->comment('Municipio do fornecedor');
-            $table->string('nome_fantasia', 200)->comment('Nome fantasia do cliente final');
+            $table->string('nome_fantasia', 200)->unique()->comment('Nome fantasia do cliente final');
             $table->string('razao_social', 300)->comment('Razão Social do cliente final');
             $table->string('email', 100)->comment('Email do cliente final');
             $table->char('telefone1', 15)->nullable()->comment('Telefone 1 do cliente final');

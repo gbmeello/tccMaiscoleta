@@ -21,6 +21,9 @@ class PontoColetaRequest extends BaseFormRequest
      */
     public function rules()
     {
+        $models = ['data' => json_decode($this->input('json'))];
+        $this->merge($models);
+
         switch($this->method())
         {
             case 'GET':
@@ -31,20 +34,20 @@ class PontoColetaRequest extends BaseFormRequest
             case 'POST':
             {
                 return [
-                    'nome' => 'required|unique:ponto_coleta,nome|max:100',
-                    'latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta,latitude'],
-                    'longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta,longitude'],
-                    'descricao' => 'max:300'
+                    'data.*.nome' => 'required|unique:ponto_coleta,nome|max:100',
+                    'data.*.latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta,latitude'],
+                    'data.*.longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta,longitude'],
+                    'data.*.descricao' => 'max:300'
                 ];
             }
             case 'PUT':
             case 'PATCH':
             {
                 return [
-                    'nome' => 'required|unique:ponto_coleta,nome|max:100',
-                    'latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta,latitude'],
-                    'longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta,longitude'],
-                    'descricao' => 'max:300'
+                    'data.*.nome' => 'required|max:100|unique:ponto_coleta,nome,' + $this->input('id') + ',pk_ponto_coleta',
+                    'data.*.latitude' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', 'unique:ponto_coleta, latitude,' + $this->input('id') + ', pk_ponto_coleta'],
+                    'data.*.longitude' => ['required','regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', 'unique:ponto_coleta, longitude,' + $this->input('id') + ', pk_ponto_coleta'],
+                    'data.*.descricao' => 'max:300'
                 ];
             }
             default:break;

@@ -1,34 +1,51 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Coleta
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Lista</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Tipo de res&iacute;duos</h3>
+                    <h3 class="box-title">Lista das Coletas</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <a href="{{url('/coleta/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                    <i class="fa fa-th-large"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-tipo-residuo-listar" class="table table-bordered table-striped dataTable">
+                    <table id="table-coleta" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
                                 <th>
                                     Id
                                 </th>
                                 <th>
-                                    Nome
+                                    Rota
                                 </th>
                                 <th>
-                                    Descri&ccedil;&atilde;o
+                                    Fornecedor
                                 </th>
                                 <th>
-                                    Status
+                                    Data de Coleta
+                                </th>
+                                <th>
+                                    Teve Coleta?
+                                </th>
+                                <th>
+                                    Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -43,46 +60,71 @@
 
 @section('scripts')
 
-    <script src="{{asset('helperJs.js')}}"></script>
     <script>
 
-        $('#table-tipo-residuo-listar').DataTable({
+        let $table = $('#table-coleta');
+        let dt = $table.DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ url('api/v1/tipo-residuo/listar') }}",
+            "ajax": "{{ url('api/v1/coleta/listar') }}",
             "columns": [
-                { "data": "id" },
+                { "data": "pk_coleta" },
                 { "data": "nome" },
-                { "data": "descricao" },
+                { "data": "nome_fantasia" },
+                { "data": "data_coleta" },
+                { "data": "has_coleta", render: function(data, type, row) {
+                        let html = '';
+                        if(data == true) {
+                            html = '<small class="label pull-right bg-green">Sim</small>';
+                        } else {
+                            html = '<small class="label pull-right bg-red">Não</small>';
+                        }
+                        return html;
+                }},
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
-console.log(row);
                         if(data == true) {
                             html = '<small class="label pull-right bg-green">Ativo</small>';
                         }
-
                         return html;
                     }},
                 { "data": null , width: "100px", render: function(data, type, row) {
                         let html = '';
                         html += `
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                                    </div>`;
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <a href="{{url('coleta/editar')}}/${data.pk_coleta}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="initializeDeleteDialog('coleta/deletar', ${data.pk_coleta})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                </div>`;
                         return html;
                     },
                     "targets": -1,
                 },
             ],
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button>Click!</button>"
-            } ],
             "language": configDatatable.language,
             //"order": [[1, 'asc']],
         });
+
+        configDatatable.addShowDetails($table, dt, function(d) {
+                let table =
+                    `<div class="form-group">
+                        <div class="col-sm-4 col-md-4">
+                            <span>Coleta - Observação: </span>
+                            <span>${d.observacao}</span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <span>Veículo: </span>
+                            <span>${d.modelo}/${d.placa}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 col-md-6">
+                            <span>Rota - Observação: </span>
+                            <span>${d.rota_observacao}</span>
+                        </div>
+                    </div>`;
+
+                return table;
+            });
 
     </script>
 
