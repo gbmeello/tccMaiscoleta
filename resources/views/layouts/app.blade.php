@@ -41,7 +41,9 @@
             @include('partials.menuSidebar')
 
             <div class="content-wrapper">
-                @include('partials.contentHeader')
+                <section class="content-header">
+                    @yield('contentHeader')
+                </section>
                 <section class="content">
                     @include('partials.contentResultado')
                     @yield('content')

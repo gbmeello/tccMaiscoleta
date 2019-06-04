@@ -45,6 +45,17 @@
     </div>
 @endsection
 
+@section('contentHeader')
+    <h1>
+        Veículo
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Veículo</li>
+    </ol>
+@endsection
+
 @section('scripts')
 
     <script src="{{ asset('helperJs.js') }}"></script>

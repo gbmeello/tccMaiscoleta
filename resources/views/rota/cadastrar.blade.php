@@ -36,7 +36,7 @@
 @section('scripts')
 
 <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
@@ -72,6 +72,49 @@
                 }
             });
         }
+
+        //TODO terminar o esquema de rota nessa porra
+        // function initMap() {
+        //     mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2lvbWVuZGVzIiwiYSI6ImNqc2VtNGtmeTBzNGQzeXRscWxkMThvcXIifQ.83J82VEpsdmfE-xu9W4uUg';
+        //     var map = new mapboxgl.Map({
+        //         container: 'map', // container id
+        //         style: 'mapbox://styles/mapbox/streets-v11',
+        //         center: [-42.025932, -22.972347], // starting position
+        //         zoom: 12 // starting zoom
+        //     });
+
+        //     debugger;
+
+        //     mapBoxHelper = new MapBoxHelper(mapboxgl, map, createMapDraw());
+        //     // map.addControl(mapBoxHelper.draw);
+
+        //     // add create, update, or delete actions
+        //     map.on('draw.create', updateRoute);
+        //     map.on('draw.update', updateRoute);
+        //     map.on('draw.delete', removeRoute);
+
+        //     map.addControl(new MapboxGeocoder({
+        //         accessToken: mapboxgl.accessToken,
+        //         zoom: 14,
+        //         placeholder: "Rua, Bairro, Endereço etc...",
+        //         mapboxgl: mapboxgl
+        //     }));
+
+        //     // map.addControl(mapBoxHelper.draw);
+
+        //     let mapboxCtrlGroup = $('.mapboxgl-ctrl-group');
+        //     mapboxCtrlGroup.find('.mapbox-gl-draw_line').attr('title', 'Desenhe a rota desejada');
+        //     mapboxCtrlGroup.find('.mapbox-gl-draw_trash').attr('title', 'Remova a rota desejada');
+
+        //     // Add geolocate control to the map.
+        //     map.addControl(new mapboxgl.GeolocateControl({
+        //         positionOptions: {
+        //             enableHighAccuracy: true
+        //         },
+        //         trackUserLocation: true
+        //     }));
+
+        // }
 
 </script>
 

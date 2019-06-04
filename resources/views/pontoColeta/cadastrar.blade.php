@@ -3,6 +3,33 @@
 @section('styles')
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/>
+    {{-- <style>
+        .info-box {
+            height: 100px;
+            width: 150px;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, .9);
+            padding: 15px;
+            text-align: left;
+            font-family: 'Arial';
+            margin: 0;
+            font-size: 13px;
+        }
+    </style> --}}
+@endsection
+
+@section('contentHeader')
+    <h1>
+        Ponto de Coleta
+        <small>Cadastro</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Ponto de Coleta</li>
+    </ol>
 @endsection
 
 @section('content')
@@ -15,8 +42,12 @@
                 <div class="box-body">
                     <div class="col-sm-6 col-md-6">
                         <div id='map' style="width: 100%; height: 500px;"></div>
+                        {{-- <div class='info-box'>
+                            <p>Desenhe sua rota</p>
+                            <div id='calculated-line'></div>
+                        </div> --}}
                     </div>
-                    <form id="form-ponto-coleta" class="col-sm-6 col-md-6">
+                    <div id="form-ponto-coleta" class="col-sm-6 col-md-6">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="nome">Rota:</label>
@@ -41,13 +72,13 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="telefone1">Latitude:</label>
-                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" name="latitude" id="latitude">
+                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" readonly name="latitude" id="latitude">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="telefone1">Longitude:</label>
-                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" name="longitude" id="longitude">
+                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" readonly name="longitude" id="longitude">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -57,20 +88,26 @@
                             </div>
                         </div>
                         <div id="lista-ponto-coleta" style="max-height: 200px" class="col-sm-12 col-md-12">
-                            <table id="tbl-ponto-coleta" style="max-height: 200px; overflow: scroll;" class="table table-bordered table-striped">
+                            <table id="tbl-ponto-coleta" style="max-height: 200px; width:100% !important; overflow-y: auto;" class="table table-bordered table-striped table-responsive">
                                 <thead>
                                     <tr>
-                                        <td>Nome</td>
-                                        <td>Latitude</td>
-                                        <td>Longitude</td>
+                                        <td style="width: 10%">Rota</td>
+                                        <td style="width: 15%">Nome</td>
+                                        <td style="width: 20%">Latitude</td>
+                                        <td style="width: 25%">Longitude</td>
+                                        <td style="width: 25%">Descrição</td>
+                                        <td style="width: 5%">#</td>
                                     </tr>
                                 </thead>
+                                <tbody></tbody>
                             </table>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="box-footer">
-                    <button id="btn-salvar" class="btn btn-success btn-flat" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+                    <span class="bg-info"><i class="fa fa-info-circle"></i> Inserir Ícone: dois cliques</span>
+                    <button id="btn-salvar" class="btn btn-success btn-flat pull-right"
+                        data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>"
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
@@ -82,24 +119,28 @@
 @section('scripts')
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script>
+    <script src='{{ asset('js/mapboxhelper.js' )}}'></script>
     <script>
 
         $(document).ready(function() {
 
-            $("#latitude").inputmask('Regex', {regex: "^([\-0-9]{1,3}).(\\.\\d{1,8})?$"});
-            $("#longitude").inputmask('Regex', {regex: "^([\-0-9]{1,3}).(\\.\\d{1,8})?$"});
+            $("#latitude").inputmask('Regex', {regex: "^([\-0-9]{1,3}).(\\.\\d{1,16})?$"});
+            $("#longitude").inputmask('Regex', {regex: "^([\-0-9]{1,3}).(\\.\\d{1,16})?$"});
 
             initMap();
 
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
+
         });
+
+        var arrayPontosColeta = [];
 
         function cadastrar() {
 
             let $btnSalvar = $('#btn-salvar');
-
             let data = $('#form-triagem').serialize();
 
             $.ajax({
@@ -116,15 +157,14 @@
                 success: function(data) {
 
                     if(data.success) {
-                        $('#div-resultado').html(HelperJs.showMessage('success', data.message));
+                        $('#div-resultado').html(showMessage('success', data.message));
                     } else {
-                        $('#div-resultado').html(HelperJs.showValidationErrors(data.message));
+                        $('#div-resultado').html(showValidationErrors(data.message));
                     }
-
                 },
                 error: function(xhr) { // if error occured
                     console.log(xhr);
-                    console.error('error');
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }
@@ -142,12 +182,27 @@
                 zoom: 12 // starting zoom
             });
 
+            // debugger;
+
+            mapBoxHelper = new MapBoxHelper(mapboxgl, map, createPointMapDraw());
+
+            // add create, update, or delete actions
+            map.on('draw.create', updatePoint);
+            map.on('draw.update', updatePoint);
+            map.on('draw.delete', removePoint);
+
             map.addControl(new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
                 zoom: 14,
                 placeholder: "Rua, Bairro, Endereço etc...",
                 mapboxgl: mapboxgl
             }));
+
+            // map.addControl(mapBoxHelper.draw);
+
+            // let mapboxCtrlGroup = $('.mapboxgl-ctrl-group');
+            // mapboxCtrlGroup.find('.mapbox-gl-draw_line').attr('title', 'Desenhe a rota desejada');
+            // mapboxCtrlGroup.find('.mapbox-gl-draw_trash').attr('title', 'Remova a rota desejada');
 
             // Add geolocate control to the map.
             map.addControl(new mapboxgl.GeolocateControl({
@@ -157,11 +212,53 @@
                 trackUserLocation: true
             }));
 
-            var arrayPontosColeta = [];
 
-            map.on('click', function (e) {
+            var popup = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: true
+            });
 
-                if(!$('#nome').val()) {
+
+            map.on('dblclick', function (e) {
+
+                e.preventDefault();
+
+                let rotaNome = $('#slt_rota option:selected').text();
+                let rotaId = $('#slt_rota').val();
+                let pontoColetaNome = $('#nome').val();
+                let pontoColetaDescricao = $('#descricao').val();
+
+                map.on('mouseenter', pontoColetaNome, function (e) {
+
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+                });
+
+                if(! rotaId) {
+                    bootbox.alert({
+                        title: '<span><strong>Atenção!</strong></span>',
+                        message: "O campo rota está vazio!",
+                        ok: {
+                            className: 'btn-danger'
+                        }
+                    });
+                    return;
+                }
+
+                if(! pontoColetaNome) {
                     bootbox.alert({
                         title: '<span><strong>Atenção!</strong></span>',
                         message: "O campo nome está vazio!",
@@ -172,25 +269,26 @@
                     return;
                 }
 
-                map.loadImage('/img/recyc_1.png', function(error, image) {
+                map.loadImage('/img/truck-mark.png', function(error, image) {
 
                     if(error) {
                         throw error;
                     }
 
-                    let name = "recyclage-image" + Math.round(Math.random() * 10000000);
+                    // let name = "recyclage-image" + Math.round(Math.random() * 10000000);
 
-                    if (!map.getLayer(name)) {
+                    if (! map.getLayer(pontoColetaNome)) {
                         arrayPontosColeta.push({
-                            id: name,
-                            nome: $('#nome').val(),
-                            lng: e.lngLat.lng,
-                            lat: e.lngLat.lat
+                            rota: rotaId,
+                            nome: pontoColetaNome,
+                            longitude: e.lngLat.lng,
+                            latitude: e.lngLat.lat,
+                            descricao: pontoColetaDescricao
                         });
 
-                        map.addImage(name, image);
+                        map.addImage(pontoColetaNome, image);
                         map.addLayer({
-                            "id": name,
+                            "id": pontoColetaNome,
                             "type": "symbol",
                             "source": {
                                 "type": "geojson",
@@ -198,6 +296,11 @@
                                     "type": "FeatureCollection",
                                     "features": [{
                                         "type": "Feature",
+                                        "properties": {
+                                            "description": "<p><strong>Ponto de Coleta - ["+ pontoColetaNome +"]</strong></p><p>"+ pontoColetaDescricao +"</p>",
+                                            "icon": "marker",
+                                            "size": 15
+                                        },
                                         "geometry": {
                                             "type": "Point",
                                             "coordinates": [e.lngLat.lng, e.lngLat.lat]
@@ -206,22 +309,74 @@
                                 }
                             },
                             "layout": {
-                                "icon-image": name,
+                                "icon-image": pontoColetaNome,
                                 "icon-size": 0.15
                             }
                         });
 
                         table.append(`
-                        <tr>
-                            <td>${$('#nome').val()}</td>
-                            <td>${e.lngLat.lat}</td>
-                            <td>${e.lngLat.lng}</td>
-                        </tr>`);
+                            <tr>
+                                <td style="width: 10%">${rotaNome}</td>
+                                <td style="width: 15%">${pontoColetaNome}</td>
+                                <td style="width: 20%">${e.lngLat.lat}</td>
+                                <td style="width: 25%">${e.lngLat.lng}</td>
+                                <td style="width: 25%">${pontoColetaDescricao}</td>
+                                <td style="width: 5%">
+                                    <button style="width:100%" title="Remover o ponto de coleta ${pontoColetaNome}"
+                                        class="btn btn-danger btn-xs btn-flat btn-remove-ponto-coleta">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>`
+                        );
+
+
+                        $('.btn-remove-ponto-coleta').unbind().click(function() {
+
+                            debugger;
+
+                            let $btn = $(this);
+
+                            bootbox.confirm({
+                                title: '<strong>Você realmente deseja deletar o ponto de coleta?</strong>',
+                                message: "Após confirmação, o ponto de coleta será deletado",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                locale: 'br',
+                                callback: function (confirm) {
+                                    if(confirm) {
+                                        if(map.getLayer(pontoColetaNome)) {
+
+                                            console.log($(this).closest('tr'));
+
+                                            $btn.closest('tr').remove();
+                                            removePontoColeta(arrayPontosColeta, pontoColetaNome)
+                                            map.removeLayer(pontoColetaNome);
+
+                                        }
+                                    }
+                                }
+                            });
+                        });
+
 
                         $("#latitude").val(e.lngLat.lat);
                         $("#longitude").val(e.lngLat.lng);
+
                     } else {
-                        alert('Ops! Aconteceu um erro. Por favor, tente novamente.');
+                        bootbox.alert({
+                            title: '<span><strong>Atenção!</strong></span>',
+                            message: "O nome já foi usado!",
+                            ok: {
+                                className: 'btn-danger'
+                            }
+                        });
                     }
 
                 });
@@ -229,7 +384,13 @@
             });
         }
 
-
+        function removePontoColeta(array, val) {
+            for(var obj in array) {
+                if(array[obj].nome == val) {
+                    delete array[obj];
+                }
+            }
+        }
 
     </script>
 

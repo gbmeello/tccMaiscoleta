@@ -3,6 +3,18 @@
 @section('styles')
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/>
+@endsection
+
+@section('contentHeader')
+    <h1>
+        Ponto de Coleta
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Ponto de Coleta</li>
+    </ol>
 @endsection
 
 @section('content')
@@ -57,6 +69,8 @@
 
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script>
+    <script src='{{ asset('js/mapboxhelper.js' )}}'></script>
     <script>
 
         let $table = $('#table-ponto-coleta-listar');
