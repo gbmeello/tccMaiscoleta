@@ -1083,7 +1083,7 @@ if (typeof jQuery === 'undefined') {
   };
 
   // Private
-  
+
   Tree.prototype._setUpListeners = function () {
     var that = this;
 

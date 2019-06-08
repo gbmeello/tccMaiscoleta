@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
-class UsuarioRequest extends FormRequest
+class UsuarioRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +12,7 @@ class UsuarioRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +22,43 @@ class UsuarioRequest extends FormRequest
      */
     public function rules()
     {
+        switch($this->method())
+        {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+            }
+            case 'POST':
+            {
+                return [
+                    'slt_perfil' => 'required',
+                    'nome' => 'required|max:150',
+                    'email' => 'required|max:200|unique:usuario,email',
+                    'senha' => 'required|max:300',
+                ];
+            }
+            case 'PUT':
+            case 'PATCH':
+            {
+                return [
+                    'slt_perfil' => 'required',
+                    'nome' => 'required|max:150',
+                    'email' => 'required|max:200|unique:usuario, email,' + $this->input('email') + ', pk_usuario',
+                    'senha' => 'required|max:300',
+                ];
+            }
+            default:break;
+        }
+    }
+
+    public function attributes()
+    {
         return [
-            //
+            'slt_perfil' => 'Perfil',
+            'nome' => 'Modelo',
+            'email' => 'Observação',
+            'senha' => 'Placa',
         ];
     }
 }

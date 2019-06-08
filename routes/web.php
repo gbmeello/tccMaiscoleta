@@ -11,7 +11,7 @@
 |
 */
 
-//Auth::routes();
+Auth::routes();
 
 Route::get('/', function () {
     return view('index');
@@ -96,3 +96,6 @@ Route::prefix('rota')->group(function () {
     Route::get('editar/{id}', 'RotaController@edit')->name('rota.editar');
     Route::get('listar', 'RotaController@listar')->name('rota.listar');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

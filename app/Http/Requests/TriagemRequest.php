@@ -32,16 +32,26 @@ class TriagemRequest extends BaseFormRequest
             case 'POST':
             {
                 return [
-                    'nome' => 'required|unique:rota,nome|max:100',
-                    'observacao' => 'max:500'
+                    'slt_coleta' => 'required',
+                    'slt_cliente_final' => 'required',
+                    'slt_tipo_residuo' => 'required',
+                    'data_triagem' => 'required',
+                    'data_venda' => 'required',
+                    'peso' => 'required',
+                    'observacao' => 'max:600'
                 ];
             }
             case 'PUT':
             case 'PATCH':
             {
                 return [
-                    'nome' => 'required|max:100|unique:rota,nome,'.$this->input('id').',pk_rota',
-                    'observacao' => 'max:500'
+                    'slt_coleta' => 'required',
+                    'slt_cliente_final' => 'required',
+                    'slt_tipo_residuo' => 'required',
+                    'data_triagem' => 'required',
+                    'data_venda' => 'required',
+                    'peso' => 'required',
+                    'observacao' => 'max:600'
                 ];
             }
             default:break;
@@ -51,7 +61,12 @@ class TriagemRequest extends BaseFormRequest
     public function attributes()
     {
         return [
-            'nome' => 'Nome',
+            'slt_coleta' => 'Coleta',
+            'slt_cliente_final' => 'Cliente Final',
+            'slt_tipo_residuo' => 'Tipo de Resíduo',
+            'data_triagem' => 'Data de Triagem',
+            'data_venda' => 'Data de Venda',
+            'peso' => 'Peso',
             'observacao' => 'Observação'
         ];
     }
