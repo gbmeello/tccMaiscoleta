@@ -2,45 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Rota;
 use Illuminate\Support\Facades\Session;
+use App\PontoColeta;
 
 class PontoColetaController extends Controller
 {
+    private $viewName = 'pontoColeta';
+
     public function index()
     {
-        return view('pontoColeta.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
         $rotas = Rota::where('ativo', '=', true)->get();
 
-        return view('pontoColeta.cadastrar', ['rotas' => $rotas]);
+        return view($this->viewName.'.cadastrar', ['rotas' => $rotas]);
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = PontoColeta::find($id);
 
         if(!empty($tipoResiduo)) {
-            return view('pontoColeta.editar', compact(['pontoColeta' => $tipoResiduo]));
+            return view($this->viewName.'.editar', compact(['obj' => $obj]));
         }
 
-        Session::flash('message', "pontoColeta não foi encontrado");
-        return redirect('pontoColeta/index')->send();
-    }
-
-    public function delete($id)
-    {
-        $tipoResiduo = TipoResiduo::find($id);
-
-        if(!empty($tipoResiduo)) {
-            return view('pontoColeta.deletar', compact(['pontoColeta' => $tipoResiduo]));
-        }
-
-        Session::flash('message', "pontoColeta não foi encontrado");
-        return redirect('pontoColeta/index')->send();
+        Session::flash('message', "O Ponto de Coleta não foi encontrado");
+        return redirect($this->viewName.'.index')->send();
     }
 }

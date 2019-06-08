@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Triagem
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Lista</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Fornecedores</h3>
+                    <h3 class="box-title">Lista de Triagem</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/fornecedor/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-user-plus"></i> Cadastrar novo
+                    <a href="{{url('/triagem/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-filter"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">

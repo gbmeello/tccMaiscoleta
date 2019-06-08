@@ -193,9 +193,9 @@
             mapBoxHelper = new MapBoxHelper(mapboxgl, map);
 
             // add create, update, or delete actions
-            map.on('draw.create', updatePoint);
-            map.on('draw.update', updatePoint);
-            map.on('draw.delete', removePoint);
+            // map.on('draw.create', updatePoint);
+            // map.on('draw.update', updatePoint);
+            // map.on('draw.delete', removePoint);
 
             map.addControl(new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
@@ -245,6 +245,7 @@
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
+
 
                     // Populate the popup and set its coordinates
                     // based on the feature found.

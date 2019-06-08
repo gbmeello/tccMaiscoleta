@@ -125,6 +125,7 @@ class ClienteFinalController extends ApiController
         }
 
         $json_data = [
+            'success'         => true,
             'draw'            => intval($request->input('draw')),
             'recordsTotal'    => intval($totalData),
             'recordsFiltered' => intval($totalFiltered),

@@ -107,6 +107,72 @@ function showValidationErrors(arrayError) {
     return showMessage('danger', errorMessage);
 }
 
+
+/**
+ * Carrega o select2
+ */
+function loadSelect2(controller, target, value, text, id = null) {
+
+    let $target = $(target);
+    let $btnSync = $target.siblings('.input-group-btn').find('button');
+
+    $btnSync.button('loading');
+
+    let url = id === null ? `/api/v1/${controller}` : `/api/v1/${controller}/${id}`;
+
+    text = text.split('|');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        beforeSend: function() {
+            $btnSync.button('loading');
+        },
+        complete: function() {
+            $btnSync.button('reset');
+        },
+        success: function(response) {
+
+            if(response.success) {
+                $target.empty().trigger('change');
+                $target.append('<option value=""> Selecione uma opção... </option>')
+                $.each(response.data, function(index, obj) {
+
+                    if(text.length > 1) {
+
+                        let txt = '';
+                        for(let i = 0; i < text.length; i++) {
+                            if(i === 0) {
+                                txt += obj[text[i]];
+                            } else {
+                                txt += ' / ' + obj[text[i]];
+                            }
+                        }
+
+                        $target.append(`<option value="${obj[value]}"> ${txt} </option>`);
+
+                    } else {
+                        $target.append(`<option value="${obj[value]}"> ${obj[text]} </option>`);
+                    }
+
+                });
+                $target.trigger('change');
+
+            } else {
+                console.error(response.message);
+            }
+
+        },
+        error: function(xhr) { // if error occured
+            console.error(xhr.responseJSON.message);
+        }
+    });
+
+}
+
+
+
 function loadSelectMunicipios(target, idEstado) {
     $.ajax({
         type: 'GET',

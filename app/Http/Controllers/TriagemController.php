@@ -2,42 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Triagem;
 use Illuminate\Support\Facades\Session;
 
 class TriagemController extends Controller
 {
+    private $viewName = 'triagem';
+
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = Triagem::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.editar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "A Triagem não foi encontrada");
+        return redirect($this->viewName.'/index')->send();
     }
 
-    public function delete($id)
-    {
-        $tipoResiduo = TipoResiduo::find($id);
-
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
-        }
-
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
-    }
 }

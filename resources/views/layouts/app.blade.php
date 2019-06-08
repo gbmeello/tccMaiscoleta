@@ -15,8 +15,10 @@
 
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/select2/dist/css/select2.min.css') }}">
 
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
+
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/fontawesome-5.9.0/css/all.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/Ionicons/css/ionicons.min.css') }}">
         <!-- jvectormap -->
@@ -79,6 +81,12 @@
 
         <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/i18n/pt-BR.js') }}"></script>
+
+        <script src="{{ asset('AdminLTE/bower_components/moment/min/moment.min.js') }}"></script>
+        <script src="{{ asset('AdminLTE/bower_components/moment/locale/pt-br.js') }}"></script>
+
+        <script src="{{ asset('AdminLTE/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+        {{-- <script src="{{ asset('AdminLTE/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js') }}"></script> --}}
 
         <script src="{{ asset('AdminLTE/plugins/bootbox-js/bootbox.all.min.js') }}"></script>
 

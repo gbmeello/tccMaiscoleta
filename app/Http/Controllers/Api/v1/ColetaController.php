@@ -22,7 +22,7 @@ class ColetaController extends ApiController
 
         $totalFiltered = $totalData;
 
-        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');
@@ -95,10 +95,11 @@ class ColetaController extends ApiController
         }
 
         $json_data = [
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
+            'success'         => true,
+            'draw'            => intval($request->input('draw')),
+            'recordsTotal'    => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data'            => $data
         ];
 
         echo json_encode($json_data);

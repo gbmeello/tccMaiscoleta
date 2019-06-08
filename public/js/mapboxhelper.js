@@ -299,3 +299,133 @@ function removePoint () {
         return;
     }
 }
+
+
+/**
+ * Inicia o mapa com a plotagem do ponto de coleta
+ */
+function initializeMapModal(id) {
+
+    bootbox.dialog({
+        title: '<strong>Visualizar Ponto de Coleta Mapa</strong>',
+        message: '<div id="map" style="width: 100%; height: 500px"></div>',
+        confirm: {
+            className: 'btn-danger'
+        }
+    });
+
+    debugger;
+
+    $.get(
+        '/api/v1/ponto-coleta/exibir/' + id,
+        function(response) {
+
+            if(! response.success) {
+                bootbox.dialog({
+                    title: '<strong>Atenção</strong>',
+                    message: response.message,
+                    confirm: {
+                        className: 'btn-primary'
+                    }
+                });
+                return;
+            }
+
+            mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2lvbWVuZGVzIiwiYSI6ImNqc2VtNGtmeTBzNGQzeXRscWxkMThvcXIifQ.83J82VEpsdmfE-xu9W4uUg';
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [-42.025932, -22.972347], // starting position
+                zoom: 12 // starting zoom
+            });
+
+            mapBoxHelper = new MapBoxHelper(mapboxgl, map);
+
+            map.addControl(new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                zoom: 14,
+                placeholder: "Rua, Bairro, Endereço etc...",
+                mapboxgl: mapboxgl
+            }));
+
+            // map.addControl(mapBoxHelper.draw);
+
+            // let mapboxCtrlGroup = $('.mapboxgl-ctrl-group');
+            // mapboxCtrlGroup.find('.mapbox-gl-draw_line').attr('title', 'Desenhe a rota desejada');
+            // mapboxCtrlGroup.find('.mapbox-gl-draw_trash').attr('title', 'Remova a rota desejada');
+
+            // Add geolocate control to the map.
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }));
+
+            var popup = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: true
+            });
+
+
+            map.loadImage('/img/truck-mark.png', function(error, image) {
+
+                if(error) {
+                    throw error;
+                }
+
+                map.on('mouseenter', response.data.nome, function (e) {
+
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+                });
+
+                if (! map.getLayer(response.data.nome)) {
+
+                    map.addImage(response.data.nome, image);
+                    map.addLayer({
+                        "id": response.data.nome,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "properties": {
+                                        "description": "<p><strong>Ponto de Coleta - ["+ response.data.nome +"]</strong></p><p>"+ response.data.descricao +"</p>",
+                                        "icon": "marker",
+                                        "size": 15
+                                    },
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [response.data.longitude, response.data.latitude]
+                                    }
+                                }]
+                            }
+                        },
+                        "layout": {
+                            "icon-image": response.data.nome,
+                            "icon-size": 0.15
+                        }
+                    });
+                }
+            });
+        }
+    );
+
+
+}

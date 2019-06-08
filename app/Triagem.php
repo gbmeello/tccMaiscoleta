@@ -19,6 +19,18 @@ class Triagem extends Model
 
     public $timestamps = false;
 
+    public function setColetaAttribute($value) {
+        $this->attributes['fk_coleta'] = $value;
+    }
+
+    public function setResiduoAttribute($value) {
+        $this->attributes['fk_residuo'] = $value;
+    }
+
+    public function setClienteFinalAttribute($value) {
+        $this->attributes['fk_cliente_final'] = $value;
+    }
+
     public function coleta() {
         $this->belongsTo(Coleta::class, 'fk_coleta', 'pk_coleta');
     }

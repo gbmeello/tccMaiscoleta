@@ -35,26 +35,26 @@
             <!--<li class="active">-->
             <li>
                 <a href="{{ action('ClienteFinalController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-users"></i>
                     <span>Cliente Final</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('ColetaController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-truck-loading"></i>
                     <span>Coleta</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('FornecedorController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-users"></i>
                     <span>Fornecedor</span>
                 </a>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-circle-o"></i>
-                    <span>Rotas</span>
+                    <i class="fa fa-road"></i>
+                    <span>Trajeto</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -62,13 +62,13 @@
                 <ul class="treeview-menu">
                     <li>
                         <a href="{{ action('RotaController@index')  }}">
-                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-route"></i>
                             <span>Rota</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ action('PontoColetaController@index')  }}">
-                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-map-marker-alt"></i>
                             <span>Pontos de Coleta</span>
                         </a>
                     </li>
@@ -76,45 +76,28 @@
             </li>
             <li>
                 <a href="{{ action('TipoResiduoController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-recycle"></i>
                     <span>Tipo de Res&iacute;duo</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('TriagemController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-filter"></i>
                     <span>Triagem</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('UsuarioController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-user"></i>
                     <span>Usu&aacute;rio</span>
                 </a>
             </li>
             <li>
                 <a href="{{ action('VeiculoController@index')  }}">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-truck"></i>
                     <span>Veiculo</span>
                 </a>
             </li>
-            <!--<li class="treeview">
-                <a href="#">
-                    <i class="fa fa-link"></i>
-                    <span>Multilevel</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a href="#">Link in level 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Link in level 2</a>
-                    </li>
-                </ul>
-            </li>-->
         </ul>
         <!-- /.sidebar-menu -->
     </section>

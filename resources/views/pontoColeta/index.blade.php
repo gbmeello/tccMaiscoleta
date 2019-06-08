@@ -81,9 +81,9 @@
 
             "columns": [
                 {
-                    "class":          "details-control",
-                    "orderable":      false,
-                    "data":           null,
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
                     "defaultContent": ""
                 },
                 { "data": "pk_ponto_coleta" },
@@ -96,7 +96,6 @@
                         if(data == true) {
                             html = '<small class="label pull-right bg-green">Sim</small>';
                         }
-
                         return html;
                     }},
                 { "data": null , width: "100px", render: function(data, type, row) {
@@ -119,9 +118,8 @@
         configDatatable.addShowDetails($table, dt, function(d) {
             let table =
                 `<div class="form-group" style="text-align: center; width: 100%">
-                    <button onclick="initializeMapModal(${d.latitude}, ${d.longitude})" class="btn btn-app btn-lg"> <i class="fa fa-map"></i> Ver Mapa </button>
+                    <button onclick="initializeMapModal(${d.pk_ponto_coleta})" class="btn btn-app btn-lg"> <i class="fa fa-map"></i> Ver Mapa </button>
                 </div>`;
-
             return table;
         });
 

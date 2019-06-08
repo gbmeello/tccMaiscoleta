@@ -122,10 +122,11 @@ class FornecedorController extends ApiController
         }
 
         $json_data = [
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
+            'success'         => true,
+            'draw'            => intval($request->input('draw')),
+            'recordsTotal'    => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data'            => $data
         ];
 
         echo json_encode($json_data);

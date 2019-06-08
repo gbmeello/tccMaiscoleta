@@ -32,19 +32,7 @@ class TipoResiduoController extends Controller
             return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
+        Session::flash('message', "O Tipo de Resíduo não foi encontrado");
         return redirect($this->viewName.'/index')->send();
     }
-
-    // public function delete($id)
-    // {
-    //     $tipoResiduo = TipoResiduo::find($id);
-
-    //     if(!empty($tipoResiduo)) {
-    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
-    //     }
-
-    //     Session::flash('message', "Tipo de Resíduo não foi encontrado");
-    //     return redirect($this->viewName.'/index')->send();
-    // }
 }

@@ -7,7 +7,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Veículo</li>
+        <li><a href="{{asset('veiculo/index')}}"><i class="fa fa-dashboard"></i> Veículo - Lista</a></li>
+        <li class="active">Cadastro</li>
     </ol>
 @endsection
 

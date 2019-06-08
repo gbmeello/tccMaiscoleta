@@ -6,7 +6,7 @@
         <small>Lista</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{asset('/')}}"><i class="fa fa-tachometer-alt"></i> Home</a></li>
         <li class="active">Lista</li>
     </ol>
 @endsection
@@ -22,13 +22,14 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/coleta/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-th-large"></i> Cadastrar novo
+                    <i class="fa fa-truck-loading"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
                     <table id="table-coleta" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>
                                     Id
                                 </th>
@@ -68,6 +69,12 @@
             "serverSide": true,
             "ajax": "{{ url('api/v1/coleta/listar') }}",
             "columns": [
+                {
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ""
+                },
                 { "data": "pk_coleta" },
                 { "data": "rota_nome" },
                 { "data": "fornecedor" },
@@ -107,17 +114,17 @@
         configDatatable.addShowDetails($table, dt, function(d) {
                 let table =
                     `<div class="form-group">
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-6 col-md-6">
                             <span>Coleta - Observação: </span>
                             <span>${d.observacao}</span>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-6 col-md-6">
                             <span>Veículo: </span>
                             <span>${d.modelo}/${d.placa}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Rota - Observação: </span>
                             <span>${d.rota_observacao}</span>
                         </div>

@@ -23,59 +23,67 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_rota">Rota</label>
-                            <select name="slt_rota" id="slt_rota" style="width: 100%;">
-                                @if(isset($rotas) && $rotas->count())
-                                    <option value=""> Selecione a rota... </option>
-                                    @foreach($rotas as $rota)
-                                        <option title="{{$rota->descricao}}" value="{{$rota->pk_rota}}"> {{$rota->nome}} </option>
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhuma rota foi cadastrada... </option>
-                                @endif
-                            </select>
+                            <div class="input-group">
+                                <select naname="slt_rota" class="form-control" style="width: 100%;" id="slt_rota">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('rota/listar', '#slt_rota', 'pk_rota', 'nome');" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_veiculo">Veículo</label>
-                            <select name="slt_veiculo" id="slt_veiculo" style="width: 100%;">
-                                @if(isset($veículos) && $veículos->count())
-                                    <option value=""> Selecione o cliente... </option>
-                                    @foreach($veículos as $veículo)
-                                        <option value="{{$veículo->pk_veiculo}}"> {{$veículo->tipo}} | {{$veículo->modelo}} | {{$veículo->placa}}</option>
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhum veículo foi cadastrado... </option>
-                                @endif
-                            </select>
+                            <div class="input-group">
+                                <select name="slt_veiculo" class="form-control" style="width: 100%;" id="slt_veiculo">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo')" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="slt_veiculo">Fornecedor</label>
-                            <select name="slt_fornecedor" id="slt_fornecedor" style="width: 100%;">
-                                @if(isset($fornecedores) && $fornecedores->count())
-                                    <option value=""> Selecione o fornecedor... </option>
-                                    @foreach($fornecedores as $fornecedor)
-                                        <option value="{{$fornecedor->pk_fornecedor}}"> {{$fornecedor->nome_fantasia}} </option>
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhum fornecedor foi cadastrado... </option>
-                                @endif
-                            </select>
+                            <label class="control-label" for="slt_fornecedor">Fornecedor</label>
+                            <div class="input-group">
+                                <select naname="slt_fornecedor" class="form-control" style="width: 100%;" id="slt_fornecedor">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome')" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="data_coleta">Data de Coleta:</label>
-                            <input type="date" class="form-control" name="data_coleta" id="data_coleta">
+                            <div class='input-group date' name="data_coleta" id="data_coleta">
+                                <input type="text" class="form-control datetimepicker">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="has_coleta">Teve coleta?</label>
-                            <br>
-                            <input type="checkbox" class="" name="has_coleta" id="has_coleta">
+                            <label class="control-label" for="has_coleta">
+                                Teve coleta?
+                                <br>
+                                <input type="checkbox" class="" name="has_coleta" id="has_coleta">
+                            </label>
+
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -101,22 +109,23 @@
 
         $(document).ready(function() {
 
-            initValidation();
-
             $('#slt_rota').select2();
             $('#slt_veiculo').select2();
             $('#slt_fornecedor').select2();
+
+            $('.datetimepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'pt-br'
+            });
+
+            loadSelect2('rota/listar', '#slt_rota', 'pk_rota', 'nome');
+            loadSelect2('veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo');
+            loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome');
 
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
             });
         });
-
-        function initValidation() {
-
-            $('#data_coleta').inputmask('__/__/____');  //static mask
-
-        }
 
         function cadastrar() {
 

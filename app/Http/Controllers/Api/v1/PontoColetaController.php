@@ -88,10 +88,11 @@ class PontoColetaController extends Controller
         }
 
         $json_data = [
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
+            'success'         => true,
+            'draw'            => intval($request->input('draw')),
+            'recordsTotal'    => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data'            => $data
         ];
 
         echo json_encode($json_data);
@@ -169,7 +170,7 @@ class PontoColetaController extends Controller
      * @param PontoColetaRequest $id
      * @return Response
      */
-    public function show(PontoColetaRequest $id)
+    public function show($id)
     {
         $model = PontoColeta::find($id);
         if(empty($model)) {
@@ -180,7 +181,7 @@ class PontoColetaController extends Controller
         }
 
         return response()->json([
-            'success' => false,
+            'success' => true,
             'data' => $model
         ]);
     }

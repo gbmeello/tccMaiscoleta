@@ -51,16 +51,4 @@ class ClienteFinalController extends Controller
         Session::flash('message', "Cliente Final não foi encontrado");
         return redirect($this->viewName.'/index')->send();
     }
-
-    // public function delete($id)
-    // {
-    //     $tipoResiduo = ClienteFinal::find($id);
-
-    //     if(!empty($tipoResiduo)) {
-    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
-    //     }
-
-    //     Session::flash('message', "Cliente Final não foi encontrado");
-    //     return redirect($this->viewName.'/index')->send();
-    // }
 }
