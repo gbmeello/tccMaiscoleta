@@ -18,8 +18,12 @@ class Usuario extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'nome', 'email', 'senha'
+        'fk_roles', 'nome', 'email', 'senha'
     ];
+
+    public function setSenhaAttribute($value) {
+        $this->attributes['senha'] = bcrypt($value);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -57,7 +61,7 @@ class Usuario extends Authenticatable implements JWTSubject
     */
     public function role()
     {
-        return $this->hasOne(Roles::class, 'id', 'role_id');
+        return $this->hasOne(Roles::class, 'pk_roles', 'fk_roles');
     }
 
     public function hasPermission(Permissions $permission)

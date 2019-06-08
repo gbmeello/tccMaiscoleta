@@ -24,7 +24,7 @@ class Roles extends Model
     */
     public function users()
     {
-        return $this->hasMany(\App\Usuario::class, 'fk_role', 'pk_role');
+        return $this->hasMany(Usuario::class, 'fk_role', 'pk_role');
     }
 
     /**
@@ -32,6 +32,6 @@ class Roles extends Model
     */
     public function permissions()
     {
-        return $this->belongsToMany(\App\Permissions::class, 'role_permission', 'fk_role', 'fk_permission');
+        return $this->belongsToMany(Permissions::class, 'role_permission', 'fk_role', 'fk_permission');
     }
 }
