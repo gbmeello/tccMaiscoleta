@@ -19,7 +19,7 @@ class AddRoles extends Migration
                 'grupo'         => 1,
             ],
             [
-                'nome'          => 'Cadastrante',
+                'nome'          => 'Cadastrador',
                 'descricao'     => 'Alimentador do sistema',
                 'grupo'         => 2,
             ],
@@ -34,7 +34,7 @@ class AddRoles extends Migration
     public function down()
     {
         DB::table('roles')->whereIn('nome', [
-            'Administrador', 'Cadastrante'
+            'Administrador', 'Cadastrador'
         ])->delete();
     }
 }

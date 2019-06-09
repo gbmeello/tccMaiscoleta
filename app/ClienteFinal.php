@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClienteFinal extends Model
+class ClienteFinal extends BaseModel
 {
     protected $primaryKey = "pk_cliente_final";
     protected $table = "cliente_final";
@@ -27,6 +27,6 @@ class ClienteFinal extends Model
     }
 
     public function triagens() {
-        $this->hasMany(Triagem::class, 'fk_cliente_final');
+        return $this->hasMany(Triagem::class, 'fk_cliente_final');
     }
 }

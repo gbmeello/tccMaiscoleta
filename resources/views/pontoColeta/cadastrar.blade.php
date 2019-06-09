@@ -27,8 +27,9 @@
         <small>Cadastro</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Ponto de Coleta</li>
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{url('ponto-coleta/index')}}"><i class="fa fa-users"></i> Ponto de Coleta</a></li>
+        <li class="active">Cadastro</li>
     </ol>
 @endsection
 
@@ -106,8 +107,7 @@
                 </div>
                 <div class="box-footer">
                     <span class="bg-info"><i class="fa fa-info-circle"></i> Inserir Ícone: dois cliques</span>
-                    <button id="btn-salvar" class="btn btn-success btn-flat pull-right"
-                        data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>"
+                    <button id="btn-salvar" class="btn btn-success btn-flat pull-right" data-loading-text="<i class='fa fa-save'></i> Salvar <i class='fa fa-spinner fa-spin'></i>"
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>

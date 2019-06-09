@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoResiduo extends Model
+class TipoResiduo extends BaseModel
 {
     protected $primaryKey = 'pk_tipo_residuo';
     protected $table = 'tipo_residuo';
@@ -18,6 +18,6 @@ class TipoResiduo extends Model
     public $timestamps = false;
 
     public function triagens() {
-        $this->hasMany(Triagem::class, 'fk_tipo_residuo');
+        return $this->hasMany(Triagem::class, 'fk_tipo_residuo');
     }
 }

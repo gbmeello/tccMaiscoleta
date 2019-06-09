@@ -6,8 +6,8 @@
         <small>Lista</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-tachometer-alt"></i> Home</a></li>
-        <li class="active">Lista</li>
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="active">Coleta</li>
     </ol>
 @endsection
 

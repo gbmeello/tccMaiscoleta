@@ -6,9 +6,9 @@
         <small>Cadastro</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{asset('coleta/index')}}"><i class="fa fa-th-large"></i> Coleta - Lista</a></li>
-        <li class="active">Coleta</li>
+        <li><a href="{{ url('/') }}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{ url('coleta/index') }}"><i class="fa fa-truck-loading"></i> Coleta</a></li>
+        <li class="active">Cadastro</li>
     </ol>
 @endsection
 
@@ -153,9 +153,8 @@
                     }
 
                 },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
-                    console.error('error');
+                error: function(xhr, response) { // if error occured
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }

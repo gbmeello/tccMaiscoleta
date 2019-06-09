@@ -22,10 +22,10 @@ class CreateColetaTable extends Migration
         });
 
         $schema->create('coleta', function (Blueprint $table) {
-            $table->increments('pk_coleta')->comment('Chave primária e única da tabela Coleta');
-            $table->unsignedInteger('fk_rota')->comment('Chave estrangeira vinda da tabela Rota');
-            $table->unsignedInteger('fk_veiculo')->nullable()->comment('Chave estrangeira vinda da tabela Veiculo');
-            $table->unsignedInteger('fk_fornecedor')->nullable()->comment('Chave estrangeira vinda da tabela fornecedor');
+            $table->bigIncrements('pk_coleta')->comment('Chave primária e única da tabela Coleta');
+            $table->unsignedBigInteger('fk_rota')->comment('Chave estrangeira vinda da tabela Rota');
+            $table->unsignedBigInteger('fk_veiculo')->nullable()->comment('Chave estrangeira vinda da tabela Veiculo');
+            $table->unsignedBigInteger('fk_fornecedor')->nullable()->comment('Chave estrangeira vinda da tabela fornecedor');
             $table->timestamp('data_coleta')->comment('Data da coleta');
             $table->boolean('has_coleta')->comment('Se teve coleta ou não naquele dia');
             $table->string('observacao', 1000)->nullable()->comment('Observação relacionada a coleta');

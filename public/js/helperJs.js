@@ -12,7 +12,8 @@ var configDatatable = {
             "first": "Primeiro",
             "last": "Último"
         },
-        "search": "Pesquisar"
+        "search": "Pesquisar",
+        "processing": "<strong>Carregando...</strong><br><i class='fa fa-sync-alt fa-spin'></i>",
     },
 
     /**
@@ -111,7 +112,7 @@ function showValidationErrors(arrayError) {
 /**
  * Carrega o select2
  */
-function loadSelect2(controller, target, value, text, id = null) {
+function loadSelect2(controller, target, value, text, id = null, selectValue = null) {
 
     let $target = $(target);
     let $btnSync = $target.siblings('.input-group-btn').find('button');
@@ -135,9 +136,23 @@ function loadSelect2(controller, target, value, text, id = null) {
         success: function(response) {
 
             if(response.success) {
+
                 $target.empty().trigger('change');
-                $target.append('<option value=""> Selecione uma opção... </option>')
+
+                if(response.data.length > 0) {
+                    $target.append('<option value=""> Selecione uma opção... </option>');
+                }
+                else {
+                    $target.append('<option value=""> Nenhum valor ainda foi cadastrado... </option>');
+                }
+
                 $.each(response.data, function(index, obj) {
+
+                    let selected = '';
+
+                    if(selectValue !== null && obj[value] === selectValue) {
+                        selected = 'selected';
+                    }
 
                     if(text.length > 1) {
 
@@ -150,13 +165,14 @@ function loadSelect2(controller, target, value, text, id = null) {
                             }
                         }
 
-                        $target.append(`<option value="${obj[value]}"> ${txt} </option>`);
+                        $target.append(`<option value="${obj[value]}" ${selected}> ${txt} </option>`);
 
                     } else {
-                        $target.append(`<option value="${obj[value]}"> ${obj[text]} </option>`);
+                        $target.append(`<option value="${obj[value]}" ${selected}> ${obj[text]} </option>`);
                     }
 
                 });
+
                 $target.trigger('change');
 
             } else {
@@ -172,27 +188,66 @@ function loadSelect2(controller, target, value, text, id = null) {
 }
 
 
+function loadSelect2WithValue(controller, target, value, text, selectValue = null) {
 
-function loadSelectMunicipios(target, idEstado) {
+    let $target = $(target);
+    let $btnSync = $target.siblings('.input-group-btn').find('button');
+
+    $btnSync.button('loading');
+
+    text = text.split('|');
+
     $.ajax({
         type: 'GET',
-        url: '/api/v1/municipio/listar-por-estado/'+idEstado,
+        url: `/api/v1/${controller}`,
         dataType: 'json',
         beforeSend: function() {
-            console.log('antes de enviar');
+            $btnSync.button('loading');
         },
         complete: function() {
-            console.log('completo');
+            $btnSync.button('reset');
         },
         success: function(response) {
 
-            let $target = $(target);
-
             if(response.success) {
+
                 $target.empty().trigger('change');
-                $.each(response.data, function(index, municipio) {
-                    $target.append(`<option value="${municipio.pk_municipio}">${municipio.nome}</option>`);
+
+                if(response.data.length > 0) {
+                    $target.append('<option value=""> Selecione uma opção... </option>');
+                }
+                else {
+                    $target.append('<option value=""> Nenhum valor ainda foi cadastrado... </option>');
+                }
+
+                $.each(response.data, function(index, obj) {
+
+                    let selected = '';
+
+                    if(selectValue !== null && obj[value] === selectValue) {
+                        selected = 'selected';
+                    }
+
+                    if(text.length > 1) {
+
+                        let txt = '';
+                        for(let i = 0; i < text.length; i++) {
+                            if(i === 0) {
+                                txt += obj[text[i]];
+                            } else {
+                                txt += ' / ' + obj[text[i]];
+                            }
+                        }
+
+                        $target.append(`<option value="${obj[value]}" ${selected}> ${txt} </option>`);
+
+                    } else {
+
+                        $target.append(`<option value="${obj[value]}" ${selected}> ${obj[text]} </option>`);
+                    }
+
                 });
+
                 $target.trigger('change');
 
             } else {
@@ -204,7 +259,9 @@ function loadSelectMunicipios(target, idEstado) {
             console.error(xhr.responseJSON.message);
         }
     });
+
 }
+
 
 function initializeDeleteDialog(url, id) {
     bootbox.confirm({

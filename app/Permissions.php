@@ -5,7 +5,7 @@ namespace App;
 use App\Roles;
 use Illuminate\Database\Eloquent\Model;
 
-class Permissions extends Model
+class Permissions extends BaseModel
 {
     protected $table = 'permissions';
     protected $primaryKey = 'pk_permission';

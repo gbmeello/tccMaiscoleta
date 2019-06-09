@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Triagem
+        <small>Edição</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{url('triagem/index')}}"><i class="fa fa-filter"></i> Triagem</a></li>
+        <li class="active">Edição</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">

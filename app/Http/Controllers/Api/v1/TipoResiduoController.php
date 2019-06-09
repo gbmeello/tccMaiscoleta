@@ -21,7 +21,7 @@ class TipoResiduoController extends ApiController
 
         $totalFiltered = $totalData;
 
-        $columnOrder = ($request->input('order.0.column') == 'id' ? $request->input('order.0.column') : 0);
+        $columnOrder = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 
         $limit  = $request->input('length');
         $start  = $request->input('start');

@@ -22,7 +22,7 @@ class CreateVeiculoTable extends Migration
         });
 
         $schema->create('veiculo', function (Blueprint $table) {
-            $table->increments('pk_veiculo')->comment('Chave primária e unica da tabela Veiculo');
+            $table->bigIncrements('pk_veiculo')->comment('Chave primária e unica da tabela Veiculo');
             $table->string('placa', 10)->unique()->comment('Placa do veículo');
             $table->string('modelo', 100)->comment('Modelo do veículo');
             $table->string('observacao', 300)->nullable()->comment('Observação relacionada ao veículo');

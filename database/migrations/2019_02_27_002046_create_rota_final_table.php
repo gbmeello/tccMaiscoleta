@@ -22,9 +22,9 @@ class CreateRotaFinalTable extends Migration
         });
 
         $schema->create('rota_final', function (Blueprint $table) {
-            $table->increments('pk_rota_final')->comment('Chave primária, única e incremental da tabela Rota_Final');
-            $table->unsignedInteger('fk_rota')->comment('Chave estrangira em uma relação de n para n, vinda da tabela Rota');
-            $table->unsignedInteger('fk_ponto_coleta')->comment('Chave estrangeira em uma relação de n para n, vinda da tabela Ponto_Coleta');
+            $table->bigIncrements('pk_rota_final')->comment('Chave primária, única e incremental da tabela Rota_Final');
+            $table->unsignedBigInteger('fk_rota')->comment('Chave estrangira em uma relação de n para n, vinda da tabela Rota');
+            $table->unsignedBigInteger('fk_ponto_coleta')->comment('Chave estrangeira em uma relação de n para n, vinda da tabela Ponto_Coleta');
             $table->customTimestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 

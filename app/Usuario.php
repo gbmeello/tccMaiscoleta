@@ -5,12 +5,15 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\Usuario as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, Notifiable;
+
+    const CREATED_AT = 'data_criacao';
+    const UPDATED_AT = 'data_atualizacao';
 
     /**
      * The attributes that are mass assignable.

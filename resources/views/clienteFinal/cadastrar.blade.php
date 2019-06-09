@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Cliente Final
+        <small>Cadastro</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{ url('cliente-final/index') }}"><i class="fa fa-users"></i> Cliente Final</a></li>
+        <li class="active">Cadastro</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
@@ -10,14 +22,14 @@
                 <form id="form-cliente-final" role="form" class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
-                            <input type="text" class="form-control" name="nome_fantasia" id="nome_fantasia" maxlength="200">
+                            <label class="control-label" for="razao_social">Razão Social</label>
+                            <input type="text" class="form-control" name="razao_social" id="razao_social" maxlength="300">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="razao_social">Razão Social</label>
-                            <input type="text" class="form-control" name="razao_social" id="razao_social" maxlength="300">
+                            <label class="control-label" for="nome_fantasia">Nome Fantasia</label>
+                            <input type="text" class="form-control" name="nome_fantasia" id="nome_fantasia" maxlength="200">
                         </div>
                     </div>
                     <div class="col-md-12">

@@ -22,7 +22,7 @@ class CreateRotaTable extends Migration
         });
 
         $schema->create('rota', function (Blueprint $table) {
-            $table->increments('pk_rota')->comment('Chave primária e única da tabela rotas');
+            $table->bigIncrements('pk_rota')->comment('Chave primária e única da tabela rotas');
             $table->string('nome', 100)->unique()->comment('Nome da rota');
             $table->string('observacao', 500)->nullable()->comment('Observação da rota');
             $table->customTimestamps();

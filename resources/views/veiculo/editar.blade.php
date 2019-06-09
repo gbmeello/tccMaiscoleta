@@ -7,8 +7,9 @@
         <small>Edição</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Veículo</li>
+            <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{asset('veiculo/index')}}"><i class="fa fa-truck"></i> Veículo</a></li>
+        <li class="active">Edição</li>
     </ol>
 @endsection
 

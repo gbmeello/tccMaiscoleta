@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PontoColeta extends Model
+class PontoColeta extends BaseModel
 {
     protected $table = 'ponto_coleta';
     protected $primaryKey = 'pk_ponto_coleta';

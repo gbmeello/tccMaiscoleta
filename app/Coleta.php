@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coleta extends Model
+class Coleta extends BaseModel
 {
     protected $primaryKey = "pk_coleta";
     protected $table = "coleta";
@@ -31,14 +31,18 @@ class Coleta extends Model
     }
 
     public function veiculo() {
-        $this->belongsTo(Veiculo::class, 'fk_veiculo', 'pk_veiculo');
+        return $this->belongsTo(Veiculo::class, 'fk_veiculo', 'pk_veiculo');
     }
 
     public function fornecedor() {
-        $this->belongsTo(Fornecedor::class, 'fk_fornecedor', 'pk_fornecedor');
+        return $this->belongsTo(Fornecedor::class, 'fk_fornecedor', 'pk_fornecedor');
+    }
+
+    public function rotas() {
+        return $this->belongsTo(Rota::class, 'fk_rota', 'pk_rota');
     }
 
     public function triagens() {
-        $this->hasMany(Triagem::class, 'fk_coleta');
+        return $this->hasMany(Triagem::class, 'fk_coleta');
     }
 }

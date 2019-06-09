@@ -6,75 +6,65 @@
         <small>Edição</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{asset('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{asset('coleta/index')}}"><i class="fa fa-th-large"></i> Coleta - Lista</a></li>
-        <li class="active">Coleta</li>
+        <li><a href="{{ url('/') }}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{ url('coleta/index') }}"><i class="fa fa-truck-loading"></i> Coleta</a></li>
+        <li class="active">Edição</li>
     </ol>
 @endsection
+
+@php dd($obj->get()) @endphp;
 
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro da Coleta</h3>
+                    <h3 class="box-title">Edição da Coleta - [{{ $obj->data_coleta }} / {{ $obj->rota()->nome }}]</h3>
                 </div>
                 <form id="form-coleta" class="box-body">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_rota">Rota</label>
-                            <select name="slt_rota" id="slt_rota" style="width: 100%;">
-                                @if(isset($rotas) && $rotas->count())
-                                    <option value=""> Selecione a rota... </option>
-                                    @foreach($rotas as $rota)
-                                        @if ($obj->fk_rota === $rota->pk_rota)
-                                            <option selected title="{{$rota->descricao}}" value="{{$rota->pk_rota}}"> {{$rota->nome}} </option>
-                                        @else
-                                            <option title="{{$rota->descricao}}" value="{{$rota->pk_rota}}"> {{$rota->nome}} </option>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhuma rota foi cadastrada... </option>
-                                @endif
-                            </select>
+                            <div class="input-group">
+                                <select naname="slt_rota" class="form-control" style="width: 100%;" id="slt_rota">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2WithValue( 'rota/listar', '#slt_rota', 'pk_rota', 'nome', {{ $obj->fk_rota }} );" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_veiculo">Veículo</label>
-                            <select name="slt_veiculo" id="slt_veiculo" style="width: 100%;">
-                                @if(isset($veículos) && $veículos->count())
-                                    <option value=""> Selecione o cliente... </option>
-                                    @foreach($veiculos as $veiculo)
-                                        @if ($obj->fk_veiculo === $veiculo->pk_veiculo)
-                                            <option selected value="{{$veiculo->pk_veiculo}}"> {{$veiculo->tipo}} | {{$veiculo->modelo}} | {{$veiculo->placa}}</option>
-                                        @else
-                                            <option value="{{$veiculo->pk_veiculo}}"> {{$veiculo->tipo}} | {{$veiculo->modelo}} | {{$veiculo->placa}}</option>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhum veículo foi cadastrado... </option>
-                                @endif
-                            </select>
+                            <div class="input-group">
+                                <select name="slt_veiculo" class="form-control" style="width: 100%;" id="slt_veiculo">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2WithValue( 'veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo', {{ $obj->fk_veiculo }} )" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label" for="slt_veiculo">Fornecedor</label>
-                            <select name="slt_fornecedor" id="slt_fornecedor" style="width: 100%;">
-                                @if(isset($fornecedores) && $fornecedores->count())
-                                    <option value=""> Selecione o fornecedor... </option>
-                                    @foreach($fornecedores as $fornecedor)
-                                        @if ($obj->fk_fornecedor === $fornecedor->pk_fornecedor)
-                                            <option selected value="{{$obj->pk_fornecedor}}"> {{$obj->nome_fantasia}} </option>
-                                        @else
-                                            <option value="{{$obj->pk_fornecedor}}"> {{$obj->nome_fantasia}} </option>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <option value=""> Nenhum fornecedor foi cadastrado... </option>
-                                @endif
-                            </select>
+                            <label class="control-label" for="slt_fornecedor">Fornecedor</label>
+                            <div class="input-group">
+                                <select naname="slt_fornecedor" class="form-control" style="width: 100%;" id="slt_fornecedor">
+                                    <option value=""> Selecione uma opção... </option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2WithValue( 'fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'razao_social', {{ $obj->fk_fornecedor }} )" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                        <i class="fa fa-sync-alt"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -121,6 +111,10 @@
             $('#slt_veiculo').select2();
             $('#slt_fornecedor').select2();
 
+            loadSelect2WithValue( 'rota/listar', '#slt_rota', 'pk_rota', 'nome', {{ $obj->fk_rota }} );
+            loadSelect2WithValue( 'rota/listar', '#slt_rota', 'pk_rota', 'nome', {{ $obj->fk_rota }} );
+            loadSelect2WithValue( 'fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome', {{ $obj->fk_fornecedor }} );
+
             document.getElementById('data_coleta').value = '{{ $obj->data_coleta }}';
 
             $('#has_coleta').prop('checked', {{ $obj->has_coleta }});
@@ -162,9 +156,8 @@
                     }
 
                 },
-                error: function(xhr) { // if error occured
-                    console.log(xhr);
-                    console.error('error');
+                error: function(xhr, response) { // if error occured
+                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
                 }
             });
         }

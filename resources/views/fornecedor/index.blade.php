@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Fornecedor
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="active">Fornecedor</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
@@ -23,10 +34,10 @@
                                     Id
                                 </th>
                                 <th>
-                                    Nome Fantasia
+                                    Razão Social
                                 </th>
                                 <th>
-                                    Razão Social
+                                    Nome Fantasia
                                 </th>
                                 <th>
                                     Estado
@@ -67,8 +78,8 @@
                         "defaultContent": ""
                     },
                     { "data": "pk_fornecedor" },
-                    { "data": "nome_fantasia" },
                     { "data": "razao_social" },
+                    { "data": "nome_fantasia" },
                     { "data": "estado" },
                     { "data": "municipio" },
                     { "data": "ativo", render: function(data, type, row) {

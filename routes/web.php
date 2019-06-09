@@ -13,8 +13,12 @@
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('index');
+Route::get('', 'DashboardController@index');
+Route::get('/', 'DashboardController@index');
+
+Route::prefix('dashboard', function () {
+    Route::get('/', 'DashboardController@index');
+    Route::get('index', 'DashboardController@index');
 });
 
 Route::prefix('tipo-residuo')->group(function () {

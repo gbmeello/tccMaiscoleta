@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Estado extends Model
+class Estado extends BaseModel
 {
     protected $primaryKey = "pk_estado";
     protected $table = "estado";

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Triagem extends Model
+class Triagem extends BaseModel
 {
     protected $primaryKey = "pk_triagem";
     protected $table = "triagem";
@@ -32,14 +32,14 @@ class Triagem extends Model
     }
 
     public function coleta() {
-        $this->belongsTo(Coleta::class, 'fk_coleta', 'pk_coleta');
+        return $this->belongsTo(Coleta::class, 'fk_coleta', 'pk_coleta');
     }
 
     public function clienteFinal() {
-        $this->belongsTo(ClienteFinal::class, 'fk_cliente_final', 'pk_cliente_final');
+        return $this->belongsTo(ClienteFinal::class, 'fk_cliente_final', 'pk_cliente_final');
     }
 
     public function tipoResiduo() {
-        $this->belongsTo(TipoResiduo::class, 'fk_tipo_residuo', 'pk_tipo_residuo');
+        return $this->belongsTo(TipoResiduo::class, 'fk_tipo_residuo', 'pk_tipo_residuo');
     }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Fornecedor extends Model
+class Fornecedor extends BaseModel
 {
     protected $primaryKey = "pk_fornecedor";
     protected $table = "fornecedor";
@@ -24,7 +24,7 @@ class Fornecedor extends Model
     }
 
     public function coletas() {
-        $this->hasMany(Coleta::class, 'fk_fornecedor');
+        return $this->hasMany(Coleta::class, 'fk_fornecedor');
     }
 
     public function municipio() {

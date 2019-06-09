@@ -22,8 +22,8 @@ class CreateUsuarioTable extends Migration
         });
 
         $schema->create('usuario', function (Blueprint $table) {
-            $table->increments('pk_usuario');
-            $table->unsignedInteger('fk_role');
+            $table->bigIncrements('pk_usuario');
+            $table->unsignedBigInteger('fk_role');
             $table->string('nome', 150);
             $table->string('email', 200)->unique();
             $table->timestamp('email_verified_at')->nullable();
