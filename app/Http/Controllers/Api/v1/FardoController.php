@@ -43,10 +43,10 @@ class FardoController extends ApiController
                 ->select(
                     'f.*', 'tr.nome as tr_nome', 'cf.razao_social as cf_razao_social',
                     't.data_triagem as t_data_triagem', 't.observacao as t_observacao')
-                ->leftJoint('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
-                ->leftJoint('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
-                ->leftJoint('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
-                ->where('ativo', '=', true)
+                ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+                ->leftJoin('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
+                ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+                ->where('f.ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -58,9 +58,9 @@ class FardoController extends ApiController
                 ->select(
                     'f.*', 'tr.nome as tr_nome', 'cf.razao_social as cf_razao_social',
                     't.data_triagem as t_data_triagem', 't.observacao as t_observacao')
-                ->leftJoint('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
-                ->leftJoint('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
-                ->leftJoint('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+                ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+                ->leftJoin('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
+                ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
                 ->where('f.pk_fardo', 'LIKE', "%{$search}%")
                 ->orWhere('f.lote', 'LIKE',"%{$search}%")
                 ->orWhere('f.data_venda', 'LIKE',"%{$search}%")
@@ -77,9 +77,9 @@ class FardoController extends ApiController
                 ->select(
                     'f.*', 'tr.nome as tr_nome', 'cf.razao_social as cf_razao_social',
                     't.data_triagem as t_data_triagem', 't.observacao as t_observacao')
-                ->leftJoint('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
-                ->leftJoint('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
-                ->leftJoint('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+                ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+                ->leftJoin('cliente_final as cf', 'cf.pk_cliente_final', '=', 'f.fk_cliente_final')
+                ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
                 ->where('f.pk_fardo', 'LIKE', "%{$search}%")
                 ->orWhere('f.lote', 'LIKE',"%{$search}%")
                 ->orWhere('f.data_venda', 'LIKE',"%{$search}%")
@@ -169,7 +169,7 @@ class FardoController extends ApiController
         }
 
         return response()->json([
-            'success' => false,
+            'success' => true,
             'data' => $model
         ]);
     }

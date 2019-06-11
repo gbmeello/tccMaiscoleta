@@ -44,6 +44,10 @@ class Fardo extends BaseModel
         $this->attributes['fk_triagem'] = $value;
     }
 
+    public function tipoResiduo() {
+        return $this->belongsTo(TipoResiduo::class, 'fk_tipo_residuo', 'pk_tipo_residuo');
+    }
+
     public function clienteFinal() {
         return $this->belongsTo(ClienteFinal::class, 'fk_cliente_final', 'pk_cliente_final');
     }

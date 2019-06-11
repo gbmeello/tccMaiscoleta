@@ -112,7 +112,7 @@ class TipoResiduoController extends ApiController
         }
 
         return response()->json([
-            'success' => false,
+            'success' => true,
             'data' => $model
         ]);
     }

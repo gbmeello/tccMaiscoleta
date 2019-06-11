@@ -77,16 +77,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="has_coleta">
                                 Teve coleta?
                                 <br>
                                 <input type="checkbox" class="" name="has_coleta" id="has_coleta">
                             </label>
-
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group">
                             <label  class="control-label" for="observacao">Observação</label>

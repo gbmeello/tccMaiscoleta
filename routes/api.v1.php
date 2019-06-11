@@ -34,11 +34,25 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
     });
 
+    Route::prefix('fardo')->group(function() {
+
+        Route::get('/listar', 'FardoController@index')->name('api.fardo.listar');
+
+        Route::get('/exibir/{id}', 'FardoController@show')->name('api.fardo.exibir');
+
+        Route::post('/cadastrar', 'FardoController@store')->name('api.fardo.cadastrar');
+
+        Route::put('/editar/{id}', 'FardoController@update')->name('api.fardo.editar');
+
+        Route::delete('/deletar/{id}', 'FardoController@destroy')->name('api.fardo.deletar');
+
+    });
+
     Route::prefix('tipo-residuo')->group(function() {
 
         Route::get('/listar', 'TipoResiduoController@index')->name('api.tipo_residuo.listar');
 
-        Route::get('/exibir/{id}', 'TipoResiduoController@show')->name('api.municipio.exibir');
+        Route::get('/exibir/{id}', 'TipoResiduoController@show')->name('api.tipo_residuo.exibir');
 
         Route::post('/cadastrar', 'TipoResiduoController@store')->name('api.tipo_residuo.cadastrar');
 
@@ -53,7 +67,7 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
         Route::get('/listar', 'ColetaController@index')->name('api.coleta.listar');
 
-        Route::get('/exibir/{id}', 'ColetaController@show')->name('api.municipio.exibir');
+        Route::get('/exibir/{id}', 'ColetaController@show')->name('api.coleta.exibir');
 
         Route::post('/cadastrar', 'ColetaController@store')->name('api.coleta.cadastrar');
 
@@ -64,11 +78,26 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
     });
 
 
+    Route::prefix('triagem')->group(function() {
+
+        Route::get('/listar', 'TriagemController@index')->name('api.triagem.listar');
+
+        Route::get('/exibir/{id}', 'TriagemController@show')->name('api.triagem.exibir');
+
+        Route::post('/cadastrar', 'TriagemController@store')->name('api.triagem.cadastrar');
+
+        Route::put('/editar/{id}', 'TriagemController@update')->name('api.triagem.editar');
+
+        Route::delete('/deletar/{id}', 'TriagemController@destroy')->name('api.triagem.deletar');
+
+    });
+
+
     Route::prefix('fornecedor')->group(function() {
 
         Route::get('/listar', 'FornecedorController@index')->name('api.fornecedor.listar');
 
-        Route::get('/exibir/{id}', 'FornecedorController@show')->name('api.municipio.exibir');
+        Route::get('/exibir/{id}', 'FornecedorController@show')->name('api.fornecedor.exibir');
 
         Route::post('/cadastrar', 'FornecedorController@store')->name('api.fornecedor.cadastrar');
 

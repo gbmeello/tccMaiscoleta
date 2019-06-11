@@ -314,7 +314,7 @@ function initializeMapModal(id) {
         }
     });
 
-    debugger;
+    // debugger;
 
     $.get(
         '/api/v1/ponto-coleta/exibir/' + id,

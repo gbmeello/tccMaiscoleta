@@ -70,7 +70,7 @@ class ColetaController extends ApiController
                 ->where('c.ativo', true)
                 ->where('pk_coleta', 'LIKE', "%{$search}%")
                 ->orWhere('c.data_coleta', 'LIKE',"%{$search}%")
-                ->orWhere('c.has_coleta', 'LIKE',"%{$search}%")
+                // ->orWhere('c.has_coleta', 'LIKE',"%{$search}%")
                 ->orWhere('c.observacao', 'LIKE',"%{$search}%")
                 ->count();
         }
@@ -82,7 +82,7 @@ class ColetaController extends ApiController
             {
                 $nestedData['pk_coleta']        = $model->pk_coleta;
                 $nestedData['data_coleta']      = Carbon::parse($model->data_coleta)->format('d/m/Y');
-                $nestedData['has_coleta']       = $model->has_coleta;
+                // $nestedData['has_coleta']       = $model->has_coleta;
                 $nestedData['observacao']       = $model->observacao;
                 $nestedData['veiculo_modelo']   = $model->modelo;
                 $nestedData['veiculo_placa']    = $model->placa;
@@ -145,7 +145,7 @@ class ColetaController extends ApiController
         $model->data_coleta = Carbon::parse($model->data_coleta)->format('d/m/Y');
 
         return response()->json([
-            'success' => false,
+            'success' => true,
             'data' => $model
         ]);
     }

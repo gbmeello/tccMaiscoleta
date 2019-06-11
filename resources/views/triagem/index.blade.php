@@ -34,19 +34,19 @@
                                     Id
                                 </th>
                                 <th>
-                                    Nome Fantasia
+                                    Data da Triagem
                                 </th>
                                 <th>
-                                    Razão Social
+                                    Data da Coleta
                                 </th>
                                 <th>
-                                    Estado
+                                    Rota
                                 </th>
                                 <th>
-                                    Cidade
+                                    Veículo
                                 </th>
                                 <th>
-                                    Status
+                                    Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -61,7 +61,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('helperJs.js') }}"></script>
     <script>
 
         $(document).ready(function () {
@@ -78,11 +77,10 @@
                         "data":           null,
                         "defaultContent": ""
                     },
-                    { "data": "id" },
-                    { "data": "nome_fantasia" },
-                    { "data": "razao_social" },
-                    { "data": "estado" },
-                    { "data": "cidade" },
+                    { "data": "pk_triagem" },
+                    { "data": "data_triagem" },
+                    { "data": "c_data_coleta" },
+                    { "data": "v_veicuo" },
                     { "data": "ativo", render: function(data, type, row) {
                         let html = '';
 
@@ -96,8 +94,8 @@
                             let html = '';
                             html += `
                                     <div class="btn-group" role="group" aria-label="...">
-                                        <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                        <a href="{{url('tipo-residuo/editar')}}/${data.pk_triagem}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <button onclick="initializeDeleteDialog('tipo-residuo/deletar', ${data.pk_triagem})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                     </div>`;
                             return html;
                         },
@@ -112,38 +110,8 @@
                 let table =
                     `<div class="form-group">
                         <div class="col-sm-4 col-md-4">
-                            <span>Email: </span>
-                            <span>${d.email}</span>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <span>Telefone 1: </span>
-                            <span>${d.telefone1}</span>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <span>Telefone 2: </span>
-                            <span>${d.telefone2}</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-6 col-md-6">
-                            <span>Cep: </span>
-                            <span>${d.cep}</span>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <span>Bairro: </span>
-                            <span>${d.bairro}</span>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <span>Rua: </span>
-                            <span>${d.rua}</span>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <span>Logradouro: </span>
-                            <span>${d.logradouro}</span>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <span>Rua: </span>
-                            <span>${d.complemento}</span>
+                            <span>Observação: </span>
+                            <span>${d.observacao}</span>
                         </div>
                     </div>`;
 

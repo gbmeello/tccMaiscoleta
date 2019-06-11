@@ -38,21 +38,6 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="slt_tipo_residuo">Tipo de Res&iacute;duo</label>
-                            <div class="input-group">
-                                <select name="slt_tipo_residuo" class="form-control" style="width: 100%;" id="slt_tipo_residuo">
-                                    <option value=""> Selecione uma opção... </option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-flat" onclick="loadSelect2('tipo-residuo/listar', '#slt_tipo_residuo', 'pk_tipo_residuo', 'nome')" type="button" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
-                                        <i class="fa fa-sync-alt"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
                             <label class="control-label" for="data_triagem">Data de Triagem:</label>
                             <div class="input-group date" data-provide="datepicker">
                                 <input type="text" name="data_triagem" id="data_triagem" class="form-control datepicker">
@@ -60,12 +45,6 @@
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="peso_medio">Peso Médio:</label>
-                            <input type="text" name="peso_medio" id="peso_medio" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -100,7 +79,6 @@
             });
 
             loadSelect2('coleta/listar', '#slt_coleta', 'pk_coleta', 'data_coleta|rota_nome');
-            loadSelect2('tipo-residuo/listar', '#slt_tipo_residuo', 'pk_tipo_residuo', 'nome');
 
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();
