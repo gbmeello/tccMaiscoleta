@@ -20,6 +20,7 @@
                     <h3 class="box-title">Cadastro do Cliente Final</h3>
                 </div>
                 <form id="form-cliente-final" role="form" class="box-body">
+                    @csrf
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="razao_social">Razão Social</label>

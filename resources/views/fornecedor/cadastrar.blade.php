@@ -20,6 +20,7 @@
                     <h3 class="box-title">Cadastro de Fornecedores</h3>
                 </div>
                 <form id="form-fornecedor" class="box-body">
+                    @csrf
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="razao_social">Razão Social</label>
@@ -83,6 +84,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
+                            <label class="control-label" for="rua">Rua:</label>
                             <input type="text" class="form-control" name="rua" id="rua" maxlength="150">
                         </div>
                     </div>

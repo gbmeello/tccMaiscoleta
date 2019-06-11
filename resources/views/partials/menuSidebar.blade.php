@@ -46,6 +46,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ action('FardoController@index')  }}">
+                    <i class="fa fa-cubes"></i>
+                    <span>Fardo</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ action('FornecedorController@index')  }}">
                     <i class="fa fa-users"></i>
                     <span>Fornecedor</span>

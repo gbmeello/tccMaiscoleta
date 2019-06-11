@@ -1,11 +1,11 @@
 <section class="content-header">
+
     <h1>
         Dashboard
-        <small>Version 2.0</small>
+        <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Cadastro</li>
     </ol>
 
     <div class="clearfix"></div>

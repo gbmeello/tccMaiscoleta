@@ -22,6 +22,7 @@
                     <h3 class="box-title">Edição da Coleta - [{{ $obj->data_coleta }} / {{ $obj->rota()->nome }}]</h3>
                 </div>
                 <form id="form-coleta" class="box-body">
+                    @csrf
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_rota">Rota</label>

@@ -20,6 +20,7 @@
                     <h3 class="box-title">Cadastro de Triagem</h3>
                 </div>
                 <form id="form-triagem" class="box-body">
+                    @csrf
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="slt_coleta">Coleta</label>
@@ -61,6 +62,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="peso_medio">Peso Médio:</label>
+                            <input type="text" name="peso_medio" id="peso_medio" class="form-control">
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="observacao">Observação:</label>
@@ -89,7 +96,6 @@
             $('#slt_tipo_residuo').select2();
 
             $('.datepicker').datetimepicker({
-                format: 'DD/MM/YYYY',
                 locale: 'pt-br'
             });
 

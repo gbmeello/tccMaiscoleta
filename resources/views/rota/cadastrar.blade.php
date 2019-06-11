@@ -8,6 +8,7 @@
                 <h3 class="box-title">Cadastro de Rotas</h3>
             </div>
             <form id="form-rota" role="form" class="box-body">
+                @csrf
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label" for="nome">Nome</label>

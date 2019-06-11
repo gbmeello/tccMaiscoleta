@@ -17,6 +17,16 @@ class ClienteFinalController extends Controller
 
     private $viewName = 'clienteFinal';
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
+
     public function index()
     {
         return view($this->viewName.'.index');
@@ -25,10 +35,7 @@ class ClienteFinalController extends Controller
     public function create()
     {
         $estados = Estado::All();
-
-        return view($this->viewName.'.cadastrar', [
-            'estados' => $estados
-        ]);
+        return view($this->viewName.'.cadastrar', ['estados' => $estados]);
     }
 
     public function edit($id)

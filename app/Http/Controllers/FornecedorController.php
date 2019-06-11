@@ -11,6 +11,16 @@ class FornecedorController extends Controller
 {
     private $viewName = 'fornecedor';
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
+
     public function index()
     {
         return view($this->viewName.'.index');
@@ -43,15 +53,15 @@ class FornecedorController extends Controller
         return redirect($this->viewName.'/index')->send();
     }
 
-    public function delete($id)
-    {
-        $tipoResiduo = Fornecedor::find($id);
+    // public function delete($id)
+    // {
+    //     $tipoResiduo = Fornecedor::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
-        }
+    //     if(!empty($tipoResiduo)) {
+    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
+    //     }
 
-        Session::flash('message', "Fornecedor não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
-    }
+    //     Session::flash('message', "Fornecedor não foi encontrado");
+    //     return redirect($this->viewName.'/index')->send();
+    // }
 }

@@ -262,6 +262,38 @@ function loadSelect2WithValue(controller, target, value, text, selectValue = nul
 
 }
 
+function loadSelectMunicipios(target, idEstado) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/v1/municipio/listar-por-estado/'+idEstado,
+        dataType: 'json',
+        beforeSend: function() {
+            console.log('antes de enviar');
+        },
+        complete: function() {
+            console.log('completo');
+        },
+        success: function(response) {
+
+            let $target = $(target);
+
+            if(response.success) {
+                $target.empty().trigger('change');
+                $.each(response.data, function(index, municipio) {
+                    $target.append(`<option value="${municipio.pk_municipio}">${municipio.nome}</option>`);
+                });
+                $target.trigger('change');
+
+            } else {
+                console.error(response.message);
+            }
+
+        },
+        error: function(xhr) { // if error occured
+            console.error(xhr.responseJSON.message);
+        }
+    });
+}
 
 function initializeDeleteDialog(url, id) {
     bootbox.confirm({

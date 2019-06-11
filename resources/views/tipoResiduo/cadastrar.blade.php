@@ -8,6 +8,7 @@
                 <h3 class="box-title">Cadastro de Tipo de res&iacute;duos</h3>
             </div>
             <form id="form-tipo-residuo" role="form" class="box-body">
+                @csrf
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label" for="nome">Nome</label>

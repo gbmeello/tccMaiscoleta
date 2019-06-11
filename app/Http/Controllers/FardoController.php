@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Triagem;
-use Illuminate\Support\Facades\Session;
+use App\Fardo;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class TriagemController extends Controller
+class FardoController extends Controller
 {
-    private $viewName = 'triagem';
+    private $viewName = 'fardo';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         // $this->middleware('auth');
@@ -31,14 +27,15 @@ class TriagemController extends Controller
 
     public function edit($id)
     {
-        $obj = Triagem::find($id);
+        $obj = Fardo::find($id);
 
         if(!empty($obj)) {
-            return view($this->viewName.'.editar', ['obj' => $obj]);
+            return view($this->viewName.'.editar', [
+                'obj' => $obj
+            ]);
         }
 
-        Session::flash('message', "A Triagem não foi encontrada");
+        Session::flash('message', "Fardo não foi encontrado");
         return redirect($this->viewName.'/index')->send();
     }
-
 }

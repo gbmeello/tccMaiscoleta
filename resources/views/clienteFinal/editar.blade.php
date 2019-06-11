@@ -21,6 +21,7 @@
                 <h3 class="box-title">Edição do Cliente Final - [{{ $obj->nome_fantasia }}]</h3>
                 </div>
                 <form id="form-cliente-final" role="form" class="box-body">
+                    @csrf
                     <input name="id" value="{{ $obj->pk_cliente_final }}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">

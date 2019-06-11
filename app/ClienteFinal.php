@@ -27,6 +27,6 @@ class ClienteFinal extends BaseModel
     }
 
     public function triagens() {
-        return $this->hasMany(Triagem::class, 'fk_cliente_final');
+        return $this->hasMany(Fardo::class, 'fk_cliente_final');
     }
 }

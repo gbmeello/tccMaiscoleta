@@ -8,6 +8,7 @@
                 <h3 class="box-title">Editar Tipo de res&iacute;duos - [{{$obj->nome}}]</h3>
             </div>
             <form id="form-tipo-residuo" role="form" class="box-body">
+                @csrf
                 <input name="id" id="id" hidden value="{{$obj->pk_tipo_residuo}}">
                 <div class="col-md-6">
                     <div class="form-group">

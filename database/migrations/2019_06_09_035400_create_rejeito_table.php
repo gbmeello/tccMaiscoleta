@@ -26,6 +26,6 @@ class CreateRejeitoTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('rejeito');
+        Schema::dropIfExists('rejeito');
     }
 }

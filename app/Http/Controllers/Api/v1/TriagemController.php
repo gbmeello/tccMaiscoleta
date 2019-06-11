@@ -32,7 +32,6 @@ class TriagemController extends Controller
         $model = new Triagem();
         $model->setColetaAttribute($validate['slt_coleta']);
         $model->setResiduoAttribute($validate['slt_residuo']);
-        $model->setClienteFinalAttribute($validate['slt_cliente_final']);
 
         $success = $model->fill($validate)->save();
 

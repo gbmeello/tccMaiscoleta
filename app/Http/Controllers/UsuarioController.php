@@ -7,38 +7,37 @@ use Illuminate\Support\Facades\Session;
 
 class UsuarioController extends Controller
 {
+    private $viewName = 'usuario';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
 
     public function index()
     {
-        return view('tipoResiduo.index');
+        return view($this->viewName.'.index');
     }
 
     public function create()
     {
-        return view('/tipoResiduo.cadastrar');
+        return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
-        $tipoResiduo = TipoResiduo::find($id);
+        $obj = Triagem::find($id);
 
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.editar', compact(['tipoResiduo' => $tipoResiduo]));
+        if(!empty($obj)) {
+            return view($this->viewName.'.editar', ['obj' => $obj]);
         }
 
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
-    }
-
-    public function delete($id)
-    {
-        $tipoResiduo = TipoResiduo::find($id);
-
-        if(!empty($tipoResiduo)) {
-            return view('tipoResiduo.deletar', compact(['tipoResiduo' => $tipoResiduo]));
-        }
-
-        Session::flash('message', "Tipo de Resíduo não foi encontrado");
-        return redirect('tipoResiduo/index')->send();
+        Session::flash('message', "O Usuário não foi encontrada");
+        return redirect($this->viewName.'/index')->send();
     }
 }

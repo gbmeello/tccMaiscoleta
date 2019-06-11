@@ -151,6 +151,7 @@
                 type: 'POST',
                 url: '/api/v1/ponto-coleta/cadastrar',
                 data: {
+                    _token: {{ csrf_token() }}
                     json: JSON.stringify(arrayPontosColeta)
                 },
                 dataType: 'json',

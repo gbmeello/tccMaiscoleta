@@ -20,6 +20,7 @@
                     <h3 class="box-title">Cadastro de Ve&iacute;culos</h3>
                 </div>
                 <form id="form-veiculo" class="box-body">
+                    @csrf
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="placa">Placa</label>

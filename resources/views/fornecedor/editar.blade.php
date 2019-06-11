@@ -20,6 +20,7 @@
                     <h3 class="box-title">Edição do Fornecedor - [{{$obj->nome_fantasia}}]</h3>
                 </div>
                 <form id="form-fornecedor" role="form" class="box-body">
+                    @csrf
                     <input name="id" value="{{ $obj->pk_fornecedor }}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">
