@@ -21,7 +21,7 @@
                 </div>
                 <form id="form-fardo" class="box-body">
                     @csrf
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_tipo_residuo">Tipo de Res&iacute;duo</label>
                             <div class="input-group">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_cliente_final">Cliente Final</label>
                             <div class="input-group">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_triagem">Triagem</label>
                             <div class="input-group">
@@ -69,6 +69,21 @@
                                         <i class="fa fa-sync-alt"></i>
                                     </button>
                                 </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="slt_status">Status</label>
+                            <div class="input-group">
+                                <select name="slt_status" class="form-control" style="width: 100%;" id="slt_status">
+                                    <option value=""> Selecione uma opção... </option>
+                                    @isset($status)
+                                        @foreach ($status as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    @endisset
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -92,7 +107,34 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="peso">Peso:</label>
-                            <input type="number" name="peso" id="peso" class="form-control">
+                            <div class="input-group">
+                                <input type="number" name="peso" id="peso" class="form-control">
+                                <span class="input-group-btn">
+                                    <label>ADSADASDSA</label>
+                                    <select style="width: 25%;" name="slt_unidade_medida" class="form-control" style="width: 100%;" id="slt_unidade_medida">
+                                        @isset($unidadesMedida)
+                                            @foreach ($unidadesMedida as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="slt_status">Status</label>
+                            <div class="input-group">
+                                <select name="slt_status" class="form-control" style="width: 100%;" id="slt_status">
+                                    <option value=""> Selecione uma opção... </option>
+                                    @isset($status)
+                                        @foreach ($status as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    @endisset
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">

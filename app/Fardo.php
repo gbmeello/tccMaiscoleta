@@ -15,6 +15,14 @@ class Fardo extends BaseModel
         'ton' => 'ton'
     ];
 
+    /**
+     * Status ENUM
+     */
+    public const STATUS = [
+        'estoque' => 'Estoque',
+        'vendido' => 'Vendido',
+    ];
+
     protected $primaryKey = "pk_fardo";
     protected $table = "fardo";
     protected $fillable = [
@@ -30,6 +38,10 @@ class Fardo extends BaseModel
 
     public function setUnidadeMedidaAttribute($value) {
         $this->attributes['unidade_medida'] = $value;
+    }
+
+    public function setStatusAttribute($value) {
+        $this->attributes['status'] = $value;
     }
 
     public function setTipoResiduoAttribute($value) {

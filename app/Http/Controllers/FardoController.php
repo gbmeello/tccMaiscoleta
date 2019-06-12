@@ -22,7 +22,12 @@ class FardoController extends Controller
 
     public function create()
     {
-        return view($this->viewName.'.cadastrar');
+        $unidadesMedida = Fardo::UNIDADES_MEDIDA;
+        $status = Fardo::STATUS;
+        return view($this->viewName.'.cadastrar', [
+            'unidadesMedida' => $unidadesMedida,
+            'status' => $status
+        ]);
     }
 
     public function edit($id)
@@ -30,8 +35,14 @@ class FardoController extends Controller
         $obj = Fardo::find($id);
 
         if(!empty($obj)) {
+
+            $unidadesMedida = Fardo::UNIDADES_MEDIDA;
+            $status = Fardo::STATUS;
+
             return view($this->viewName.'.editar', [
-                'obj' => $obj
+                'obj' => $obj,
+                'status' => $status,
+                'unidadesMedida' => $unidadesMedida
             ]);
         }
 

@@ -32,6 +32,7 @@ class CreateFardoTable extends Migration
             $table->enum('unidade_medida', ['g', 'kg', 'ton'])->comment('Unidade de Medida separado do Fardo');
             $table->string('observacao', 1000)->nullable()->comment('Observação do Fardo');
             $table->customTimestamps();
+            $table->enum('status', ['estoque', 'vendido'])->comment('Status do Fardo');
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
 
             $table->foreign('fk_tipo_residuo')->references('pk_tipo_residuo')->on('tipo_residuo')->onDelete('cascade');
