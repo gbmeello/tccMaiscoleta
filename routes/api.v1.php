@@ -150,5 +150,7 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
         Route::delete('/deletar/{id}', 'RotaController@destroy')->name('api.rota.deletar');
 
+        Route::get('/pontos-coleta-por-rota/{id}', 'RotaController@getGeoJsonPontosColetaByRota')->name('api.rota.getGeoJsonPontosColetaByRota');
+
     });
 });

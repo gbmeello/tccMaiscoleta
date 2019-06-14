@@ -19,9 +19,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label" for="observacao">Observa&ccedil;&atilde;o</label>
-                        <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="500">
-                            {{$obj->observacao}}
-                        </textarea>
+                        <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="500">{{$obj->observacao}}</textarea>
                     </div>
                 </div>
             </form>

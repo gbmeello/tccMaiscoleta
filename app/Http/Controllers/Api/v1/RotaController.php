@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Rota;
 use Illuminate\Http\Request;
 use App\Http\Requests\RotaRequest;
+use function GuzzleHttp\json_encode;
 
 class RotaController extends ApiController
 {
@@ -111,6 +112,8 @@ class RotaController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
+        $model->pontosColeta = $model->pontosColeta()->get();
+
         return response()->json([
             'success' => true,
             'data' => $model
@@ -167,6 +170,51 @@ class RotaController extends ApiController
                 'hasSuccess' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+    }
+
+    public function getGeoJsonPontosColetaByRota($id) {
+        try {
+            $geojson = [
+                'success' => true,
+                'data' => [
+                    'type' => 'FeatureCollection',
+                    'features' => []
+                ]
+            ];
+
+            $rota = Rota::find($id);
+            $pontosColeta = $rota->pontosColeta()->get();
+
+            foreach($pontosColeta as $key => $value) {
+
+                $marker = [
+                    'type' => 'Feature',
+                    'properties' => [
+                        'title' => $value->nome,
+                        'marker-color' => '#f00',
+                        'marker-size' => 'small'
+                    ],
+                    'geometry' => [
+                        'type' => 'Point',
+                        'coordinates' => [
+                            $value->longitude,
+                            $value->latitude
+                        ]
+                    ]
+                ];
+
+                array_push($geojson['data']['features'], $marker);
+
+            }
+
+            echo json_encode($geojson);
+        }
+        catch(\Exception $ex) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Ocorreu um erro. Por favor, tente novamente.'
+            ]);
         }
     }
 }

@@ -24,8 +24,8 @@ class CreatePontoColetaTable extends Migration
         $schema->create('ponto_coleta', function (Blueprint $table) {
             $table->bigIncrements('pk_ponto_coleta')->comment('Chave primária e única da tabela Ponto_Coleta');
             $table->string('nome', 100)->unique()->comment('Nome do ponto de coleta');
-            $table->decimal('latitude', 16, 12)->comment('Latitude do ponto de coleta');
-            $table->decimal('longitude', 16, 12)->comment('Longitude do ponto de coleta');
+            $table->decimal('latitude', 20, 16)->comment('Latitude do ponto de coleta');
+            $table->decimal('longitude', 20, 16)->comment('Longitude do ponto de coleta');
             $table->string('descricao', 300)->nullable()->comment('Descrição do ponto de coleta');
             $table->timestamps();
             $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');

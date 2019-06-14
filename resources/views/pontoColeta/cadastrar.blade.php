@@ -73,13 +73,13 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="telefone1">Latitude:</label>
-                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" readonly name="latitude" id="latitude">
+                                <input type="text" class="form-control" placeholder="Ex: -22.968460714600695" readonly name="latitude" id="latitude">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="telefone1">Longitude:</label>
-                                <input type="text" class="form-control" placeholder="Ex: -99.99999999" readonly name="longitude" id="longitude">
+                                <input type="text" class="form-control" placeholder="Ex: -22.968460714600695" readonly name="longitude" id="longitude">
                             </div>
                         </div>
                         <div class="col-md-12">
