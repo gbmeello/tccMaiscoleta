@@ -139,6 +139,7 @@ class FardoController extends ApiController
 
         $model = new Fardo();
         $model->setUnidadeMedidaAttribute($validate['slt_unidade_medida']);
+        $model->setStatusAttribute($validate['slt_status']);
         $model->setTipoResiduoAttribute($validate['slt_tipo_residuo']);
         $model->setClienteFinalAttribute($validate['slt_cliente_final']);
         $model->setTriagemAttribute($validate['slt_triagem']);
@@ -187,6 +188,7 @@ class FardoController extends ApiController
         $validate = $request->validated();
 
         $model->setUnidadeMedidaAttribute($validate['slt_unidade_medida']);
+        $model->setStatusAttribute($validate['slt_status']);
         $model->setTipoResiduoAttribute($validate['slt_tipo_residuo']);
         $model->setClienteFinalAttribute($validate['slt_cliente_final']);
         $model->setTriagemAttribute($validate['slt_triagem']);

@@ -28,7 +28,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/ponto-coleta/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                        <i class="fa fa-map-marker"></i> Cadastrar Ponto de Coleta
+                        <i class="fa fa-map-marker-alt"></i> Cadastrar Ponto de Coleta
                     </a>
                 </div>
                 <div class="box-body">

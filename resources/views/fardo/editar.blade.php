@@ -3,12 +3,12 @@
 @section('contentHeader')
     <h1>
         Fardo
-        <small>Cadastro</small>
+        <small>Edição</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="{{url('fardo/index')}}"><i class="fa fa-users"></i> Fardo</a></li>
-        <li class="active">Cadastro</li>
+        <li><a href="{{url('fardo/index')}}"><i class="fa fa-cubes"></i> Fardo</a></li>
+        <li class="active">Edição</li>
     </ol>
 @endsection
 
@@ -17,10 +17,11 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Fardo</h3>
+                    <h3 class="box-title">Edição de Fardo</h3>
                 </div>
                 <form id="form-fardo" class="box-body">
                     @csrf
+                    <input id="pk_fardo" name="pk_fardo" value="{{$obj->pk_fardo}}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="slt_tipo_residuo">Tipo de Res&iacute;duo</label>
@@ -122,9 +123,35 @@
             $('#slt_tipo_residuo').select2();
             $('#slt_cliente_final').select2();
             $('#slt_triagem').select2();
+            $('#slt_status').select2();
 
-            $('.datepicker').datetimepicker({
+            $('#peso').inputmask(
+                'decimal',
+                {
+                    rightAlign: false,
+                    digits: 2,
+                    placeholder: "0"
+                }
+            );
+
+            let $dataVenda = $('#data_venda');
+
+            $dataVenda.datetimepicker({
                 locale: 'pt-br'
+            });
+
+            $('#slt_status').on('change', function() {
+
+                let $divDataVenda = $('#div-data-venda');
+
+                if($(this).val() === 'vendido') {
+                    $divDataVenda.show();
+                }
+                else {
+                    $dataVenda.data("DateTimePicker").clear();
+                    $divDataVenda.hide();
+                }
+
             });
 
             loadSelect2WithValue('cliente-final/listar', '#slt_cliente_final', 'pk_cliente_final', 'razao_social', {{ $obj->fk_cliente_final }} );

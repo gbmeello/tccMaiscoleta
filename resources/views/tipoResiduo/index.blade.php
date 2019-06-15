@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Tipo de Resíduo
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="active">Tipo de Resíduo</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
@@ -11,7 +22,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-trash"></i> Cadastrar novo
+                    <i class="fa fa-recycle"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">

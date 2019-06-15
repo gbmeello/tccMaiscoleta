@@ -25,11 +25,12 @@
                         <div class="form-group">
                             <label class="control-label" for="slt_rota">Rota</label>
                             <div class="input-group">
-                                <select naname="slt_rota" class="form-control" style="width: 100%;" id="slt_rota">
+                                <select name="slt_rota" class="form-control" style="width: 100%;" id="slt_rota">
                                     <option value=""> Selecione uma opção... </option>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('rota/listar', '#slt_rota', 'pk_rota', 'nome');" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('rota/listar', '#slt_rota', 'pk_rota', 'nome');"
+                                        data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
                                         <i class="fa fa-sync-alt"></i>
                                     </button>
                                 </span>
@@ -44,7 +45,8 @@
                                     <option value=""> Selecione uma opção... </option>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo')" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo')"
+                                        data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
                                         <i class="fa fa-sync-alt"></i>
                                     </button>
                                 </span>
@@ -55,11 +57,12 @@
                         <div class="form-group">
                             <label class="control-label" for="slt_fornecedor">Fornecedor</label>
                             <div class="input-group">
-                                <select naname="slt_fornecedor" class="form-control" style="width: 100%;" id="slt_fornecedor">
+                                <select name="slt_fornecedor" class="form-control" style="width: 100%;" id="slt_fornecedor">
                                     <option value=""> Selecione uma opção... </option>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome')" data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
+                                    <button class="btn btn-primary btn-flat" type="button" onclick="loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome')"
+                                        data-loading-text="<i class='fas fa-sync-alt fa-spin'></i>">
                                         <i class="fa fa-sync-alt"></i>
                                     </button>
                                 </span>
@@ -69,26 +72,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="data_coleta">Data de Coleta:</label>
-                            <div class='input-group date' name="data_coleta" id="data_coleta">
-                                <input type="text" class="form-control datetimepicker">
+                            <div class='input-group date'>
+                                <input type="text" name="data_coleta" id="data_coleta" class="form-control datetimepicker">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="has_coleta">
-                                Teve coleta?
-                                <br>
-                                <input type="checkbox" class="" name="has_coleta" id="has_coleta">
-                            </label>
-                        </div>
-                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label  class="control-label" for="observacao">Observação</label>
+                            <label class="control-label" for="observacao">Observação</label>
                             <textarea rows="4" id="observacao" name="observacao" class="form-control" maxlength="1000"></textarea>
                         </div>
                     </div>

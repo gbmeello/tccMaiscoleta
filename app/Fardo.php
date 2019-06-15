@@ -26,8 +26,8 @@ class Fardo extends BaseModel
     protected $primaryKey = "pk_fardo";
     protected $table = "fardo";
     protected $fillable = [
-        'fk_tipo_residuo', 'fk_cliente_final', 'fk_triagem', 'lote', 'data_venda',
-        'peso', 'unidade_medida', 'observacao', 'ativo'
+        'fk_tipo_residuo', 'fk_cliente_final', 'fk_triagem', 'status',
+        'lote', 'data_venda', 'peso', 'unidade_medida', 'observacao', 'ativo'
     ];
 
     public $timestamps = false;

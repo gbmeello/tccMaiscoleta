@@ -34,7 +34,7 @@ class ColetaRequest extends BaseFormRequest
                 return [
                     'slt_rota' => 'required',
                     'data_coleta' => 'required',
-                    'has_coleta' => 'required',
+                    // 'has_coleta' => 'required',
                     'observacao' => 'max:1000'
                 ];
             }
@@ -44,7 +44,7 @@ class ColetaRequest extends BaseFormRequest
                 return [
                     'slt_rota' => 'required',
                     'data_coleta' => 'required',
-                    'has_coleta' => 'required',
+                    // 'has_coleta' => 'required',
                     'observacao' => 'max:1000'
                 ];
             }
@@ -57,7 +57,7 @@ class ColetaRequest extends BaseFormRequest
         return [
             'slt_rota' => 'Rota',
             'data_coleta' => 'Data de Coleta',
-            'has_coleta' => 'Teve coleta?',
+            // 'has_coleta' => 'Teve coleta?',
             'observacao' => 'Observação'
         ];
     }

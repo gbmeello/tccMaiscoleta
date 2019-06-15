@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Resíduo
+        <small>Cadastro</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{{url('rota/index')}}"><i class="fa fa-route"></i> Resíduo</a></li>
+        <li class="active">Cadastro</li>
+    </ol>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-centered">

@@ -7,7 +7,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="{{url('fardo/index')}}"><i class="fa fa-users"></i> Fardo</a></li>
+        <li><a href="{{url('fardo/index')}}"><i class="fa fa-cubes"></i> Fardo</a></li>
         <li class="active">Cadastro</li>
     </ol>
 @endsection
@@ -72,22 +72,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="slt_status">Status</label>
-                            <div class="input-group">
-                                <select name="slt_status" class="form-control" style="width: 100%;" id="slt_status">
-                                    <option value=""> Selecione uma opção... </option>
-                                    @isset($status)
-                                        @foreach ($status as $key => $value)
-                                            <option value="{{$key}}">{{$value}}</option>
-                                        @endforeach
-                                    @endisset
-                                </select>
-                            </div>
+                            <select name="slt_status" class="form-control" style="width: 100%;" id="slt_status">
+                                <option value=""> Selecione uma opção... </option>
+                                @isset($status)
+                                    @foreach ($status as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                @endisset
+                            </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div id="div-data-venda" style="display:none" class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="data_venda">Data de Venda:</label>
                             <div class="input-group date" data-provide="datepicker">
@@ -98,6 +96,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="clearfix"></div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="lote">Lote:</label>
@@ -108,10 +109,9 @@
                         <div class="form-group">
                             <label class="control-label" for="peso">Peso:</label>
                             <div class="input-group">
-                                <input type="number" name="peso" id="peso" class="form-control">
+                                <input type="text" name="peso" id="peso" class="form-control">
                                 <span class="input-group-btn">
-                                    <label>ADSADASDSA</label>
-                                    <select style="width: 25%;" name="slt_unidade_medida" class="form-control" style="width: 100%;" id="slt_unidade_medida">
+                                    <select style="width: 100px;" name="slt_unidade_medida" class="form-control" id="slt_unidade_medida">
                                         @isset($unidadesMedida)
                                             @foreach ($unidadesMedida as $key => $value)
                                                 <option value="{{$key}}">{{$value}}</option>
@@ -119,21 +119,6 @@
                                         @endisset
                                     </select>
                                 </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="slt_status">Status</label>
-                            <div class="input-group">
-                                <select name="slt_status" class="form-control" style="width: 100%;" id="slt_status">
-                                    <option value=""> Selecione uma opção... </option>
-                                    @isset($status)
-                                        @foreach ($status as $key => $value)
-                                            <option value="{{$key}}">{{$value}}</option>
-                                        @endforeach
-                                    @endisset
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -160,13 +145,38 @@
 
         $(document).ready(function() {
 
-
             $('#slt_tipo_residuo').select2();
             $('#slt_cliente_final').select2();
             $('#slt_triagem').select2();
+            $('#slt_status').select2();
 
-            $('.datepicker').datetimepicker({
+            $('#peso').inputmask(
+                'decimal',
+                {
+                    rightAlign: false,
+                    digits: 2,
+                    placeholder: "0"
+                }
+            );
+
+            let $dataVenda = $('#data_venda');
+
+            $dataVenda.datetimepicker({
                 locale: 'pt-br'
+            });
+
+            $('#slt_status').on('change', function() {
+
+                let $divDataVenda = $('#div-data-venda');
+
+                if($(this).val() === 'vendido') {
+                    $divDataVenda.show();
+                }
+                else {
+                    $dataVenda.data("DateTimePicker").clear();
+                    $divDataVenda.hide();
+                }
+
             });
 
             loadSelect2('cliente-final/listar', '#slt_cliente_final', 'pk_cliente_final', 'razao_social');

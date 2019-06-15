@@ -28,7 +28,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="{{url('ponto-coleta/index')}}"><i class="fa fa-users"></i> Ponto de Coleta</a></li>
+        <li><a href="{{url('ponto-coleta/index')}}"><i class="fa fa-map-marker-alt"></i> Ponto de Coleta</a></li>
         <li class="active">Cadastro</li>
     </ol>
 @endsection

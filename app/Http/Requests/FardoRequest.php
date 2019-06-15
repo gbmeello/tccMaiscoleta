@@ -37,10 +37,11 @@ class FardoRequest extends BaseFormRequest
                     'slt_tipo_residuo' => 'required',
                     'slt_cliente_final' => 'required',
                     'slt_triagem' => 'required',
-                    'lote' => 'required',
-                    'data_venda' => 'required',
+                    'slt_unidade_medida' => 'required|in:g,kg,ton',
+                    'slt_status' => 'required',
+                    // 'lote' => 'required',
+                    // 'data_venda' => 'required',
                     'peso' => 'required',
-                    'unidade_medida' => 'required|in:g,kg,ton',
                     'observacao' => 'max:1000',
                 ];
             }
@@ -51,10 +52,11 @@ class FardoRequest extends BaseFormRequest
                     'slt_tipo_residuo' => 'required',
                     'slt_cliente_final' => 'required',
                     'slt_triagem' => 'required',
-                    'lote' => 'required',
-                    'data_venda' => 'required',
+                    'slt_unidade_medida' => 'required|in:g,kg,ton',
+                    'slt_status' => 'required',
+                    // 'lote' => 'required',
+                    // 'data_venda' => 'required',
                     'peso' => 'required',
-                    'unidade_medida' => 'required|in:g,kg,ton',
                     'observacao' => 'max:1000',
                 ];
             }
@@ -69,6 +71,7 @@ class FardoRequest extends BaseFormRequest
             'slt_cliente_final' => 'Cliente Final',
             'slt_triagem' => 'Triagem',
             'slt_unidade_medida' => 'Unidade de Medida',
+            'slt_status' => 'Status',
             'lote' => 'Lote',
             'data_venda' => 'Data de Venda',
             'peso' => 'Peso',

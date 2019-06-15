@@ -71,8 +71,6 @@
         $(document).ready(function() {
 
             $('#slt_coleta').select2();
-            $('#slt_cliente_final').select2();
-            $('#slt_tipo_residuo').select2();
 
             $('.datepicker').datetimepicker({
                 locale: 'pt-br'

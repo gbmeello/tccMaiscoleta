@@ -22,7 +22,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a href="{{url('/veiculo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
-                    <i class="fa fa-car"></i> Cadastrar novo
+                    <i class="fa fa-truck"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
@@ -69,7 +69,6 @@
 
 @section('scripts')
 
-    <script src="{{ asset('helperJs.js') }}"></script>
     <script>
 
         $(document).ready(function () {
