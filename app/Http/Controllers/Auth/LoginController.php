@@ -1,75 +1,13 @@
 <?php
 
-// namespace App\Http\Controllers\Auth;
-
-// use Illuminate\Http\Request;
-// use App\Http\Controllers\Controller;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\View;
-// use Illuminate\Support\Facades\Redirect;
-// use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
-// class LoginController extends Controller
-// {
-//     /*
-//     |--------------------------------------------------------------------------
-//     | Login Controller
-//     |--------------------------------------------------------------------------
-//     |
-//     | This controller handles authenticating users for the application and
-//     | redirecting them to your home screen. The controller uses a trait
-//     | to conveniently provide its functionality to your applications.
-//     |
-//     */
-
-//     use AuthenticatesUsers;
-
-//     /**
-//      * Where to redirect users after login.
-//      *
-//      * @var string
-//      */
-//     protected $redirectTo = '/dashboard';
-
-//     /**
-//      * Create a new controller instance.
-//      *
-//      * @return void
-//      */
-//     public function __construct()
-//     {
-//         $this->middleware('guest')->except('logout');
-//     }
-
-//     public function show()
-//     {
-//         if (Auth::check())
-//             return Redirect::route('dashboard');
-
-//         return View::make('login');
-//     }
-
-//     /**
-//      * Handle an authentication attempt.
-//      *
-//      * @return Response
-//      */
-//     public function authenticate()
-//     {
-//         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-//             // Authentication passed...
-//             if(!Auth::check()){
-//                 return redirect('login');
-//             }
-//             return redirect()->intended('dashboard');
-//         }
-//     }
-// }
-
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -101,5 +39,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+      * Handling authentication request
+      *
+      * @return Response
+    */
+    public function authenticate(Request $request) {
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        if (Auth::attempt(['email' => $email, 'password' => $password, 'ativo' => true])) {
+            return redirect('/');
+        }
+
+        return response()->json([
+            'success' => 'false',
+            'message' => 'Email ou senha incorreto(s)'
+        ]);
+
+    }
+
+    public function logout() {
+
     }
 }

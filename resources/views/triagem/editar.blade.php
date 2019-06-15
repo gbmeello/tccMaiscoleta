@@ -89,7 +89,7 @@
             let $btnSalvar = $('#btn-salvar');
 
             $.ajax({
-                type: 'POST',
+                type: 'PUT',
                 url: '/api/v1/triagem/editar/' + {{ $obj->fk_coleta }},
                 data: data,
                 dataType: 'json',

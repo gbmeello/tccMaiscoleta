@@ -33,6 +33,12 @@
             <li class="header">MENU</li>
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active">-->
+            <li class="active">
+                <a href="{{ action('DashboardController@index')  }}">
+                    <i class="fa fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ action('ClienteFinalController@index')  }}">
                     <i class="fa fa-users"></i>

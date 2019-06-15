@@ -26,7 +26,7 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-fornecedor" class="table table-bordered table-striped dataTable">
+                    <table id="table-triagem" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
                                 <th></th>
@@ -65,11 +65,11 @@
 
         $(document).ready(function () {
 
-            let $table = $('#table-fornecedor');
+            let $table = $('#table-triagem');
             let dt = $table.DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('api/v1/fornecedor/listar') }}",
+                "ajax": "{{ url('api/v1/triagem/listar') }}",
                 "columns": [
                     {
                         "class":          "details-control",
@@ -80,6 +80,7 @@
                     { "data": "pk_triagem" },
                     { "data": "data_triagem" },
                     { "data": "c_data_coleta" },
+                    { "data": "r_nome" },
                     { "data": "v_veicuo" },
                     { "data": "ativo", render: function(data, type, row) {
                         let html = '';
@@ -94,8 +95,8 @@
                             let html = '';
                             html += `
                                     <div class="btn-group" role="group" aria-label="...">
-                                        <a href="{{url('tipo-residuo/editar')}}/${data.pk_triagem}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <button onclick="initializeDeleteDialog('tipo-residuo/deletar', ${data.pk_triagem})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                        <a href="{{url('triagem/editar')}}/${data.pk_triagem}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                        <button onclick="initializeDeleteDialog('triagem/deletar', ${data.pk_triagem})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                     </div>`;
                             return html;
                         },
@@ -109,7 +110,7 @@
             configDatatable.addShowDetails($table, dt, function(d) {
                 let table =
                     `<div class="form-group">
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-12 col-md-12">
                             <span>Observação: </span>
                             <span>${d.observacao}</span>
                         </div>

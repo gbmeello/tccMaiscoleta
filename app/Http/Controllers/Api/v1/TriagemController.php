@@ -61,7 +61,7 @@ class TriagemController extends Controller
                 ->where('t.pk_triagem', 'LIKE', "%{$search}%")
                 ->orWhere('t.data_triagem', 'LIKE',"%{$search}%")
                 ->orWhere('t.observacao', 'LIKE',"%{$search}%")
-                ->where('f.ativo', '=', true)
+                ->where('t.ativo', '=', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -80,8 +80,7 @@ class TriagemController extends Controller
                 ->where('t.pk_triagem', 'LIKE', "%{$search}%")
                 ->orWhere('t.data_triagem', 'LIKE',"%{$search}%")
                 ->orWhere('t.observacao', 'LIKE',"%{$search}%")
-                ->where('f.ativo', '=', true)
-                ->where('f.ativo', '=', true)
+                ->where('t.ativo', '=', true)
                 ->count();
         }
 

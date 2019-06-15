@@ -11,14 +11,15 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
+Route::get('home');
 
-// Auth::routes();
+Auth::routes();
 
-// Route::get('/login', function () { return view('auth.login'); });
-// Route::post('auth/login', 'Auth/LoginController@authenticate');
+Route::get('/login', function () { return view('auth.login'); });
+Route::post('auth/login', [
+    'uses' => 'Auth\LoginController@authenticate',
+    'as'   => 'login'
+]);
 
 // // Route::get('/home', 'HomeController@index')->name('home');
 
@@ -123,3 +124,6 @@
 
 
 // });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
