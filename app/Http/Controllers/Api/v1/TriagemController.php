@@ -112,7 +112,7 @@ class TriagemController extends Controller
             'data'            => $data
         ];
 
-        echo json_encode($json_data);
+        return response()->json($json_data);
     }
 
     /**

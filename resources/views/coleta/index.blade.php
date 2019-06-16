@@ -43,9 +43,6 @@
                                     Data de Coleta
                                 </th>
                                 <th>
-                                    Teve Coleta?
-                                </th>
-                                <th>
                                     Ativo
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
@@ -79,15 +76,6 @@
                 { "data": "rota_nome" },
                 { "data": "fornecedor" },
                 { "data": "data_coleta" },
-                { "data": "has_coleta", render: function(data, type, row) {
-                        let html = '';
-                        if(data == true) {
-                            html = '<small class="label pull-right bg-green">Sim</small>';
-                        } else {
-                            html = '<small class="label pull-right bg-red">Não</small>';
-                        }
-                        return html;
-                }},
                 { "data": "ativo", render: function(data, type, row) {
                         let html = '';
                         if(data == true) {
@@ -120,7 +108,7 @@
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <span>Veículo: </span>
-                            <span>${d.modelo}/${d.placa}</span>
+                            <span>${d.veiculo_modelo}/${d.veiculo_placa}</span>
                         </div>
                     </div>
                     <div class="form-group">

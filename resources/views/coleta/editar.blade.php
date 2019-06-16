@@ -12,8 +12,6 @@
     </ol>
 @endsection
 
-@php dd($obj->get()) @endphp;
-
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
@@ -74,13 +72,6 @@
                             <input type="date" class="form-control" name="data_coleta" id="data_coleta">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="has_coleta">Teve coleta?</label>
-                            <br>
-                            <input type="checkbox" value="{{ $obj->has_coleta }}" class="" name="has_coleta" id="has_coleta">
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label  class="control-label" for="observacao">Observação</label>
@@ -106,11 +97,14 @@
 
         $(document).ready(function() {
 
-            initValidation();
-
             $('#slt_rota').select2();
             $('#slt_veiculo').select2();
             $('#slt_fornecedor').select2();
+
+            $('.datetimepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'pt-br'
+            });
 
             loadSelect2WithValue( 'rota/listar', '#slt_rota', 'pk_rota', 'nome', {{ $obj->fk_rota }} );
             loadSelect2WithValue( 'rota/listar', '#slt_rota', 'pk_rota', 'nome', {{ $obj->fk_rota }} );
@@ -118,20 +112,12 @@
 
             document.getElementById('data_coleta').value = '{{ $obj->data_coleta }}';
 
-            $('#has_coleta').prop('checked', {{ $obj->has_coleta }});
-
             $('#btn-salvar').unbind('click').click(function() {
-                cadastrar();
+                editar();
             });
         });
 
-        function initValidation() {
-
-            // $('#data_coleta').inputmask('__/__/____');  //static mask
-
-        }
-
-        function cadastrar() {
+        function editar() {
 
             let $btnSalvar = $('#btn-salvar');
 

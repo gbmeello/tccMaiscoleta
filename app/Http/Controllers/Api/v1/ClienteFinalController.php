@@ -132,7 +132,7 @@ class ClienteFinalController extends ApiController
             'data'            => $data
         ];
 
-        echo json_encode($json_data);
+        return response()->json($json_data);
     }
 
     public function store(ClienteFinalRequest $request)
