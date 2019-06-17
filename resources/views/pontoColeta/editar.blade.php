@@ -21,18 +21,6 @@
     </style> --}}
 @endsection
 
-@section('contentHeader')
-    <h1>
-        Ponto de Coleta
-        <small>Cadastro</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="{{url('ponto-coleta/index')}}"><i class="fa fa-map-marker-alt"></i> Ponto de Coleta</a></li>
-        <li class="active">Cadastro</li>
-    </ol>
-@endsection
-
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">

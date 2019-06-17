@@ -36,7 +36,7 @@ class PontoColetaController extends Controller
     {
         $obj = PontoColeta::find($id);
 
-        if(!empty($tipoResiduo)) {
+        if(!empty($obj)) {
             return view($this->viewName.'.editar', compact(['obj' => $obj]));
         }
 
