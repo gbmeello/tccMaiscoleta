@@ -35,7 +35,7 @@
                         <li class="user-header">
                             <img src="{{ asset('img/user-icon.png') }}" class="img-circle" alt="User Image">
                             <p>
-                                {{ Auth::user()->nome }} / {{ Auth::user()->role()->first()->nome }}
+                                {{ Auth::user()->nome }} | {{ Auth::user()->role()->first()->nome }}
                                 <small>{{ Auth::user()->email }}</small>
                             </p>
                         </li>

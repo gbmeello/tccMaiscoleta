@@ -235,4 +235,26 @@ class FardoController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
+
+    public function dashboardQuantidade() {
+        return response()->json([
+            'success' => true,
+            'total' => 0
+        ]);
+    }
+
+    public function dashboardEmEstoque() {
+        return response()->json([
+            'success' => true,
+            'total' => 0
+        ]);
+    }
+
+    public function dashboardVendido() {
+        return response()->json([
+            'success' => true,
+            'total' => 0
+        ]);
+    }
+
 }

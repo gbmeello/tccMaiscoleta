@@ -25,13 +25,14 @@ class LoginRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email'  => [
-                'required',
-                Rule::unique('usuario')->where(function ($query) {
-                    $query->where('ativo', true);
-                }),
-            ],
+            'email' => 'required|exists:usuario,email',
             'senha' => 'required'
+        ];
+    }
+    
+    public function messages() {
+        return [
+            'email.exists' => 'O email não existe'
         ];
     }
 

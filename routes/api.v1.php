@@ -1,6 +1,18 @@
 <?php
 
 Route::namespace('Api\v1')->prefix('v1')->group(function() {
+    
+    Route::prefix('dashboard')->group(function() {
+
+        Route::prefix('fardo')->group(function() {
+
+            Route::get('/quantidade', 'FardoController@dashboardQuantidade');
+            Route::get('/estoque', 'FardoController@dashboardEmEstoque');
+            Route::get('/vendido', 'FardoController@dashboardVendido');
+    
+        });
+
+    });
 
     Route::prefix('estado')->group(function() {
 

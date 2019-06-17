@@ -49,7 +49,9 @@ class LoginController extends Controller
       *
       * @return Response
     */
-    public function authenticate(Request $request) {
+    public function authenticate(LoginRequest $request) {
+
+        $validated = $request->validated();
 
         $usuario = Usuario::where('email', '=', $request->input('email'))->first();
 
