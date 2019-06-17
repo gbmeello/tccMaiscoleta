@@ -1,10 +1,12 @@
 <?php
 
+use App\Extendz\CustomBlueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateUsuarioTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +15,24 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
+        $schema = DB::connection()->getSchemaBuilder();
+
+        $schema->blueprintResolver(function($table, $callback) {
+            return new CustomBlueprint($table, $callback);
+        });
+
+        $schema->create('usuario', function (Blueprint $table) {
+            $table->bigIncrements('pk_usuario');
+            $table->unsignedBigInteger('fk_role');
+            $table->string('nome', 150);
+            $table->string('email', 200)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('senha', 300);
             $table->rememberToken();
-            $table->timestamps();
+            $table->customTimestamps();
+            $table->boolean('ativo')->default(true)->comment('Status que se encontra atualmente o registro: ativo(true), inativo(false)');
+
+            $table->foreign('fk_role')->references('pk_role')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -31,6 +43,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        //Schema::dropIfExists('role_permission_pivot');
+        //Schema::dropIfExists('roles');
+        Schema::dropIfExists('usuario');
     }
 }

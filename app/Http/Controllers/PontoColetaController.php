@@ -34,10 +34,15 @@ class PontoColetaController extends Controller
 
     public function edit($id)
     {
-        $obj = PontoColeta::find($id);
+        $rotas = Rota::where('ativo', '=', true)->get();
+
+        $obj = PontoColeta::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {
-            return view($this->viewName.'.editar', compact(['obj' => $obj]));
+            return view($this->viewName.'.editar', [
+                'obj' => $obj,
+                'rotas' => $rotas
+            ]);
         }
 
         Session::flash('message', 'O Ponto de Coleta não foi encontrado');

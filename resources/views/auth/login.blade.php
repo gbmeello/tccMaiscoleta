@@ -12,7 +12,7 @@
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/fontawesome-5.9.0/css/all.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/AdminLTE.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/AdminLTE.css') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
 </head>
@@ -28,7 +28,7 @@
                     <input type="text" name="email" placeholder="Email" />
                     <input type="password" name="senha" placeholder="Senha" />
                 </form>
-                <button id="btn-login" name="btn-login">
+                <button id="btn-login" name="btn-login" data-loading-text="<i class='fa fa-sign-in-alt'></i> Login <i class='fa fa-spinner fa-spin'></i>">
                     <i class="fa fa-sign-in-alt"></i>
                     Login
                 </button>
@@ -46,48 +46,7 @@
     <script src="{{ asset('AdminLTE/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/helperJs.js') }}"></script>
-
-    <script>
-
-        $(document).ready(function() {
-
-            $('#btn-login').unbind('click').click(function() {
-                authenticate();
-            });
-
-        });
-
-        function authenticate() {
-
-            let data = $('#form-login').serialize();
-            let $btnLogin = $('#btn-login');
-
-            $.ajax({
-                type: 'POST',
-                url: '/auth/login',
-                data: data,
-                dataType: 'json',
-                beforeSend: function() {
-                    $btnLogin.button('loading');
-                },
-                complete: function() {
-                    $btnLogin.button('reset');
-                },
-                success: function(data) {
-                    if(data.success) {
-                        $('#div-resultado').html(showMessage('success', data.message));
-                    } else {
-                        $('#div-resultado').html(showValidationErrors(data.message));
-                    }
-
-                },
-                error: function(xhr, response) { // if error occured
-                    $('#div-resultado').html(showValidationErrors(xhr.responseJSON.message));
-                }
-            });
-        }
-
-    </script>
+    <script src="{{ asset('js/login.js') }}"></script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends BaseFormRequest
@@ -24,7 +25,14 @@ class LoginRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email'  => [
+                'required',
+                Rule::exists('usuario', 'email')->where(function ($query) {
+                    $query
+                        ->where('email', '=', $this->input('email'))
+                        ->where('ativo', true);
+                }),
+            ],
             'senha' => 'required'
         ];
     }

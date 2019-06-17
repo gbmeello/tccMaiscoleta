@@ -36,7 +36,7 @@ class FornecedorController extends Controller
     {
         $estados = Estado::All();
 
-        $obj = Fornecedor::find($id);
+        $obj = Fornecedor::where('ativo', '=', true)->find($id);
 
         $estado     = $obj->municipio()->first()->estado()->first();
         $municipios = $estado->municipios()->get();

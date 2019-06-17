@@ -31,7 +31,7 @@ class RotaController extends Controller
 
     public function edit($id)
     {
-        $obj = Rota::find($id);
+        $obj = Rota::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {
             return view($this->viewName.'.editar', ['obj' => $obj]);

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\v1\ApiController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -41,28 +42,46 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    protected function credentials(Request $request)
+    {
+        return $request->only('email', 'senha');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, 
+            [
+                'email'  => [
+                    'required',
+                    Rule::exists('usuario', 'email')->where(function ($query) use ($request){
+                        $query
+                            ->where('email', '=', $request->input('email'))
+                            ->where('ativo', true);
+                    }),
+                ],
+                'senha' => 'required'
+            ], [],
+            [                
+                'email' => 'Email',
+                'Senha' => 'Senha'
+            ]
+        );
+    }
+
     /**
       * Handling authentication request
       *
       * @return Response
     */
-    public function authenticate(Request $request) {
+    // public function authenticate(Request $request) {
 
-        $email = $request->input('email');
-        $password = $request->input('password');
 
-        if (Auth::attempt(['email' => $email, 'password' => $password, 'ativo' => true])) {
-            return redirect('/');
-        }
+    //     dd(Auth::all());
 
-        return response()->json([
-            'success' => 'false',
-            'message' => 'Email ou senha incorreto(s)'
-        ]);
+    //     return response()->json([
+    //         'success' => 'false',
+    //         'message' => 'Email ou senha incorreto(s)'
+    //     ], ApiController::HTTP_STATUS_NOT_FOUND);
 
-    }
-
-    public function logout() {
-
-    }
+    // }
 }

@@ -3,7 +3,7 @@
 @section('styles')
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css' type='text/css' />
-    {{-- <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/> --}}
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css' type='text/css'/>
     {{-- <style>
         .info-box {
             height: 100px;
@@ -119,7 +119,7 @@
 @section('scripts')
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js'></script>
-    {{-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script> --}}
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js'></script>
     <script src='{{ asset('js/mapboxhelper.js' )}}'></script>
     <script>
 
@@ -191,7 +191,16 @@
 
             // debugger;
 
-            mapBoxHelper = new MapBoxHelper(mapboxgl, map);
+            var draw = new MapboxDraw({
+                // drawing: true,
+                displayControlsDefault: false,
+                controls: {
+                    // polygon: true,
+                    trash: true
+                }
+            });
+
+            mapBoxHelper = new MapBoxHelper(mapboxgl, map, draw);
 
             // add create, update, or delete actions
             // map.on('draw.create', updatePoint);
@@ -205,7 +214,7 @@
                 mapboxgl: mapboxgl
             }));
 
-            // map.addControl(mapBoxHelper.draw);
+            map.addControl(mapBoxHelper.draw);
 
             // let mapboxCtrlGroup = $('.mapboxgl-ctrl-group');
             // mapboxCtrlGroup.find('.mapbox-gl-draw_line').attr('title', 'Desenhe a rota desejada');
@@ -226,9 +235,55 @@
             });
 
 
-            map.on('dblclick', function (e) {
+            map.on('click', function (e) {
 
-                e.preventDefault();
+                // e.preventDefault();
+                
+                var features = map.queryRenderedFeatures(e.point);
+
+                for(val in arrayPontosColeta) {
+
+                    // console.log(arrayPontosColeta[val].nome);
+                    // console.log(features[0]);
+
+                    if((features[0] !== undefined || arrayPontosColeta[val] !== undefined) && features[0].layer.id === arrayPontosColeta[val].nome) {
+
+                        bootbox.confirm({
+                            title: '<strong>Você realmente deseja deletar o ponto <i>' + arrayPontosColeta[val].nome + '</i>?</strong>',
+                            message: "Após confirmação, o ponto será deletado",
+                            buttons: {
+                                confirm: {
+                                    className: 'btn-success'
+                                },
+                                cancel: {
+                                    className: 'btn-danger'
+                                }
+                            },
+                            locale: 'br',
+                            callback: function (confirm) {
+                                if(confirm) {
+                                    $('#tbl-ponto-coleta').find('tr').each(function(index, value) {
+                                        if(value.id === features[0].layer.id) {            
+                                            
+                                            value.remove();
+
+                                            map.removeLayer(features[0].layer.id);
+                                            map.removeSource(features[0].layer.id);
+
+                                            removePontoColeta(arrayPontosColeta, features[0].layer.id);
+                                            
+                                            return;
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                        return;
+                    }
+
+                }
+                
 
                 let rotaNome = $('#slt_rota option:selected').text();
                 let rotaId = $('#slt_rota').val();
@@ -298,6 +353,7 @@
                         map.addLayer({
                             "id": pontoColetaNome,
                             "type": "symbol",
+                            "interactive": true,
                             "source": {
                                 "type": "geojson",
                                 "data": {
@@ -323,7 +379,7 @@
                         });
 
                         table.append(`
-                            <tr>
+                            <tr id="${pontoColetaNome}">
                                 <td style="width: 10%">${rotaNome}</td>
                                 <td style="width: 15%">${pontoColetaNome}</td>
                                 <td style="width: 20%">${e.lngLat.lat}</td>
@@ -394,7 +450,7 @@
 
         function removePontoColeta(array, val) {
             for(var obj in array) {
-                if(array[obj].nome == val) {
+                if(array[obj].nome === val) {
                     delete array[obj];
                 }
             }

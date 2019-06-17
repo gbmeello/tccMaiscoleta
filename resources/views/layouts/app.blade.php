@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/fontawesome-5.9.0/css/all.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/Ionicons/css/ionicons.min.css') }}">
+        
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/chart.js/dist/Chart.min.css') }}">
         <!-- jvectormap -->
         <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/jvectormap/jquery-jvectormap.css') }}">
         <!-- Pace -->
@@ -76,7 +78,7 @@
         <!-- Slimscroll -->
         <script src="{{ asset('AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
         <!-- ChartJS -->
-        <script src="{{ asset('AdminLTE/bower_components/chart.js/Chart.js') }}"></script>
+        <script src="{{ asset('AdminLTE/bower_components/chart.js/dist/Chart.min.js') }}"></script>
         <!-- Pace -->
         <script src="{{ asset('AdminLTE/bower_components/PACE/pace.min.js') }}"></script>
 

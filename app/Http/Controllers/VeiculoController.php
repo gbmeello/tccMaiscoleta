@@ -36,7 +36,7 @@ class VeiculoController extends Controller
 
     public function edit($id)
     {
-        $obj = Veiculo::find($id);
+        $obj = Veiculo::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {
             return view($this->viewName.'.editar', ['obj' => $obj]);

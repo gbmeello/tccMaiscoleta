@@ -32,7 +32,7 @@ class FardoController extends Controller
 
     public function edit($id)
     {
-        $obj = Fardo::find($id);
+        $obj = Fardo::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {
 

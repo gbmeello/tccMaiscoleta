@@ -42,7 +42,7 @@ class ClienteFinalController extends Controller
     {
         $estados = Estado::All();
 
-        $obj = ClienteFinal::find($id);
+        $obj = ClienteFinal::where('ativo', '=', true)->find($id);
 
         $estado     = $obj->municipio()->first()->estado()->first();
         $municipios = $estado->municipios()->get();

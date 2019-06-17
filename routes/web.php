@@ -15,9 +15,9 @@ Route::get('home');
 
 Auth::routes();
 
-Route::get('/login', function () { return view('auth.login'); });
+Route::get('/auth/login', function () { return view('auth.login'); });
 Route::post('auth/login', [
-    'uses' => 'Auth\LoginController@authenticate',
+    'uses' => 'Auth\LoginController@login',
     'as'   => 'login'
 ]);
 

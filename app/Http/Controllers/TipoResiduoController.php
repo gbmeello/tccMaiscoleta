@@ -36,7 +36,7 @@ class TipoResiduoController extends Controller
 
     public function edit($id)
     {
-        $obj = TipoResiduo::find($id);
+        $obj = TipoResiduo::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {
             return view($this->viewName.'.editar', ['obj' => $obj]);

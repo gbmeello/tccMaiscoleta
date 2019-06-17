@@ -102,8 +102,8 @@
                         let html = '';
                         html += `
                             <div class="btn-group" role="group" aria-label="...">
-                                <a href="{{ url('rota/editar/') }}/${data.pk_ponto_coleta}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                <button onclick="initializeDeleteDialog('rota/deletar', ${data.pk_ponto_coleta})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                <a href="{{ url('ponto-coleta/editar/') }}/${data.pk_ponto_coleta}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                <button onclick="initializeDeleteDialog('ponto-coleta/deletar', ${data.pk_ponto_coleta})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                             </div>`;
                         return html;
                     },

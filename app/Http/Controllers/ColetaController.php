@@ -51,8 +51,6 @@ class ColetaController extends Controller
             $veiculos = Veiculo::where('ativo', true);
             $fornecedores = Fornecedor::where('ativo', true);
 
-            $obj->data_coleta = Carbon::parse($obj->data_coleta)->format('d/m/Y');
-
             return view($this->viewName.'.editar', [
                 'obj' => $obj,
                 'rotas' => $rotas,
