@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Fardo extends BaseModel
@@ -35,6 +36,10 @@ class Fardo extends BaseModel
     protected $hidden = [
         'data_criacao', 'data_atualizacao'
     ];
+    
+    public function getDataVendaAttribute($value) {
+        return Carbon::parse($value)->format('d/m/Y H:i:s');
+    }
 
     public function setUnidadeMedidaAttribute($value) {
         $this->attributes['unidade_medida'] = $value;

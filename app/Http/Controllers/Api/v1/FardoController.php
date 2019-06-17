@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FardoRequest;
 use App\Fardo;
+use App\Helper\Helpers;
+use Illuminate\Http\Request;
+use App\Http\Requests\FardoRequest;
+use App\Http\Controllers\Controller;
 
 class FardoController extends ApiController
 {
@@ -130,7 +131,7 @@ class FardoController extends ApiController
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     public function store(FardoRequest $request)

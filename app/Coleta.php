@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Coleta extends BaseModel
 {
@@ -17,6 +18,10 @@ class Coleta extends BaseModel
     ];
 
     public $timestamps = false;
+
+    public function getDataColetaAttribute($value) {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
 
     public function setFornecedorAttribute($value) {
         $this->attributes['fk_fornecedor'] = $value;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Rota;
 use App\PontoColeta;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -95,7 +96,7 @@ class PontoColetaController extends Controller
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Rota;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RotaRequest;
 use function GuzzleHttp\json_encode;
@@ -79,7 +80,7 @@ class RotaController extends ApiController
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     public function store(RotaRequest $request)

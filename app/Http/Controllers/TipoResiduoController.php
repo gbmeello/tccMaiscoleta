@@ -43,6 +43,7 @@ class TipoResiduoController extends Controller
         }
 
         Session::flash('message', "O Tipo de Resíduo não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 }

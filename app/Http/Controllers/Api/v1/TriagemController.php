@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Triagem;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TriagemRequest;
@@ -112,7 +113,7 @@ class TriagemController extends Controller
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     /**

@@ -8,10 +8,4 @@
         <li class="active">Cadastro</li>
     </ol>
 
-    <div class="clearfix"></div>
-
-    @if (Session::has('message'))
-        <div class="alert alert-info">{{ Session::get('message') }}</div>
-    @endif
-
 </section>

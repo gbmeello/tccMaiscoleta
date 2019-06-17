@@ -38,7 +38,8 @@ class TriagemController extends Controller
         }
 
         Session::flash('message', "A Triagem não foi encontrada");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 
 }

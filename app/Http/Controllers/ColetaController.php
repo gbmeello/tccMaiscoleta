@@ -62,7 +62,8 @@ class ColetaController extends Controller
         }
 
         Session::flash('message', "Coleta não foi encontrada");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 
     // public function delete($id)

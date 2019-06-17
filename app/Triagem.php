@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Triagem extends BaseModel
 {
@@ -17,6 +17,10 @@ class Triagem extends BaseModel
     ];
 
     public $timestamps = false;
+    
+    public function getDataTriagemAttribute($value) {
+        return Carbon::parse($value)->format('d/m/Y H:i:s');
+    }
 
     public function setColetaAttribute($value) {
         $this->attributes['fk_coleta'] = $value;

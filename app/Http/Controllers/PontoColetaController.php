@@ -40,7 +40,8 @@ class PontoColetaController extends Controller
             return view($this->viewName.'.editar', compact(['obj' => $obj]));
         }
 
-        Session::flash('message', "O Ponto de Coleta não foi encontrado");
-        return redirect($this->viewName.'.index')->send();
+        Session::flash('message', 'O Ponto de Coleta não foi encontrado');
+
+        return redirect()->back();
     }
 }

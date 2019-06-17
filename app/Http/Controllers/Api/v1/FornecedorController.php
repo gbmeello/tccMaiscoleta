@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Fornecedor;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Requests\FornecedorRequest;
 
@@ -129,7 +130,7 @@ class FornecedorController extends ApiController
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     public function store(FornecedorRequest $request)

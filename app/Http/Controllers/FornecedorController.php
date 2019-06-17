@@ -50,18 +50,7 @@ class FornecedorController extends Controller
         }
 
         Session::flash('message', "Fornecedor não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
-
-    // public function delete($id)
-    // {
-    //     $tipoResiduo = Fornecedor::find($id);
-
-    //     if(!empty($tipoResiduo)) {
-    //         return view($this->viewName.'.deletar', compact(['obj' => $tipoResiduo]));
-    //     }
-
-    //     Session::flash('message', "Fornecedor não foi encontrado");
-    //     return redirect($this->viewName.'/index')->send();
-    // }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Coleta;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
-use App\Http\Requests\ColetaRequest;
 use Illuminate\Support\Carbon;
+use App\Http\Requests\ColetaRequest;
+use App\Http\Controllers\Api\v1\ApiController;
 
 class ColetaController extends ApiController
 {
@@ -81,7 +83,7 @@ class ColetaController extends ApiController
             foreach ($models as $model)
             {
                 $nestedData['pk_coleta']        = $model->pk_coleta;
-                $nestedData['data_coleta']      = Carbon::parse($model->data_coleta)->format('d/m/Y');
+                $nestedData['data_coleta']      = $model->data_coleta;
                 // $nestedData['has_coleta']       = $model->has_coleta;
                 $nestedData['observacao']       = $model->observacao;
                 $nestedData['veiculo_modelo']   = $model->modelo;
@@ -102,7 +104,7 @@ class ColetaController extends ApiController
             'data'            => $data
         ];
 
-        return response()->json($json_data);
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     public function store(ColetaRequest $request)

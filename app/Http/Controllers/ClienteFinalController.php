@@ -56,6 +56,7 @@ class ClienteFinalController extends Controller
         }
 
         Session::flash('message', "Cliente Final não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 }

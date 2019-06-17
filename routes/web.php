@@ -71,7 +71,7 @@ Route::post('auth/login', [
 
     Route::prefix('ponto-coleta')->group(function () {
         Route::get('/', 'PontoColetaController@index');
-        Route::get('index', 'PontoColetaController@index');
+        Route::get('index', 'PontoColetaController@index')->name('pontoColeta.index');
         Route::get('cadastrar', 'PontoColetaController@create');
         Route::get('editar/{id}', 'PontoColetaController@edit');
         Route::get('listar', 'PontoColetaController@listar');

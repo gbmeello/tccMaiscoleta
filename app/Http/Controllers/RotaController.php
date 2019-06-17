@@ -38,6 +38,7 @@ class RotaController extends Controller
         }
 
         Session::flash('message', "A Rota não foi encontrada");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 }

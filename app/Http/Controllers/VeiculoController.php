@@ -43,7 +43,8 @@ class VeiculoController extends Controller
         }
 
         Session::flash('message', "O Veículo não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 
     // public function delete($id)

@@ -38,6 +38,7 @@ class UsuarioController extends Controller
         }
 
         Session::flash('message', "O Usuário não foi encontrada");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 }

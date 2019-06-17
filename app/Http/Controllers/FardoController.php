@@ -47,6 +47,7 @@ class FardoController extends Controller
         }
 
         Session::flash('message', "Fardo não foi encontrado");
-        return redirect($this->viewName.'/index')->send();
+
+        return redirect()->back();
     }
 }
