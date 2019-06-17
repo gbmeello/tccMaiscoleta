@@ -14,16 +14,16 @@ class AddUsuarioAdmin extends Migration
      */
     public function up()
     {
-        $role = DB::table('roles')->where('nome', 'Administrador')->first();
+        // $role = DB::table('roles')->where('nome', 'Administrador')->first();
 
-        DB::table('usuario')->insert([
-            [
-                'fk_role'   => $role->pk_role,
-                'nome'      => 'Administrador',
-                'email'     => 'admin@email.com',
-                'senha'     => bcrypt('admin123')
-            ],
-        ]);
+        // DB::table('usuario')->insert([
+        //     [
+        //         'fk_role'   => $role->pk_role,
+        //         'nome'      => 'Administrador',
+        //         'email'     => 'admin@email.com',
+        //         'senha'     => Hash::make('admin123')
+        //     ],
+        // ]);
     }
 
     /**
@@ -33,8 +33,8 @@ class AddUsuarioAdmin extends Migration
      */
     public function down()
     {
-        DB::table('usuario')->whereIn('email', [
-            'admin@email.com',
-        ])->delete();
+        // DB::table('usuario')->whereIn('email', [
+        //     'admin@email.com',
+        // ])->delete();
     }
 }

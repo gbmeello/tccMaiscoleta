@@ -27,10 +27,8 @@ class LoginRequest extends BaseFormRequest
         return [
             'email'  => [
                 'required',
-                Rule::exists('usuario', 'email')->where(function ($query) {
-                    $query
-                        ->where('email', '=', $this->input('email'))
-                        ->where('ativo', true);
+                Rule::unique('usuario')->where(function ($query) {
+                    $query->where('ativo', true);
                 }),
             ],
             'senha' => 'required'

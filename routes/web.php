@@ -11,26 +11,40 @@
 |
 */
 
-Route::get('home');
-
 Auth::routes();
 
 Route::get('/auth/login', function () { return view('auth.login'); });
+
 Route::post('auth/login', [
-    'uses' => 'Auth\LoginController@login',
+    'uses' => 'Auth\LoginController@authenticate',//authenticate
     'as'   => 'login'
+]);
+
+Route::get('auth/logout', [
+    'uses' => 'Auth\LoginController@logout',//authenticate
+    'as'   => 'logout'
 ]);
 
 // // Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group(['middleware' => ['web']], function() {
+Route::group(['middleware' => ['web']], function() {
 
     Route::get('', 'DashboardController@index');
-    Route::get('/', 'DashboardController@index');
+    Route::get('/', 'DashboardController@index');    
 
-    Route::prefix('dashboard', function () {
+    Route::prefix('dashboard')->group(function () {
         Route::get('/', 'DashboardController@index');
         Route::get('index', 'DashboardController@index');
+    });
+
+    //USUARIO
+    Route::prefix('usuario')->group(function () {
+        Route::get('/', 'UsuarioController@index');
+        Route::get('index', 'UsuarioController@index');
+        Route::get('perfil/{id}', 'UsuarioController@perfil');
+        Route::get('cadastro', 'UsuarioController@create');
+        Route::get('editar/{id}', 'UsuarioController@edit');
+        Route::get('listar', 'TipoResiduoController@listar');
     });
 
     Route::prefix('tipo-residuo')->group(function () {
@@ -123,7 +137,4 @@ Route::post('auth/login', [
     });
 
 
-// });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+});

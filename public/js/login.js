@@ -22,9 +22,13 @@ function authenticate() {
         complete: function() {
             $btnLogin.button('reset');
         },
-        success: function(data) {
+        success: function(response) {
 
-            alert('logado !');
+            if(response.success) {
+                window.location = response.url;
+            } else {
+                $('#div-resultado').html(showValidationErrors('Erro. Por favor, tente novamente.'));
+            }
 
         },
         error: function(xhr, response) { // if error occured

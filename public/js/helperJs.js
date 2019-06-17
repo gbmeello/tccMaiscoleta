@@ -98,13 +98,21 @@ function showMessage(tipo, mensagem, titulo = '') {
                 </div>`;
 };
 
-function showValidationErrors(arrayError) {
+function showValidationErrors(erroBag) {
     let errorMessage = '<ul>';
-    $.each(arrayError, function(i, value) {
-        if(value !== null)
-            errorMessage += `<li>${value}</li>`;
-    });
+
+    if(Array.isArray(erroBag)) {
+        $.each(erroBag, function(i, value) {
+            if(value !== null)
+                errorMessage += `<li>${value}</li>`;
+        });
+    } 
+    else {
+        errorMessage += `<li>${erroBag}</li>`;
+    }
+    
     errorMessage += '</ul>';
+
     return showMessage('danger', errorMessage);
 }
 

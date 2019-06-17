@@ -24,7 +24,7 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fk_roles', 'nome', 'email', 'senha'
+        'fk_role', 'nome', 'email', 'senha'
     ];
 
     /**
@@ -73,7 +73,7 @@ class Usuario extends Authenticatable
     */
     public function role()
     {
-        return $this->hasOne(Roles::class, 'pk_roles', 'fk_roles');
+        return $this->belongsTo(Roles::class, 'fk_role', 'pk_role');
     }
 
     public function hasPermission(Permissions $permission)
