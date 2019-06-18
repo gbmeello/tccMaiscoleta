@@ -37,6 +37,10 @@ class Usuario extends Authenticatable
         return $this->senha;
     }
 
+    public function setPerfilAttribute($value) {
+        $this->attributes['fk_role'] = $value;
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

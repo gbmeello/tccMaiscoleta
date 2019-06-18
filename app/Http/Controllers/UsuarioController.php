@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Usuario;
+use App\Roles;
 
 class UsuarioController extends Controller
 {
@@ -26,18 +27,25 @@ class UsuarioController extends Controller
 
     public function create()
     {
-        return view($this->viewName.'.cadastrar');
+        $perfis = Roles::where('ativo', '=', true)->get();
+
+        return view($this->viewName.'.cadastrar', ['perfis' => $perfis]);
     }
 
     public function edit($id)
     {
-        $obj = Triagem::find($id);
+        $obj = Usuario::where('ativo', '=', true)->find($id);
+
+        $perfis = Roles::where('ativo', '=', true)->get();
 
         if(!empty($obj)) {
-            return view($this->viewName.'.editar', ['obj' => $obj]);
+            return view($this->viewName.'.editar', [
+                'obj' => $obj,
+                'perfis' => $perfis
+            ]);
         }
 
-        Session::flash('message', "O Usuário não foi encontrada");
+        Session::flash('message', "O Usuário não foi encontrado");
 
         return redirect()->back();
     }

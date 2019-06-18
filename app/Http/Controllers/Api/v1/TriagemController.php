@@ -175,7 +175,7 @@ class TriagemController extends Controller
      */
     public function update(TriagemRequest $request, $id)
     {
-        $model = Triagem::find($id);
+        $model = Triagem::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

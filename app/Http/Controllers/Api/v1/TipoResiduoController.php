@@ -104,7 +104,7 @@ class TipoResiduoController extends ApiController
 
     public function show($id)
     {
-        $model = TipoResiduo::find($id);
+        $model = TipoResiduo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -120,7 +120,7 @@ class TipoResiduoController extends ApiController
 
     public function update(TipoResiduoRequest $request, $id)
     {
-        $model = TipoResiduo::find($id);
+        $model = TipoResiduo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

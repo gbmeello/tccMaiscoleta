@@ -124,7 +124,7 @@ class VeiculoController extends ApiController
      */
     public function show($id)
     {
-        $model = Veiculo::find($id);
+        $model = Veiculo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -147,7 +147,7 @@ class VeiculoController extends ApiController
      */
     public function update(VeiculoRequest $request, $id)
     {
-        $model = Veiculo::find($id);
+        $model = Veiculo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

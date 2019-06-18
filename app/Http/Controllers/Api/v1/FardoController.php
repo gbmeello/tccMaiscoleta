@@ -162,7 +162,7 @@ class FardoController extends ApiController
 
     public function show($id)
     {
-        $model = Fardo::find($id);
+        $model = Fardo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -178,7 +178,7 @@ class FardoController extends ApiController
 
     public function update(FardoRequest $request, $id)
     {
-        $model = Fardo::find($id);
+        $model = Fardo::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

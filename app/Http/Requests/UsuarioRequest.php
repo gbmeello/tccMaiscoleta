@@ -35,7 +35,8 @@ class UsuarioRequest extends BaseFormRequest
                     'slt_perfil' => 'required',
                     'nome' => 'required|max:150',
                     'email' => 'required|max:200|unique:usuario,email',
-                    'senha' => 'required|max:300',
+                    'senha' => 'min:6|max:300|required_with:confimar_senha|same:confimar_senha',
+                    'confimar_senha' => 'min:6|max:300'
                 ];
             }
             case 'PUT':
@@ -45,7 +46,8 @@ class UsuarioRequest extends BaseFormRequest
                     'slt_perfil' => 'required',
                     'nome' => 'required|max:150',
                     'email' => 'required|max:200|unique:usuario, email,' + $this->input('email') + ', pk_usuario',
-                    'senha' => 'required|max:300',
+                    'senha' => 'min:6|max:300|required_with:confimar_senha|same:confimar_senha',
+                    'confimar_senha' => 'min:6|max:300'
                 ];
             }
             default:break;
@@ -56,9 +58,10 @@ class UsuarioRequest extends BaseFormRequest
     {
         return [
             'slt_perfil' => 'Perfil',
-            'nome' => 'Modelo',
-            'email' => 'Observação',
-            'senha' => 'Placa',
+            'nome' => 'Nome',
+            'email' => 'Email',
+            'senha' => 'Senha',
+            'confirmar_senha' => 'Confimar Senha',
         ];
     }
 }

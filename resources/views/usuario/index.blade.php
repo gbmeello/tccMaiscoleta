@@ -5,17 +5,17 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Tipo de res&iacute;duos</h3>
+                    <h3 class="box-title">Lista de Usuarios</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="clearfix"></div>
-                    <a href="{{url('/tipo-residuo/cadastrar')}}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
+                    <a href="{{ url('/usuario/cadastrar') }}" class="btn btn-primary btn-sm" style="margin-top: 10px;">
                     <i class="fa fa-user-plus"></i> Cadastrar novo
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-tipo-residuo-listar" class="table table-bordered table-striped dataTable">
+                    <table id="table-usuario" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
                                 <th>
@@ -25,10 +25,10 @@
                                     Nome
                                 </th>
                                 <th>
-                                    Descri&ccedil;&atilde;o
+                                    Email
                                 </th>
                                 <th>
-                                    Status
+                                    Perfil
                                 </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
@@ -43,7 +43,6 @@
 
 @section('scripts')
 
-    <script src="{{asset('helperJs.js')}}"></script>
     <script>
 
         $('#table-tipo-residuo-listar').DataTable({
@@ -51,17 +50,15 @@
             "serverSide": true,
             "ajax": "{{ url('api/tipo-residuo/listar') }}",
             "columns": [
-                { "data": "id" },
+                { "data": "pk_usuario" },
                 { "data": "nome" },
-                { "data": "descricao" },
-                { "data": "status", render: function(data, type, row) {
+                { "data": "email" },
+                { "data": "perfil" },
+                { "data": "ativo", render: function(data, type, row) {
                     let html = '';
 
-                    switch (data) {
-                        case 1: html = '<small class="label pull-right bg-green">Ativo</small>';
-                            break;
-                        case 2: html = '<small class="label pull-right bg-red">Inativo</small>';
-                            break;
+                    if(data == true) {
+                        html = '<small class="label pull-right bg-green">Sim</small>';
                     }
 
                     return html;
@@ -70,19 +67,14 @@
                         let html = '';
                         html += `
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a href="#" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <a href="#" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                    <a href="{{ url('veiculo/editar') }}/${data.pk_usuario}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="initializeDeleteDialog('veiculo/deletar', ${data.pk_usuario})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                 </div>`;
                         return html;
                     },
                     "targets": -1,
                 },
             ],
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button>Click!</button>"
-            } ],
             "language": configDatatable.language,
             //"order": [[1, 'asc']],
         });

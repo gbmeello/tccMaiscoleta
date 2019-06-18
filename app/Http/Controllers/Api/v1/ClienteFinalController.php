@@ -160,7 +160,7 @@ class ClienteFinalController extends ApiController
 
     public function show($id)
     {
-        $model = ClienteFinal::find($id);
+        $model = ClienteFinal::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -176,7 +176,7 @@ class ClienteFinalController extends ApiController
 
     public function update(ClienteFinalRequest $request, $id)
     {
-        $model = ClienteFinal::find($id);
+        $model = ClienteFinal::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

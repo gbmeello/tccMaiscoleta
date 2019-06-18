@@ -157,7 +157,7 @@ class FornecedorController extends ApiController
 
     public function show(PontoColetaRequest $id)
     {
-        $model = Fornecedor::find($id);
+        $model = Fornecedor::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -173,7 +173,7 @@ class FornecedorController extends ApiController
 
     public function update(FornecedorRequest $request, $id)
     {
-        $model = Fornecedor::find($id);
+        $model = Fornecedor::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

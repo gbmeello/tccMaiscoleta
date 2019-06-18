@@ -105,7 +105,7 @@ class RotaController extends ApiController
 
     public function show($id)
     {
-        $model = Rota::find($id);
+        $model = Rota::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -123,7 +123,7 @@ class RotaController extends ApiController
 
     public function update(RotaRequest $request, $id)
     {
-        $model = Rota::find($id);
+        $model = Rota::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

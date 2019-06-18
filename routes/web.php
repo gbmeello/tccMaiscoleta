@@ -25,12 +25,10 @@ Route::get('auth/logout', [
     'as'   => 'logout'
 ]);
 
-// // Route::get('/home', 'HomeController@index')->name('home');
+Route::get('', 'DashboardController@index');
+Route::get('/', 'DashboardController@index');    
 
 Route::group(['middleware' => ['web']], function() {
-
-    Route::get('', 'DashboardController@index');
-    Route::get('/', 'DashboardController@index');    
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', 'DashboardController@index');

@@ -173,7 +173,7 @@ class PontoColetaController extends Controller
      */
     public function show($id)
     {
-        $model = PontoColeta::find($id);
+        $model = PontoColeta::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -196,7 +196,7 @@ class PontoColetaController extends Controller
      */
     public function update(PontoColetaRequest $request, $id)
     {
-        $model = PontoColeta::find($id);
+        $model = PontoColeta::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,

@@ -46,16 +46,4 @@ class VeiculoController extends Controller
 
         return redirect()->back();
     }
-
-    // public function delete($id)
-    // {
-    //     $obj = Veiculo::find($id);
-
-    //     if(!empty($obj)) {
-    //         return view('veiculo.deletar', compact(['obj' => $obj]));
-    //     }
-
-    //     Session::flash('message', "Veiculo não foi encontrado");
-    //     return redirect('veiculo/index')->send();
-    // }
 }

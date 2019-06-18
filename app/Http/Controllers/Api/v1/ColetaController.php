@@ -136,7 +136,7 @@ class ColetaController extends ApiController
 
     public function show($id)
     {
-        $model = Coleta::find($id);
+        $model = Coleta::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
@@ -154,7 +154,7 @@ class ColetaController extends ApiController
 
     public function update(ColetaRequest $request, $id)
     {
-        $model = Coleta::find($id);
+        $model = Coleta::where('ativo', '=', true)->find($id);
         if(empty($model)) {
             return response()->json([
                 'success' => false,
