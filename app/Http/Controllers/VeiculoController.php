@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
 use App\Veiculo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class VeiculoController extends Controller
 {
@@ -31,11 +32,21 @@ class VeiculoController extends Controller
 
     public function create()
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
         return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $obj = Veiculo::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
 use App\Rota;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RotaController extends Controller
 {
+    const PERM_ROTA_ADICIONAR    = 'rota_adicionar';
+    const PERM_ROTA_ATUALIZAR    = 'rota_atualizar';
+    const PERM_ROTA_LISTAR       = 'rota_listar';
+    const PERM_ROTA_REMOVER      = 'rota_remover';
+
     private $viewName = 'rota';
 
     /**
@@ -21,6 +27,11 @@ class RotaController extends Controller
 
     public function index()
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
         return view($this->viewName.'.index');
     }
 
@@ -31,6 +42,11 @@ class RotaController extends Controller
 
     public function edit($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $obj = Rota::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {

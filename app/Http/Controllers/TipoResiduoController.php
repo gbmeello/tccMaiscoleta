@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\TipoResiduo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TipoResiduoController extends Controller
 {
-    const PERM_TIPO_RESIDUO_ADICIONAR = 'tipo_residuo_adicionar';
-    const PERM_TIPO_RESIDUO_ATUALIZAR = 'tipo_residuo_atualizar';
-    const PERM_TIPO_RESIDUO_LISTAR = 'tipo_residuo_listar';
-    const PERM_TIPO_RESIDUO_REMOVER = 'tipo_residuo_remover';
+    const PERM_TIPO_RESIDUO_ADICIONAR   = 'tipo_residuo_adicionar';
+    const PERM_TIPO_RESIDUO_ATUALIZAR   = 'tipo_residuo_atualizar';
+    const PERM_TIPO_RESIDUO_LISTAR      = 'tipo_residuo_listar';
+    const PERM_TIPO_RESIDUO_REMOVER     = 'tipo_residuo_remover';
 
     private $viewName = 'tipoResiduo';
 
@@ -31,11 +32,21 @@ class TipoResiduoController extends Controller
 
     public function create()
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
         return view($this->viewName.'.cadastrar');
     }
 
     public function edit($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $obj = TipoResiduo::where('ativo', '=', true)->find($id);
 
         if(!empty($obj)) {

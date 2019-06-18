@@ -7,10 +7,16 @@ use App\Coleta;
 use App\Veiculo;
 use Carbon\Carbon;
 use App\Fornecedor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ColetaController extends Controller
 {
+    const PERM_COLETA_ADICIONAR    = 'coleta_adicionar';
+    const PERM_COLETA_ATUALIZAR    = 'coleta_atualizar';
+    const PERM_COLETA_LISTAR       = 'coleta_listar';
+    const PERM_COLETA_REMOVER      = 'coleta_remover';
+
     private $viewName = 'coleta';
 
     /**
@@ -30,6 +36,11 @@ class ColetaController extends Controller
 
     public function create()
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $rotas = Rota::where('ativo', true)->get();
         $veiculos = Veiculo::where('ativo', true)->get();
         $fornecedores = Fornecedor::where('ativo', true)->get();
@@ -43,6 +54,11 @@ class ColetaController extends Controller
 
     public function edit($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $obj = Coleta::find($id);
 
         if(!empty($obj)) {

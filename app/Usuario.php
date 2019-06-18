@@ -77,9 +77,6 @@ class Usuario extends Authenticatable
     //     return [];
     // }
 
-    /**
-     * relacionamento 1:N
-    */
     public function role()
     {
         return $this->belongsTo(Roles::class, 'fk_role', 'pk_role');
@@ -92,12 +89,28 @@ class Usuario extends Authenticatable
 
     public function hasAnyRoles($roles)
     {
-        foreach ( $roles as $role )
+        if(! is_array($roles)) 
         {
-            if($role['name'] == $this->role->name)
+            return hasRole($roles);
+        } 
+        else 
+        {            
+            foreach ( $roles as $role )
             {
-                return true;
+                if($role == $this->role->nome)
+                {
+                    return true;
+                }
             }
+        }
+        return false;
+    }
+    
+    public function hasRole($name)
+    {
+        if($name == $this->role->nome)
+        {
+            return true;
         }
         return false;
     }

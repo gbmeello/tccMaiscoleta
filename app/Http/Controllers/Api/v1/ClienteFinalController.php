@@ -43,7 +43,7 @@ class ClienteFinalController extends ApiController
         if(empty($request->input('search.value')))
         {
             $model = ClienteFinal::from('cliente_final as cf')
-                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
+                ->select('cf.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
                 ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('ativo', '=', true)
@@ -56,7 +56,7 @@ class ClienteFinalController extends ApiController
             $search = $request->input('search.value');
 
             $model = ClienteFinal::from('cliente_final as cf')
-                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
+                ->select('cf.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
                 ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")
@@ -79,7 +79,7 @@ class ClienteFinalController extends ApiController
                 ->get();
 
             $totalFiltered = ClienteFinal::from('cliente_final as cf')
-                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
+                ->select('cf.*', 'e.nome as estado', 'm.nome as municipio')
                 ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
                 ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")

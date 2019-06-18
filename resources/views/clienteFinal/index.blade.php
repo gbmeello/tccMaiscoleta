@@ -92,12 +92,31 @@
                         return html;
                     }},
                     { "data": null , width: "100px", render: function(data, type, row) {
-                            let html = '';
-                            html += `
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <a href="{{url('cliente-final/editar')}}/${data.pk_cliente_final}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <button onclick="initializeDeleteDialog('cliente-final', ${data.pk_cliente_final})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
-                                    </div>`;
+
+                            <?php         
+                                $html = '';   
+                                $html .= '<div class="btn-group" role="group" aria-label="...">';
+
+                                $url = url("cliente-final/editar");
+
+                                $editar = '<a href="/" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
+                                $deletar = '<button onclick="initializeDeleteDialog("cliente-final", "")" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
+                            
+                                if( Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+                                    $html .= $editar;
+                                }
+
+                                if( Auth::user()->hasAnyRoles(['Administrador']) ) {                                    
+                                    $html .= $deletar;
+                                }
+                                
+                                $html .= '</div>';
+                            ?>
+
+                            debugger;
+
+                            let html = '<?= $html ?>';
+
                             return html;
                         },
                         "targets": -1,
@@ -110,37 +129,37 @@
             configDatatable.addShowDetails($table, dt, function(d) {
                 let table =
                     `<div class="form-group">
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-12 col-md-12">
                             <span>Email: </span>
                             <span>${d.email}</span>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-12 col-md-12">
                             <span>Telefone 1: </span>
                             <span>${d.telefone1}</span>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-12 col-md-12">
                             <span>Telefone 2: </span>
                             <span>${d.telefone2}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Cep: </span>
                             <span>${d.cep}</span>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Bairro: </span>
                             <span>${d.bairro}</span>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Rua: </span>
                             <span>${d.rua}</span>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Logradouro: </span>
                             <span>${d.logradouro}</span>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-12 col-md-12">
                             <span>Rua: </span>
                             <span>${d.complemento}</span>
                         </div>

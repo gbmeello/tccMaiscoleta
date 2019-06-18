@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
-use App\Usuario;
 use App\Roles;
+use App\Usuario;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UsuarioController extends Controller
 {
@@ -27,6 +28,11 @@ class UsuarioController extends Controller
 
     public function create()
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+        
         $perfis = Roles::where('ativo', '=', true)->get();
 
         return view($this->viewName.'.cadastrar', ['perfis' => $perfis]);
@@ -34,6 +40,11 @@ class UsuarioController extends Controller
 
     public function edit($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
         $obj = Usuario::where('ativo', '=', true)->find($id);
 
         $perfis = Roles::where('ativo', '=', true)->get();
