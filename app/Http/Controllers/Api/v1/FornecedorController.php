@@ -43,7 +43,11 @@ class FornecedorController extends ApiController
 
         if(empty($request->input('search.value')))
         {
-            $model = Fornecedor::offset($start)
+            $model = Fornecedor::from('fornecedor as f')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->offset($start)
                 ->where('ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -54,8 +58,8 @@ class FornecedorController extends ApiController
 
             $model = Fornecedor::from('fornecedor as f')
                 ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
-                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
-                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
                 ->orWhere('f.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")
@@ -77,8 +81,8 @@ class FornecedorController extends ApiController
 
             $totalFiltered = Fornecedor::from('fornecedor as f')
                 ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
-                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
-                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'f.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('f.pk_fornecedor', 'LIKE', "%{$search}%")
                 ->orWhere('f.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")

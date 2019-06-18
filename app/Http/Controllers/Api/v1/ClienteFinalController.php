@@ -42,9 +42,13 @@ class ClienteFinalController extends ApiController
 
         if(empty($request->input('search.value')))
         {
-            $model = ClienteFinal::offset($start)
+            $model = ClienteFinal::from('cliente_final as cf')
+                ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('ativo', '=', true)
                 ->limit($limit)
+                ->offset($start)
                 ->orderBy($order, $dir)
                 ->get();
         }
@@ -53,8 +57,8 @@ class ClienteFinalController extends ApiController
 
             $model = ClienteFinal::from('cliente_final as cf')
                 ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
-                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
-                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")
                 ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")
@@ -76,8 +80,8 @@ class ClienteFinalController extends ApiController
 
             $totalFiltered = ClienteFinal::from('cliente_final as cf')
                 ->select('f.*', 'e.nome as estado', 'm.nome as municipio')
-                ->leftJoint('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
-                ->leftJoint('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
+                ->leftJoin('municipio as m', 'm.pk_municipio', '=', 'cf.fk_municipio')
+                ->leftJoin('estado as e', 'e.pk_estado', '=', 'm.fk_estado')
                 ->where('cf.pk_cliente_final', 'LIKE', "%{$search}%")
                 ->orWhere('cf.nome_fantasia', 'LIKE',"%{$search}%")
                 ->orWhere('e.nome', 'LIKE',"%{$search}%")

@@ -14,9 +14,105 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+        $columns = [
+            'pk_usuario',
+            'nome',
+            'email',
+            'perfil',
+            'ativo'
+        ];
+
+        $totalData      = Usuario::where('ativo', '=', true)->count();
+        $totalFiltered  = $totalData;
+        $columnOrder    = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
+
+        $limit  = $request->input('length');
+        $start  = $request->input('start');
+        $order  = $columns[$columnOrder];
+        $dir    = (empty($request->input('order.0.dir')) ? 'asc' : $request->input('order.0.dir'));
+        $models = null;
+
+        if(empty($request->input('search.value'))) {
+
+            $models = Usuario::from('usuario as u')
+                ->leftJoin('roles as r', 'r.pk_role', '=', 'u.fk_role')
+                ->select(
+                    'u.pk_usuario',
+                    'u.nome',
+                    'u.email',
+                    'u.ativo as u_ativo',
+                    'r.nome as perfil'
+                )
+                ->offset($start)
+                ->where('ativo', true)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+        } else {
+            $search = $request->input('search.value');
+
+            $models = Usuario::from('usuario as u')
+                ->leftJoin('roles as r', 'r.pk_role', '=', 'u.fk_role')
+                ->select(
+                    'u.pk_usuario',
+                    'u.nome',
+                    'u.email',
+                    'u.ativo as u_ativo',
+                    'r.nome as perfil'
+                )
+                ->where('pk_usuario', 'LIKE', "%{$search}%")
+                ->orWhere('nome', 'LIKE',"%{$search}%")
+                ->orWhere('email', 'LIKE',"%{$search}%")
+                ->orWhere('perfil', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = Usuario::from('usuario as u')
+                ->leftJoin('roles as r', 'r.pk_role', '=', 'u.fk_role')
+                ->select(
+                    'u.pk_usuario',
+                    'u.nome',
+                    'u.email',
+                    'u.ativo as u_ativo',
+                    'r.nome as perfil'
+                )
+                ->where('pk_usuario', 'LIKE', "%{$search}%")
+                ->orWhere('nome', 'LIKE',"%{$search}%")
+                ->orWhere('email', 'LIKE',"%{$search}%")
+                ->orWhere('perfil', 'LIKE',"%{$search}%")
+                ->where('ativo', true)
+                ->count();
+        }
+
+        $data = [];
+        if(!empty($models))
+        {
+            foreach ($models as $model)
+            {
+                $nestedData['pk_usuario']   = $model->pk_usuario;
+                $nestedData['nome']         = $model->nome;
+                $nestedData['email']        = $model->email;
+                $nestedData['perfil']       = $model->perfil;
+                $nestedData['ativo']        = $model->u_ativo;
+                $data[]                     = $nestedData;
+            }
+        }
+
+        $json_data = [
+            'success'         => true,
+            'draw'            => intval($request->input('draw')),
+            'recordsTotal'    => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data'            => $data
+        ];
+
+        return response()->json(Helpers::replaceNullWithEmptyString($json_data));
     }
 
     /**

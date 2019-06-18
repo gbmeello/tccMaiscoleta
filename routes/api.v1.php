@@ -13,6 +13,20 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
         });
 
     });
+    
+    Route::prefix('usuario')->group(function() {
+
+        Route::get('/listar', 'UsuarioController@index')->name('api.usuario.listar');
+
+        Route::get('/exibir/{id}', 'UsuarioController@show')->name('api.usuario.exibir');
+
+        Route::post('/cadastrar', 'UsuarioController@store')->name('api.usuario.cadastrar');
+
+        Route::put('/editar/{id}', 'UsuarioController@update')->name('api.usuario.editar');
+
+        Route::delete('/deletar/{id}', 'UsuarioController@destroy')->name('api.usuario.deletar');
+
+    });
 
     Route::prefix('estado')->group(function() {
 

@@ -40,7 +40,17 @@ class TriagemController extends Controller
 
         if(empty($request->input('search.value')))
         {
-            $model = Triagem::offset($start)
+            $model = Triagem::from('triagem as t')
+                ->select(
+                    't.*',
+                    'c.data_coleta as c_data_coleta',
+                    'r.nome as r_nome',
+                    'v.placa as v_placa',
+                    'v.modelo as v_modelo')
+                ->leftJoin('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
+                ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
+                ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'r.fk_veiculo')
+                ->offset($start)
                 ->where('ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -56,9 +66,9 @@ class TriagemController extends Controller
                     'r.nome as r_nome',
                     'v.placa as v_placa',
                     'v.modelo as v_modelo')
-                ->leftJoint('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
-                ->leftJoint('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
-                ->leftJoint('veiculo as v', 'v.pk_veiculo', '=', 'r.fk_veiculo')
+                ->leftJoin('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
+                ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
+                ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'r.fk_veiculo')
                 ->where('t.pk_triagem', 'LIKE', "%{$search}%")
                 ->orWhere('t.data_triagem', 'LIKE',"%{$search}%")
                 ->orWhere('t.observacao', 'LIKE',"%{$search}%")
@@ -75,9 +85,9 @@ class TriagemController extends Controller
                     'r.nome as r_nome',
                     'v.placa as v_placa',
                     'v.modelo as v_modelo')
-                ->leftJoint('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
-                ->leftJoint('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
-                ->leftJoint('veiculo as v', 'v.pk_veiculo', '=', 'r.fk_veiculo')
+                ->leftJoin('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
+                ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
+                ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'r.fk_veiculo')
                 ->where('t.pk_triagem', 'LIKE', "%{$search}%")
                 ->orWhere('t.data_triagem', 'LIKE',"%{$search}%")
                 ->orWhere('t.observacao', 'LIKE',"%{$search}%")
