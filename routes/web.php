@@ -39,7 +39,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::prefix('usuario')->group(function () {
         Route::get('/', 'UsuarioController@index');
         Route::get('index', 'UsuarioController@index');
-        Route::get('perfil/{id}', 'UsuarioController@perfil');
+        Route::get('perfil', 'UsuarioController@perfil');
         Route::get('cadastro', 'UsuarioController@create');
         Route::get('editar/{id}', 'UsuarioController@edit');
         Route::get('listar', 'TipoResiduoController@listar');

@@ -34,7 +34,11 @@
                             <option value=""> Selecione uma opção... </option>
                             @isset($perfis)
                                 @foreach ($perfis as $key => $value)
-                                    <option value="{{$value->pk_role}}">{{$value->nome}}</option>
+                                    @if($obj->role()->first()->pk_role === $value->pk_role)
+                                        <option selected value="{{$value->pk_role}}">{{$value->nome}}</option>
+                                    @else
+                                        <option value="{{$value->pk_role}}">{{$value->nome}}</option>
+                                    @endif
                                 @endforeach
                             @endisset
                         </select>
@@ -42,7 +46,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label" for="email">Email</label>
-                            <input type="text" class="form-control" {{ $obj->email }} name="email" id="email" maxlength="200">
+                            <input type="text" class="form-control" value="{{ $obj->email }}" name="email" id="email" maxlength="200">
                         </div>
                     </div>
                     <div class="col-md-6">

@@ -60,4 +60,14 @@ class UsuarioController extends Controller
 
         return redirect()->back();
     }
+
+    public function perfil() {
+
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
+        return view($this->viewName.'.perfil');
+    }
 }

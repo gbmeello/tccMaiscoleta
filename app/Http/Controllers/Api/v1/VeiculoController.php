@@ -6,6 +6,8 @@ use App\Veiculo;
 use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Requests\VeiculoRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class VeiculoController extends ApiController
 {
@@ -180,6 +182,11 @@ class VeiculoController extends ApiController
      */
     public function destroy($id)
     {
+        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+            Session::flash('message', "Você não possui permissão para essa ação");
+            return redirect()->back();
+        }
+
         $model = Veiculo::find($id);
         if(empty($model)) {
             return response()->json([
