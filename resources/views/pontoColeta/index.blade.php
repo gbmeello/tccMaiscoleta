@@ -99,23 +99,23 @@
                         return html;
                     }},
                 { "data": null , width: "100px", render: function(data, type, row) {
-                        @php
+                        <?php
                             $html = '';
                             $html .= '\'<div class="btn-group pull-right" role="group" aria-label="...">';
 
-                            $editar = '<a href="'.url('ponto-coleta/editar').'/\' + data.pk_ponto_coleta + \'" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
+                            //$editar = '<a href="'.url('ponto-coleta/editar').'/\' + data.pk_ponto_coleta + \'" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
                             $deletar = '<button onclick="initializeDeleteDialog(&quot;ponto-coleta/deletar&quot;, \' + data.pk_ponto_coleta + \')" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
 
-                            if( Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
-                                $html .= $editar;
-                            }
+//                            if( Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+//                                $html .= $editar;
+//                            }
 
                             if( Auth::user()->hasAnyRoles(['Administrador']) ) {
                                 $html .= $deletar;
                             }
 
                             $html .= '</div>\'';
-                        @endphp
+                        ?>
 
                             return {!! $html !!};
                     },
