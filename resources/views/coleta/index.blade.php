@@ -100,6 +100,7 @@
         });
 
         configDatatable.addShowDetails($table, dt, function(d) {
+            debugger;
                 let table =
                     `<div class="form-group">
                         <div class="col-sm-6 col-md-6">

@@ -21,7 +21,7 @@
                 </div>
                 <form id="form-fornecedor" role="form" class="box-body">
                     @csrf
-                    <input name="id" value="{{ $obj->pk_fornecedor }}" hidden>
+                    <input name="pk_fornecedor" value="{{ $obj->pk_fornecedor }}" hidden>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="razao_social">Razão Social</label>

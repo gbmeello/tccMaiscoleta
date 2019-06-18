@@ -36,7 +36,7 @@ class ColetaController extends ApiController
         if(empty($request->input('search.value')))
         {
             $models = Coleta::from('coleta as c')
-                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
+                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.razao_social')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
                 ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
                 ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
@@ -50,7 +50,7 @@ class ColetaController extends ApiController
             $search = $request->input('search.value');
 
             $models = Coleta::from('coleta as c')
-                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
+                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.razao_social')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
                 ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
                 ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
@@ -65,7 +65,7 @@ class ColetaController extends ApiController
                 ->get();
 
             $totalFiltered = Coleta::from('coleta as c')
-                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.nome_fantasia')
+                ->select('c.*', 'r.nome', 'r.observacao as rota_observacao', 'v.modelo', 'v.placa', 'f.razao_social')
                 ->leftJoin('rota as r', 'r.pk_rota', '=', 'c.fk_rota')
                 ->leftJoin('veiculo as v', 'v.pk_veiculo', '=', 'c.fk_veiculo')
                 ->leftJoin('fornecedor as f', 'f.pk_fornecedor', '=', 'c.fk_fornecedor')
@@ -88,7 +88,7 @@ class ColetaController extends ApiController
                 $nestedData['observacao']       = $model->observacao;
                 $nestedData['veiculo_modelo']   = $model->modelo;
                 $nestedData['veiculo_placa']    = $model->placa;
-                $nestedData['fornecedor']       = $model->nome_fantasia;
+                $nestedData['fornecedor']       = $model->razao_social;
                 $nestedData['rota_nome']        = $model->nome;
                 $nestedData['rota_observacao']  = $model->rota_observacao;
                 $nestedData['ativo']            = $model->ativo;

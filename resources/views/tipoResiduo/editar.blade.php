@@ -21,7 +21,7 @@
             </div>
             <form id="form-tipo-residuo" role="form" class="box-body">
                 @csrf
-                <input name="id" id="id" hidden value="{{$obj->pk_tipo_residuo}}">
+                <input name="pk_tipo_residuo" id="pk_tipo_residuo" hidden value="{{$obj->pk_tipo_residuo}}">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label" for="nome">Nome</label>

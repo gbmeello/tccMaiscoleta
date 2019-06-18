@@ -21,6 +21,7 @@
                 </div>
                 <form id="form-triagem" class="box-body">
                     @csrf
+                    <input type="hidden" name="pk_triagem" id="pk_triagem" value="{{$obj->pk_triagem}}">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="slt_coleta">Coleta</label>
@@ -90,7 +91,7 @@
 
             $.ajax({
                 type: 'PUT',
-                url: '/api/v1/triagem/editar/' + {{ $obj->fk_coleta }},
+                url: '/api/v1/triagem/editar/' + {{ $obj->pk_triagem }},
                 data: data,
                 dataType: 'json',
                 beforeSend: function() {

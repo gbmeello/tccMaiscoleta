@@ -21,6 +21,7 @@
                 </div>
                 <form id="form-coleta" class="box-body">
                     @csrf
+                    <input type="hidden" name="pk_coleta" id="pk_coleta" value="{{$obj->pk_coleta}}">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label" for="slt_rota">Rota</label>

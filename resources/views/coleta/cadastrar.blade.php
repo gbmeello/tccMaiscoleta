@@ -114,7 +114,7 @@
 
             loadSelect2('rota/listar', '#slt_rota', 'pk_rota', 'nome');
             loadSelect2('veiculo/listar', '#slt_veiculo', 'pk_veiculo', 'placa|modelo');
-            loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'nome');
+            loadSelect2('fornecedor/listar', '#slt_fornecedor', 'pk_fornecedor', 'razao_social');
 
             $('#btn-salvar').unbind('click').click(function() {
                 cadastrar();

@@ -33,8 +33,9 @@ class ColetaRequest extends BaseFormRequest
             {
                 return [
                     'slt_rota' => 'required',
+                    'slt_fornecedor' => '',
+                    'slt_veiculo' => '',
                     'data_coleta' => 'required',
-                    // 'has_coleta' => 'required',
                     'observacao' => 'max:1000'
                 ];
             }
@@ -43,6 +44,8 @@ class ColetaRequest extends BaseFormRequest
             {
                 return [
                     'slt_rota' => 'required',
+                    'slt_fornecedor' => '',
+                    'slt_veiculo' => '',
                     'data_coleta' => 'required',
                     // 'has_coleta' => 'required',
                     'observacao' => 'max:1000'
@@ -56,6 +59,8 @@ class ColetaRequest extends BaseFormRequest
     {
         return [
             'slt_rota' => 'Rota',
+            'slt_fornecedor' => 'Fornecedor',
+            'slt_veiculo' => 'Veículo',
             'data_coleta' => 'Data de Coleta',
             // 'has_coleta' => 'Teve coleta?',
             'observacao' => 'Observação'

@@ -26,7 +26,7 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table id="table-fornecedor" class="table table-bordered table-striped dataTable table-responsive">
+                    <table id="table-fardo" class="table table-bordered table-striped dataTable table-responsive">
                         <thead>
                             <tr>
                                 <th></th>
@@ -65,11 +65,11 @@
 
         $(document).ready(function () {
 
-            let $table = $('#table-fornecedor');
+            let $table = $('#table-fardo');
             let dt = $table.DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('api/v1/fornecedor/listar') }}",
+                "ajax": "{{ url('api/v1/fardo/listar') }}",
                 "columns": [
                     {
                         "class":          "details-control",

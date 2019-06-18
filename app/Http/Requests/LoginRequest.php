@@ -32,7 +32,7 @@ class LoginRequest extends BaseFormRequest
     
     public function messages() {
         return [
-            'email.exists' => 'O email não existe'
+            'email.exists' => 'O email não foi cadastrado'
         ];
     }
 

@@ -23,7 +23,7 @@
                 </div>
                 <form id="form-veiculo" class="box-body">
                     @csrf
-                    <input type="hidden" name="id" id="id" value="{{$obj->pk_veiuclo}}">
+                    <input type="hidden" name="pk_veiculo" id="pk_veiculo" value="{{$obj->pk_veiculo}}">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="placa">Placa</label>

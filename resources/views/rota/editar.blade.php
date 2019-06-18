@@ -21,6 +21,7 @@
             </div>
             <form id="form-rota" role="form" class="box-body">
                 @csrf
+                <input type="hidden" name="pk_rota" id="pk_rota" value="{{$obj->pk_rota}}">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label" for="nome">Nome</label>
