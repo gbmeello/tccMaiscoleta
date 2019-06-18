@@ -71,6 +71,7 @@ class RotaController extends ApiController
                 $nestedData['pk_rota']      = $obj->pk_rota;
                 $nestedData['nome']         = $obj->nome;
                 $nestedData['observacao']   = $obj->observacao;
+                $nestedData['pontosColeta'] = $obj->pontosColeta()->get();
                 $nestedData['ativo']        = $obj->ativo;
                 $data[] = $nestedData;
             }
