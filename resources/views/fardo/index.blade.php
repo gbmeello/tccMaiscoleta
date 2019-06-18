@@ -92,13 +92,25 @@
                         return html;
                     }},
                     { "data": null , width: "100px", render: function(data, type, row) {
-                        let html = '';
-                        html += `
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <a href="{{url('fardo/editar')}}/${data.pk_fardo}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <button onclick="initializeDeleteDialog('fardo/deletar', ${data.pk_fardo})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
-                                </div>`;
-                        return html;
+                            @php
+                                $html = '';
+                                $html .= '\'<div class="btn-group pull-right" role="group" aria-label="...">';
+
+                                $editar = '<a href="'.url('fardo/editar').'/\' + data.pk_fardo + \'" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
+                                $deletar = '<button onclick="initializeDeleteDialog(&quot;fardo/deletar&quot;, \' + data.pk_fardo + \')" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
+
+                                if( Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+                                    $html .= $editar;
+                                }
+
+                                if( Auth::user()->hasAnyRoles(['Administrador']) ) {
+                                    $html .= $deletar;
+                                }
+
+                                $html .= '</div>\'';
+                            @endphp
+
+                                return {!! $html !!};
                         },
                         "targets": -1,
                     },

@@ -93,14 +93,12 @@
                     }},
                     { "data": null , width: "100px", render: function(data, type, row) {
 
-                            <?php         
+                            @php
                                 $html = '';   
-                                $html .= '<div class="btn-group" role="group" aria-label="...">';
+                                $html .= '\'<div class="btn-group pull-right" role="group" aria-label="...">';
 
-                                $url = url("cliente-final/editar");
-
-                                $editar = '<a href="/" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
-                                $deletar = '<button onclick="initializeDeleteDialog("cliente-final", "")" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
+                                $editar = '<a href="'.url('cliente-final/editar').'/\' + data.pk_cliente_final + \'" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
+                                $deletar = '<button onclick="initializeDeleteDialog(&quot;cliente-final/deletar&quot;, \' + data.pk_cliente_final + \')" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
                             
                                 if( Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
                                     $html .= $editar;
@@ -110,14 +108,10 @@
                                     $html .= $deletar;
                                 }
                                 
-                                $html .= '</div>';
-                            ?>
+                                $html .= '</div>\'';
+                            @endphp
 
-                            debugger;
-
-                            let html = '<?= $html ?>';
-
-                            return html;
+                            return {!! $html !!};
                         },
                         "targets": -1,
                     },

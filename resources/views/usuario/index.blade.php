@@ -79,13 +79,27 @@
                     return html;
                 }},
                 { "data": null , width: "100px", render: function(data, type, row) {
-                        let html = '';
-                        html += `
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <a href="{{ url('usuario/editar') }}/${data.pk_usuario}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <button onclick="initializeDeleteDialog('usuario/deletar', ${data.pk_usuario})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
-                                </div>`;
-                        return html;
+                        @php
+                            $html = '';
+                            $html .= '\'<div class="btn-group pull-right" role="group" aria-label="...">';
+
+                            $editar = '<a href="'.url('usuario/editar').'/\' + data.pk_usuario + \'" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>';
+                            $deletar = '<button onclick="initializeDeleteDialog(&quot;usuario/deletar&quot;, \' + data.pk_usuario + \')" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>';
+
+                            if( Auth::user()->hasAnyRoles(['Administrador']) )
+                            {
+                                $html .= $editar;
+                                $html .= $deletar;
+                            }
+                            else
+                            {
+                                $html .= '<span class="label pull-right bg-red">Permissão insuficiente</span>';
+                            }
+
+                            $html .= '</div>\'';
+                        @endphp
+
+                            return {!! $html !!};
                     },
                     "targets": -1,
                 },
