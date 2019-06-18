@@ -1,19 +1,7 @@
 <?php
 
 Route::namespace('Api\v1')->prefix('v1')->group(function() {
-    
-    Route::prefix('dashboard')->group(function() {
 
-        Route::prefix('fardo')->group(function() {
-
-            Route::get('/quantidade', 'FardoController@dashboardQuantidade');
-            Route::get('/estoque', 'FardoController@dashboardEmEstoque');
-            Route::get('/vendido', 'FardoController@dashboardVendido');
-    
-        });
-
-    });
-    
     Route::prefix('usuario')->group(function() {
 
         Route::get('/listar', 'UsuarioController@index')->name('api.usuario.listar');
@@ -71,6 +59,11 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
         Route::put('/editar/{id}', 'FardoController@update')->name('api.fardo.editar');
 
         Route::delete('/deletar/{id}', 'FardoController@destroy')->name('api.fardo.deletar');
+
+
+        Route::get('/quantidade', 'FardoController@dashboardQuantidade');
+        Route::get('/estoque', 'FardoController@dashboardEmEstoque');
+        Route::get('/vendido', 'FardoController@dashboardVendido');
 
     });
 
@@ -146,6 +139,7 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
 
         Route::delete('/deletar/{id}', 'ClienteFinalController@destroy')->name('api.clienteFinal.deletar');
 
+        Route::get('/maiores-compradores', 'ClienteFinalController@dashboardMaioresCompradores')->name('api.clienteFinal.dashboardMaioresCompradores');
     });
 
 
@@ -175,6 +169,8 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
         Route::put('/editar/{id}', 'RotaController@update')->name('api.rota.editar');
 
         Route::delete('/deletar/{id}', 'RotaController@destroy')->name('api.rota.deletar');
+
+        Route::get('/rotas-mais-coletadas', 'RotaController@dashboardRotasMaisColetadas')->name('api.rota.dashboardRotasMaisColetadas');
 
         Route::get('/pontos-coleta-por-rota/{id}', 'RotaController@getGeoJsonPontosColetaByRota')->name('api.rota.getGeoJsonPontosColetaByRota');
 

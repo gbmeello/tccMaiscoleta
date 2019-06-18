@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Dashboard\DashboardHelper;
+use App\Fardo;
 use App\Rota;
 use App\Helper\Helpers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\RotaRequest;
 use function GuzzleHttp\json_encode;
+use Illuminate\Support\Facades\DB;
 
 class RotaController extends ApiController
 {
@@ -218,4 +222,37 @@ class RotaController extends ApiController
             ]);
         }
     }
+
+
+    /**
+     * Retorna as rotas que obtiveram maior quantidade em kilos de coleta
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function dashboardRotasMaisColetadas() {
+
+        $data = Fardo::from('fardo as f')
+            ->select(
+                'r.nome as labels',
+                DB::raw('round(sum(f.peso)::numeric, 2) as values')
+            )
+            ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+            ->leftJoin('coleta as c', 'c.pk_coleta', '=', 't.fk_coleta')
+            ->join('rota_final as rf', 'rf.fk_rota', '=', 'c.fk_rota')
+            ->leftJoin('rota as r', 'r.pk_rota', '=', 'rf.fk_rota')
+            ->where('r.ativo', '=', true)
+            ->groupBy('r.nome')
+            ->orderBy('values', 'desc')
+            ->limit(10)
+            ->get();
+
+        $labels = $data->pluck('labels');
+        $values = $data->pluck('values');
+
+        return response()->json([
+            'success' => true,
+            'data' => DashboardHelper::concatValues($labels, $values)
+        ]);
+    }
+
 }

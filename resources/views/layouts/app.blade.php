@@ -34,6 +34,7 @@
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/AdminLTE.css') }}">
+        <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/whirl/whirl.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @yield('styles')
     </head>
@@ -92,6 +93,8 @@
         {{-- <script src="{{ asset('AdminLTE/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js') }}"></script> --}}
 
         <script src="{{ asset('AdminLTE/plugins/bootbox-js/bootbox.all.min.js') }}"></script>
+
+        <script src="{{ asset('js/modalbootstrap.js') }}"></script>
 
         <script src="{{ asset('js/helperJs.js') }}"></script>
 

@@ -1029,12 +1029,12 @@ $.fn.populateSmallbox = function(object) {
 
     if(StringHelper.prototype.isEmpty($smallboxTitle.html()) && StringHelper.prototype.isEmpty(object.text))
         $smallboxTitle.html('Dados');
-    else if(!StringHelper.prototype.isEmpty(object.text))
+    else if(! StringHelper.prototype.isEmpty(object.text))
         $smallboxTitle.html(object.text);
 
     if(StringHelper.prototype.isEmpty($smallboxNumber.html()) && StringHelper.prototype.isEmpty(object.tableModel))
         $smallboxNumber.html(0);
-    else if(Object.keys(object.tableModel.body).length)
+    else if(! StringHelper.prototype.isEmpty(object.tableModel) && Object.keys(object.tableModel.body).length)
         $smallboxNumber.html(Object.keys(object.tableModel.body).length);
 
     initTableModel = function(obj) {

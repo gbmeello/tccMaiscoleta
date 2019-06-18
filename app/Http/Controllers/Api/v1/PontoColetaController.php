@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Dashboard\DashboardHelper;
 use App\Rota;
 use App\PontoColeta;
 use App\Helper\Helpers;

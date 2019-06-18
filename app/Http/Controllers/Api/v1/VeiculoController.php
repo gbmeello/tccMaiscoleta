@@ -182,11 +182,6 @@ class VeiculoController extends ApiController
      */
     public function destroy($id)
     {
-        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
-            Session::flash('message', "Você não possui permissão para essa ação");
-            return redirect()->back();
-        }
-
         $model = Veiculo::find($id);
         if(empty($model)) {
             return response()->json([

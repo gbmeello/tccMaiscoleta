@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\ClienteFinal;
+use App\Dashboard\DashboardHelper;
+use App\Fardo;
 use App\Helper\Helpers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClienteFinalRequest;
+use Illuminate\Support\Facades\DB;
 
 class ClienteFinalController extends ApiController
 {
@@ -232,4 +236,36 @@ class ClienteFinalController extends ApiController
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
     }
+
+
+
+    /**
+     * Retorna as rotas que obtiveram maior quantidade em kilos de coleta
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function dashboardMaioresCompradores() {
+
+        $data = ClienteFinal::from('cliente_final as cf')
+            ->select(
+                'cf.razao_social as labels',
+                DB::raw('round(sum(f.peso)::numeric, 2) as values')
+            )
+            ->leftJoin('fardo as f', 'f.fk_cliente_final', '=', 'cf.pk_cliente_final')
+            ->where('cf.ativo', '=', true)
+            ->groupBy('cf.razao_social')
+            ->orderBy('values', 'desc')
+            ->limit(10)
+            ->get();
+
+        $labels = $data->pluck('labels');
+        $values = $data->pluck('values');
+
+        return response()->json([
+            'success' => true,
+            'data' => DashboardHelper::concatValues($labels, $values)
+        ]);
+    }
+
+
 }

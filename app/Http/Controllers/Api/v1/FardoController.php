@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Dashboard\DashboardHelper;
 use App\Fardo;
 use App\Helper\Helpers;
 use Illuminate\Http\Request;
@@ -237,23 +238,95 @@ class FardoController extends ApiController
     }
 
     public function dashboardQuantidade() {
+
+        $data = Fardo::from('fardo as f')
+            ->select(
+                'f.*',
+                'tr.nome as tr_nome',
+                'c.razao_social as c_razao_social',
+            )
+            ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+            ->leftJoin('cliente_final as c', 'c.pk_cliente_final', '=', 'f.fk_cliente_final')
+            ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+            ->where('f.ativo', '=', true)
+            ->get();
+
+        $data = DashboardHelper::prepareSmallboxInfo($data, "Total", [
+            'tr_nome' => 'Tipo de Resíduo',
+            'c_razao_social' => 'Cliente - Razão Social',
+            'lote' => 'Lote',
+            'status' => 'Status',
+            'data_venda' => 'Data de Venda' ,
+            'peso' => 'Peso',
+            'observacao' => 'Observação',
+        ]);
+
         return response()->json([
             'success' => true,
-            'total' => 0
+            'data' => $data,
         ]);
     }
 
     public function dashboardEmEstoque() {
+
+        $data = Fardo::from('fardo as f')
+            ->select(
+                'f.*',
+                'tr.nome as tr_nome',
+                'c.razao_social as c_razao_social',
+            )
+            ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+            ->leftJoin('cliente_final as c', 'c.pk_cliente_final', '=', 'f.fk_cliente_final')
+            ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+            ->where('f.status', '=', 'estoque')
+            ->where('f.ativo', '=', true)
+            ->get();
+
+        $data = DashboardHelper::prepareSmallboxInfo($data, "Estoque", [
+            'tr_nome' => 'Tipo de Resíduo',
+            'c_razao_social' => 'Cliente - Razão Social',
+            'lote' => 'Lote',
+            'status' => 'Status',
+            'data_venda' => 'Data de Venda' ,
+            'peso' => 'Peso',
+            'observacao' => 'Observação',
+        ]);
+
         return response()->json([
             'success' => true,
-            'total' => 0
+            'data' => $data,
         ]);
     }
 
     public function dashboardVendido() {
+
+
+        $data = Fardo::from('fardo as f')
+            ->select(
+                'f.*',
+                'tr.nome as tr_nome',
+                'c.razao_social as c_razao_social',
+            )
+            ->leftJoin('triagem as t', 't.pk_triagem', '=', 'f.fk_triagem')
+            ->leftJoin('cliente_final as c', 'c.pk_cliente_final', '=', 'f.fk_cliente_final')
+            ->leftJoin('tipo_residuo as tr', 'tr.pk_tipo_residuo', '=', 'f.fk_tipo_residuo')
+            ->where('f.status', '=', 'vendido')
+            ->where('f.ativo', '=', true)
+            ->get();
+
+        $data = DashboardHelper::prepareSmallboxInfo($data, "Vendidos", [
+            'tr_nome' => 'Tipo de Resíduo',
+            'c_razao_social' => 'Cliente - Razão Social',
+            'lote' => 'Lote',
+            'status' => 'Status',
+            'data_venda' => 'Data de Venda' ,
+            'peso' => 'Peso',
+            'observacao' => 'Observação',
+        ]);
+
         return response()->json([
             'success' => true,
-            'total' => 0
+            'data' => $data,
         ]);
     }
 
