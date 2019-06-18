@@ -19,7 +19,7 @@ class RotaController extends ApiController
             'ativo'
         ];
 
-        $totalData = Rota::count();
+        $totalData = Rota::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

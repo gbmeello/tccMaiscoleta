@@ -29,7 +29,7 @@ class PontoColetaController extends Controller
             'ativo'
         ];
 
-        $totalData = PontoColeta::count();
+        $totalData = PontoColeta::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

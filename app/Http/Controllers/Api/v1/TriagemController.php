@@ -25,7 +25,7 @@ class TriagemController extends Controller
             'ativo'
         ];
 
-        $totalData = Triagem::count();
+        $totalData = Triagem::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

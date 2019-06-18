@@ -18,7 +18,7 @@ class TipoResiduoController extends ApiController
            'ativo'
         ];
 
-        $totalData = TipoResiduo::count();
+        $totalData = TipoResiduo::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

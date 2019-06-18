@@ -25,7 +25,7 @@ class VeiculoController extends ApiController
             'ativo'
         ];
 
-        $totalData      = Veiculo::count();
+        $totalData      = Veiculo::where('ativo', '=', true)->count();
         $totalFiltered  = $totalData;
         $columnOrder    = ($request->input('order.0.column') == $columns[0] ? $request->input('order.0.column') : 0);
 

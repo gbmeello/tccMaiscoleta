@@ -27,7 +27,7 @@ class ClienteFinalController extends ApiController
             'ativo'
         ];
 
-        $totalData = ClienteFinal::count();
+        $totalData = ClienteFinal::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

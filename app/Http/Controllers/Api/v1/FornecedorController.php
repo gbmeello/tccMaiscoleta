@@ -28,7 +28,7 @@ class FornecedorController extends ApiController
             'ativo'
         ];
 
-        $totalData = Fornecedor::count();
+        $totalData = Fornecedor::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

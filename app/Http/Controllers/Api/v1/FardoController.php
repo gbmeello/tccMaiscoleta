@@ -24,7 +24,7 @@ class FardoController extends ApiController
             'ativo'
         ];
 
-        $totalData = Fardo::count();
+        $totalData = Fardo::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 

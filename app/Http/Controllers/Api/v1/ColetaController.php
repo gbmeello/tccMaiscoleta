@@ -20,7 +20,7 @@ class ColetaController extends ApiController
            'ativo'
         ];
 
-        $totalData = Coleta::count();
+        $totalData = Coleta::where('ativo', '=', true)->count();
 
         $totalFiltered = $totalData;
 
