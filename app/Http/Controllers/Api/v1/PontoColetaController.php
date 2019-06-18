@@ -231,7 +231,7 @@ class PontoColetaController extends Controller
         if(empty($model)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tipo de Resíduo não existe'
+                'message' => 'Ponto de Coleta não existe'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
@@ -240,12 +240,12 @@ class PontoColetaController extends Controller
 
         if($success) {
             return response()->json([
-                'hasSuccess' => $success,
+                'success' => $success,
                 'message' => 'Exclusão realizada com sucesso'
             ]);
         } else {
             return response()->json([
-                'hasSuccess' => $success,
+                'success' => $success,
                 'message' => 'Falha ao realizar a exclusão. Por favor, tente novamente'
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
