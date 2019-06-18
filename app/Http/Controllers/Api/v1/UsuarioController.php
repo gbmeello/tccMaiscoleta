@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Usuario;
+use App\Helper\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UsuarioRequest;
-use App\Usuario;
 
 class UsuarioController extends Controller
 {
@@ -46,7 +47,7 @@ class UsuarioController extends Controller
                     'r.nome as perfil'
                 )
                 ->offset($start)
-                ->where('ativo', true)
+                ->where('u.ativo', '=', true)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -67,7 +68,7 @@ class UsuarioController extends Controller
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('email', 'LIKE',"%{$search}%")
                 ->orWhere('perfil', 'LIKE',"%{$search}%")
-                ->where('ativo', true)
+                ->where('u.ativo', '=', true)
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -86,7 +87,7 @@ class UsuarioController extends Controller
                 ->orWhere('nome', 'LIKE',"%{$search}%")
                 ->orWhere('email', 'LIKE',"%{$search}%")
                 ->orWhere('perfil', 'LIKE',"%{$search}%")
-                ->where('ativo', true)
+                ->where('u.ativo', '=', true)
                 ->count();
         }
 

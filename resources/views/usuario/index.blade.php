@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
+@section('contentHeader')
+    <h1>
+        Usuários
+        <small>Lista</small>
+    </h1>
+    <ol class="breadcrumb">
+            <li><a href="{{url('/')}}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="active">Usuários</li>
+    </ol>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-centered">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Usuarios</h3>
+                    <h3 class="box-title">Lista de Usuários</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -30,6 +41,9 @@
                                 <th>
                                     Perfil
                                 </th>
+                                <th>
+                                    Ativo
+                                </th>
                                 <th>A&ccedil;&atilde;o</th>
                             </tr>
                         </thead>
@@ -45,10 +59,11 @@
 
     <script>
 
-        $('#table-tipo-residuo-listar').DataTable({
+        let $table = $('#table-usuario');
+        let dt = $table.DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ url('api/tipo-residuo/listar') }}",
+            "ajax": "{{ url('api/v1/usuario/listar') }}",
             "columns": [
                 { "data": "pk_usuario" },
                 { "data": "nome" },
@@ -67,8 +82,8 @@
                         let html = '';
                         html += `
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a href="{{ url('veiculo/editar') }}/${data.pk_usuario}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                    <button onclick="initializeDeleteDialog('veiculo/deletar', ${data.pk_usuario})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                    <a href="{{ url('usuario/editar') }}/${data.pk_usuario}" class="btn btn-primary btn-flat btn-xs"><i class="fa fa-edit"></i> Editar</a>
+                                    <button onclick="initializeDeleteDialog('usuario/deletar', ${data.pk_usuario})" class="btn btn-danger btn-flat btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                 </div>`;
                         return html;
                     },
@@ -76,7 +91,6 @@
                 },
             ],
             "language": configDatatable.language,
-            //"order": [[1, 'asc']],
         });
 
     </script>

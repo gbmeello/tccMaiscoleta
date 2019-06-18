@@ -3,10 +3,11 @@
 namespace App;
 
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable
 {
@@ -35,6 +36,10 @@ class Usuario extends Authenticatable
     public function getAuthPassword()
     {
         return $this->senha;
+    }
+
+    public function setSenhaAttribute($value) {
+        $this->attributes['senha'] = Hash::make($value);
     }
 
     public function setPerfilAttribute($value) {

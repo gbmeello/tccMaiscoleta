@@ -48,13 +48,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="senha">Senha</label>
-                            <input type="text" class="form-control" name="email" id="email" maxlength="100">
+                            <input type="password" class="form-control" name="senha" id="senha" maxlength="100">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label" for="confirmar_senha">Confirmar Senha</label>
-                            <input type="text" class="form-control" name="confirmar_senha" id="confirmar_senha" maxlength="100">
+                            <input type="password" class="form-control" name="confirmar_senha" id="confirmar_senha" maxlength="100">
                         </div>
                     </div>
                 </form>
