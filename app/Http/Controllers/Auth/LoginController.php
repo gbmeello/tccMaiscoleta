@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\v1\ApiController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Usuario;
 
 class LoginController extends Controller
 {
@@ -25,7 +32,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,5 +42,36 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+      * Handling authentication request
+      *
+      * @return Response
+    */
+    public function authenticate(LoginRequest $request) {
+
+        $validated = $request->validated();
+
+        $usuario = Usuario::where('email', '=', $request->input('email'))->first();
+
+        if(!$usuario) {
+            return response()->json([
+                'message' => 'O respectivo email não foi encontrado'
+            ], ApiController::HTTP_STATUS_NOT_FOUND);
+        }
+
+        if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('senha'), 'ativo' => true])) {
+            return response()->json([
+                'success' => 'true',
+                'url' => '/dashboard'
+            ], ApiController::HTTP_STATUS_SUCCESS);    
+        }
+
+        return response()->json([
+            'success' => 'false',
+            'message' => 'Email ou senha incorreto(s)'
+        ], ApiController::HTTP_STATUS_NOT_FOUND);
+
     }
 }
