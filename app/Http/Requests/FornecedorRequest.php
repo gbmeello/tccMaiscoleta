@@ -51,9 +51,9 @@ class FornecedorRequest extends BaseFormRequest
             {
                 return [
                     'slt_municipio' => 'required|integer',
-                    'nome_fantasia' => 'required|max:200|unique:fornecedor,nome_fantasia,'.$this->input('id').',pk_fornecedor',
+                    'nome_fantasia' => 'required|max:200|unique:fornecedor,nome_fantasia,'.$this->input('pk_fornecedor').',pk_fornecedor',
                     'razao_social' => 'required|max:300',
-                    'email' => 'required|email|max:100|unique:fornecedor,email,'.$this->input('id').',pk_fornecedor',
+                    'email' => 'required|email|max:100|unique:fornecedor,email,'.$this->input('pk_fornecedor').',pk_fornecedor',
                     'telefone1' => 'max:15',
                     'telefone2' => 'max:15',
                     'cep' => 'max:9',

@@ -138,7 +138,7 @@ class RotaController extends ApiController
 
         $validate = $request->validated();
 
-        $success = Rota::create($validate->toArray());
+        $success = $model->fill($validate->toArray());
 
         if($success) {
             return response()->json([

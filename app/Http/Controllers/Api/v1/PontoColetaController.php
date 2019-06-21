@@ -205,7 +205,9 @@ class PontoColetaController extends Controller
             ], ApiController::HTTP_STATUS_NOT_FOUND);
         }
 
-        $success = $model->fill($request->toArray())->save();
+        $validate = $request->validated();
+
+        $success = $model->fill($validate)->save();
 
         if($success) {
             return response()->json([

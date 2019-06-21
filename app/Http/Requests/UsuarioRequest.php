@@ -45,7 +45,7 @@ class UsuarioRequest extends BaseFormRequest
                 return [
                     'slt_perfil' => 'required',
                     'nome' => 'required|max:150',
-                    'email' => 'required|max:200|unique:usuario, email,' + $this->input('email') + ', pk_usuario',
+                    'email' => 'required|max:200|unique:usuario, email,' . $this->input('email') . ', pk_usuario',
                     'senha' => 'min:6|max:300|required_with:confirmar_senha|same:confirmar_senha',
                     'confirmar_senha' => 'min:6|max:300'
                 ];

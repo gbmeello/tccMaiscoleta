@@ -41,7 +41,7 @@ class RotaRequest extends BaseFormRequest
             case 'PATCH':
             {
                 return [
-                    'nome' => 'required|max:100|unique:rota,nome,'.$this->input('id').',pk_rota',
+                    'nome' => 'required|max:100|unique:rota,nome,'.$this->input('pk_rota').',pk_rota',
                     'observacao' => 'max:500'
                 ];
             }

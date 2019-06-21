@@ -28,7 +28,7 @@ class UsuarioController extends Controller
 
     public function create()
     {
-        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+        if(! Auth::user()->hasAnyRoles(['Administrador']) ) {
             Session::flash('message', "Você não possui permissão para essa ação");
             return redirect()->back();
         }
@@ -40,7 +40,7 @@ class UsuarioController extends Controller
 
     public function edit($id)
     {
-        if(! Auth::user()->hasAnyRoles(['Administrador', 'Cadastrador']) ) {
+        if(! Auth::user()->hasAnyRoles(['Administrador']) ) {
             Session::flash('message', "Você não possui permissão para essa ação");
             return redirect()->back();
         }

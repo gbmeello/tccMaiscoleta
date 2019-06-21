@@ -44,7 +44,7 @@ class VeiculoRequest extends BaseFormRequest
                 return [
                     'modelo' => 'required|max:100',
                     'observacao' => '',
-                    'placa' => 'required|max:10|unique:veiculo,placa,'.$this->input('id').',pk_veiculo',
+                    'placa' => 'required|max:10|unique:veiculo,placa,'.$this->input('pk_veiculo').',pk_veiculo',
                     'tipo' => 'max:50'
                 ];
             }

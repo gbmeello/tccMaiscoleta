@@ -41,7 +41,7 @@ class TipoResiduoRequest extends BaseFormRequest
             case 'PATCH':
             {
                 return [
-                    'nome' => 'required|max:100|unique:tipo_residuo,nome,'.$this->input('id').',pk_tipo_residuo',
+                    'nome' => 'required|max:100|unique:tipo_residuo,nome,'.$this->input('pk_tipo_residuo').',pk_tipo_residuo',
                     'descricao' => 'required|max:600'
                 ];
             }
