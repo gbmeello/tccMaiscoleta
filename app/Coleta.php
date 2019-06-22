@@ -16,10 +16,16 @@ class Coleta extends BaseModel
         'data_criacao', 'data_atualizacao'
     ];
 
+//    protected $dates = ['data_coleta'];
+
     public $timestamps = false;
 
     public function getDataColetaAttribute($value) {
         return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    public function setDataColeta($value) {
+        $this->attributes['data_coleta'] = Carbon::createFromFormat('Y-m-d', $value);
     }
 
     public function setFornecedorAttribute($value) {

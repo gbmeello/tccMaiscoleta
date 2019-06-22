@@ -119,6 +119,9 @@ class ColetaController extends ApiController
         $model->setRotaAttribute($validate['slt_rota']);
         $model->setVeiculoAttribute($validate['slt_veiculo']);
         $model->setFornecedorAttribute($validate['slt_fornecedor']);
+
+
+
         $success = $model->fill($validate)->save();
 
         if($success) {
