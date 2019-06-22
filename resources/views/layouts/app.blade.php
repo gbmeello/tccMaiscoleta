@@ -5,6 +5,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        @if(env('APP_ENV') == 'production'){{-- força o uso de todas as requisições pra https se for produção --}}
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        @endif
+
         <title>{{ config('app.name', '+coleta') }}</title>
 
         <!-- Tell the browser to be responsive to screen width -->
