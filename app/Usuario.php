@@ -46,6 +46,23 @@ class Usuario extends Authenticatable
         $this->attributes['fk_role'] = $value;
     }
 
+
+    public function getResetPassword()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
     /**
      * Send the password reset notification.
      *

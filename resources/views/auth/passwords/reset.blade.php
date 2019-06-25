@@ -41,7 +41,7 @@
                         <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
 
                         @if ($errors->has('email'))
-                            <span class="bg-danger" role="alert">
+                            <span class="text-danger" role="alert">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
@@ -55,7 +55,7 @@
                         <input id="senha" type="password" class="form-control{{ $errors->has('senha') ? ' is-invalid' : '' }}" name="senha" required>
 
                         @if ($errors->has('senha'))
-                            <span class="bg-danger" role="alert">
+                            <span class="text-danger" role="alert">
                                 <strong>{{ $errors->first('senha') }}</strong>
                             </span>
                         @endif
@@ -83,7 +83,11 @@
             <div id="clearfix"></div>
             <br>
 
-            <div id="div-resultado"></div>
+            <div id="div-resultado">
+                @if(Session::get('status'))
+                    <span class="text-success" role="alert">{{Session::get('status')}}</span>
+                @endif
+            </div>
         </fieldset>
     </div>
 </div>
