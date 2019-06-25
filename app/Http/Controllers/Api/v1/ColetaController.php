@@ -111,16 +111,11 @@ class ColetaController extends ApiController
     {
         $validate = $request->validated();
 
-        $validate['slt_rota']       = isset($validate['slt_rota']) ? $validate['slt_rota'] : null;
-        $validate['slt_veiculo']    = isset($validate['slt_veiculo']) ? $validate['slt_veiculo'] : null;
-        $validate['slt_fornecedor'] = isset($validate['slt_fornecedor']) ? $validate['slt_fornecedor'] : null;
-
         $model = new Coleta();
         $model->setRotaAttribute($validate['slt_rota']);
+        $model->setDataColetaAttribute($validate['data_coleta']);
         $model->setVeiculoAttribute($validate['slt_veiculo']);
         $model->setFornecedorAttribute($validate['slt_fornecedor']);
-
-
 
         $success = $model->fill($validate)->save();
 
@@ -167,6 +162,7 @@ class ColetaController extends ApiController
 
         $validate = $request->validated();
         $model->setRotaAttribute($validate['slt_rota']);
+        $model->setDataColetaAttribute($validate['data_coleta']);
         $model->setVeiculoAttribute($validate['slt_veiculo']);
         $model->setFornecedorAttribute($validate['slt_fornecedor']);
 
