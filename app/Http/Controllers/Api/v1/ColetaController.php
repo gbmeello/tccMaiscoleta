@@ -113,7 +113,7 @@ class ColetaController extends ApiController
 
         $model = new Coleta();
         $model->setRotaAttribute($validate['slt_rota']);
-        $model->setDataColetaAttribute($validate['data_coleta']);
+        // $model->setDataColetaAttribute($validate['data_coleta']);
         $model->setVeiculoAttribute($validate['slt_veiculo']);
         $model->setFornecedorAttribute($validate['slt_fornecedor']);
 
@@ -162,7 +162,7 @@ class ColetaController extends ApiController
 
         $validate = $request->validated();
         $model->setRotaAttribute($validate['slt_rota']);
-        $model->setDataColetaAttribute($validate['data_coleta']);
+        // $model->setDataColetaAttribute($validate['data_coleta']);
         $model->setVeiculoAttribute($validate['slt_veiculo']);
         $model->setFornecedorAttribute($validate['slt_fornecedor']);
 

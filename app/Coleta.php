@@ -24,7 +24,7 @@ class Coleta extends BaseModel
         return Carbon::parse($value)->format('d/m/Y');
     }
 
-    public function setDataColeta($value) {
+    public function setDataColetaAttribute($value) {
         $this->attributes['data_coleta'] = Carbon::createFromFormat('Y-m-d', $value);
     }
 
