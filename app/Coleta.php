@@ -9,7 +9,7 @@ class Coleta extends BaseModel
     protected $primaryKey = "pk_coleta";
     protected $table = "coleta";
     protected $fillable = [
-        'fk_rota', 'fk_veiculo', 'fk_fornecedor', 'data_coleta', 'has_coleta',
+        'fk_rota', 'fk_veiculo', 'fk_fornecedor', 'data_coleta',
         'observacao', 'ativo'
     ];
     protected $hidden = [
@@ -50,9 +50,5 @@ class Coleta extends BaseModel
 
     public function rotas() {
         return $this->belongsTo(Rota::class, 'fk_rota', 'pk_rota');
-    }
-
-    public function triagens() {
-        return $this->hasMany(Triagem::class, 'fk_coleta');
     }
 }

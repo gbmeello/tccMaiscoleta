@@ -29,8 +29,9 @@ class Triagem extends BaseModel
     public function coleta() {
         return $this->belongsTo(Coleta::class, 'fk_coleta', 'pk_coleta');
     }
+    
+    public function fardos() {
+        return $this->hasMany(Fardo::class, 'fk_triagem');
+    }
 
-    // public function tipoResiduo() {
-    //     return $this->belongsTo(TipoResiduo::class, 'fk_tipo_residuo', 'pk_tipo_residuo');
-    // }
 }

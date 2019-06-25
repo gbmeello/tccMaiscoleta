@@ -17,7 +17,7 @@ class TipoResiduo extends BaseModel
 
     public $timestamps = false;
 
-    public function triagens() {
-        return $this->hasMany(Triagem::class, 'fk_tipo_residuo');
+    public function fardos() {
+        return $this->hasMany(Fardo::class, 'fk_tipo_residuo');
     }
 }

@@ -26,7 +26,7 @@ class ClienteFinal extends BaseModel
         return $this->belongsTo(Municipio::class, 'fk_municipio', 'pk_municipio');
     }
 
-    public function triagens() {
+    public function fardos() {
         return $this->hasMany(Fardo::class, 'fk_cliente_final');
     }
 }
