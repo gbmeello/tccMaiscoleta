@@ -19,11 +19,11 @@ class Triagem extends BaseModel
     public $timestamps = false;
     
     public function getDataTriagemAttribute($value) {
-        return Carbon::parse($value)->format('d/m/Y H:i:s');
+        return Carbon::parse($value)->format('d/m/Y H:i');
     }
 
     public function setDataTriagemAttribute($value) {
-        $this->attributes['data_triagem'] = Carbon::createFromFormat('d/m/Y H:i:s', $value);
+        $this->attributes['data_triagem'] = Carbon::createFromFormat('d/m/Y H:i', $value);
     }
 
     public function setColetaAttribute($value) {
