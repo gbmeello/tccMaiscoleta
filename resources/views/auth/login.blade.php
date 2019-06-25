@@ -37,6 +37,12 @@
                 <div id="clearfix"></div>
                 <br>
 
+                <a href="{{url('password/reset')}}">Esqueceu a senha?</a>
+
+                <br>
+                <div id="clearfix"></div>
+                <br>
+
                 <div id="div-resultado"></div>
             </fieldset>
         </div>

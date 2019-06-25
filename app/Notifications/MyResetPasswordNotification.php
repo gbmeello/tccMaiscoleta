@@ -57,6 +57,7 @@ class MyResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject('Requisição de reset de senha')
             ->line('Você recebeu esse email porque nos foi solicitado o reset da senha atual.')
             ->action('Resetar senha', url(config('app.url').route('password.reset', $this->token, false)))
             ->line('Se você não solicitou o reset da senha, por favor, contate o administrador por questões de segurança.');
