@@ -25,7 +25,7 @@ class Coleta extends BaseModel
     }
 
     public function setDataColetaAttribute($value) {
-        $this->attributes['data_coleta'] = Carbon::createFromFormat('Y-m-d', $value);
+        $this->attributes['data_coleta'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
     public function setFornecedorAttribute($value) {
