@@ -96,7 +96,7 @@
                             let html = '';
 
                             if(data == true) {
-                                html = '<small class="label pull-right bg-green">Ativo</small>';
+                                html = '<small class="label pull-right bg-green">Sim</small>';
                             }
 
                             return html;

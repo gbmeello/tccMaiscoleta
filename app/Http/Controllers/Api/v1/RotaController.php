@@ -250,6 +250,8 @@ class RotaController extends ApiController
         $labels = $data->pluck('labels');
         $values = $data->pluck('values');
 
+        dd($data);
+
         return response()->json([
             'success' => true,
             'data' => DashboardHelper::concatValues($labels, $values)
